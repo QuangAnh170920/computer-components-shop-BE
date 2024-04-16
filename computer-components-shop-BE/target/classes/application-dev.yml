@@ -1,0 +1,38 @@
+# Server
+server:
+  port: 2002
+  tomcat:
+    accept-count: 1000
+  servlet:
+    context-path: /computer-components-admin-api/
+
+# Spring
+spring:
+  application:
+    name: Computer-Components-Admin
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  messages:
+    basename: messages
+    encoding: UTF-8
+  jackson:
+    time-zone: Asia/Ho_Chi_Minh
+    date-format: "yyyy-MM-dd HH:mm:ss"
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306
+    username: root
+    password: Quanganh1792
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+jwt:
+  prefix: Bearer
+  secret: acComputercomponentadmin@2024
+  refreshSecret: rfacComputercomponentadmin@2024
+  validity: 86400
