@@ -64,4 +64,36 @@ public class JwtTokenUtil {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    public Claims getAllClaimsFromRfToken(String token) {
+        return Jwts.parser().setSigningKey(secretRF).parseClaimsJws(token).getBody();
+    }
+
+    public <T> T getClaimFromRfToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromRfToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    public Date getExpirationDateFromRfToken(String token) {
+        return getClaimFromRfToken(token, Claims::getExpiration);
+    }
+
+    public String getUsernameFromRfToken(String token) {
+        return getClaimFromRfToken(token, Claims::getSubject);
+    }
+
+    private String doGenerateRfToken(Map<String, Object> claims, String subject) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + tokenValidity * 1000 * 15))
+                .signWith(SignatureAlgorithm.HS512, secretRF)
+                .compact();
+    }
+
+    public String generateRfToken(UserPrincipal userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateRfToken(claims, userDetails.getUsername());
+    }
 }
