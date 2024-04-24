@@ -15,7 +15,7 @@ import java.util.Objects;
 public class EmailSenderLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private int id;
 
     private String sendTo;

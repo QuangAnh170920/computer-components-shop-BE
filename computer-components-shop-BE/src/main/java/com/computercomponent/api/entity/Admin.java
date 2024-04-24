@@ -45,6 +45,9 @@ public class Admin {
     @Basic
     @Column(name = "mobile", nullable = true, length = 30)
     private String mobile;
+    private String changePasswordToken;
+    @Column(name = "admin_code")
+    private String adminCode;
 
 
 }
