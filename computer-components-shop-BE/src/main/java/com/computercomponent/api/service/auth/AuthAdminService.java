@@ -79,7 +79,7 @@ public class AuthAdminService implements UserDetailsService {
     }
 
     public UserPrincipal findByEmail(String email) {
-        Optional<Admin> userOpt = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, false, UserStatus.ACTIVE);
+        Optional<Admin> userOpt = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, 0, UserStatus.ACTIVE);
         UserPrincipal userPrincipal;
         userPrincipal = new UserPrincipal();
         if (userOpt.isPresent()) {
@@ -95,7 +95,7 @@ public class AuthAdminService implements UserDetailsService {
     }
 
     public UserPrincipal findByMobile(String mobile) {
-        Optional<Admin> userOpt = adminRepository.findOneByMobileIgnoreCaseAndDeletedAndStatus(mobile, false, UserStatus.ACTIVE);
+        Optional<Admin> userOpt = adminRepository.findOneByMobileIgnoreCaseAndDeletedAndStatus(mobile, 0, UserStatus.ACTIVE);
         UserPrincipal userPrincipal;
         userPrincipal = new UserPrincipal();
         if (userOpt.isPresent()) {
@@ -121,9 +121,9 @@ public class AuthAdminService implements UserDetailsService {
 
         if (!ObjectUtils.isEmpty(email)) {
             Assert.isTrue(com.computercomponent.until.ValidateUtil.regexValidation(email, Const.VALIDATE_INPUT.regexEmail), Const.MESSAGE_CODE.INVALID_EMAIL);
-            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, false, UserStatus.ACTIVE).orElse(null);
+            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, 0, UserStatus.ACTIVE).orElse(null);
             Assert.isNull(admin, Const.MESSAGE_CODE.ACCOUNT_EXISTED);
-            Optional<Admin> userOld = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, false);
+            Optional<Admin> userOld = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, 0);
             if (userOld.isEmpty()) {
                 throw new RuntimeException(Const.MESSAGE_CODE.EMAIL_NOT_REGISTER);
             }
@@ -145,7 +145,7 @@ public class AuthAdminService implements UserDetailsService {
         OtpVerify otpVerify = otpCache.getIfPresent(email);
         Assert.notNull(otpVerify, Const.MESSAGE_CODE.OTP_EXPIRED);
         Assert.isTrue(otpVerify.getRetryCount() < 5, Const.MESSAGE_CODE.OTP_5_TIMES);
-        Admin usersOURCE = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, false).orElse(null);
+        Admin usersOURCE = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, 0).orElse(null);
         if (usersOURCE == null || usersOURCE.getStatus() == UserStatus.ACTIVE) {
             throw new RuntimeException(Const.MESSAGE_CODE.ACCOUNT_ALREADY_ACTIVATED);
         }
@@ -158,7 +158,7 @@ public class AuthAdminService implements UserDetailsService {
                 throw new IllegalArgumentException(Const.MESSAGE_CODE.OTP_5_TIMES);
             }
         } else {
-            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, false).orElse(null);
+            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, 0).orElse(null);
             if (admin != null) {
                 admin.setStatus(UserStatus.ACTIVE);
                 adminRepository.save(admin);
@@ -188,7 +188,7 @@ public class AuthAdminService implements UserDetailsService {
         }catch (Exception e){
             throw new UnauthorizedException(Const.MESSAGE_CODE.INVALID_CREDENTIALS);
         }
-        Admin changePassAdmin = adminRepository.findByAdminIdAndDeletedAndStatus(currenUserLogin.getUserId(), false, UserStatus.ACTIVE).orElse(null);
+        Admin changePassAdmin = adminRepository.findByAdminIdAndDeletedAndStatus(currenUserLogin.getUserId(), 0, UserStatus.ACTIVE).orElse(null);
         Assert.notNull(changePassAdmin, Const.MESSAGE_CODE.USER_NOT_FOUND);
         String currentEncryptedPassword = changePassAdmin.getPassword();
         if (!new BCryptPasswordEncoder().matches(currentClearTextPassword, currentEncryptedPassword)) {

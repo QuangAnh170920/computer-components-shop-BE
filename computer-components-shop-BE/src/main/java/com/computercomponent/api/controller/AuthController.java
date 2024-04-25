@@ -92,7 +92,7 @@ public class AuthController {
 
     public Authentication authenticate(String username, String password) {
         try {
-            Optional<Admin> opt = com.computercomponent.until.ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail) ? adminRepository.findOneByEmailIgnoreCaseAndDeleted(username, false) : adminRepository.findFirstByMobileAndDeleted(username, false);
+            Optional<Admin> opt = com.computercomponent.until.ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail) ? adminRepository.findOneByEmailIgnoreCaseAndDeleted(username, 0) : adminRepository.findFirstByMobileAndDeleted(username, 0);
             if (opt.isPresent()) {
                 if (opt.get().getStatus().equals(UserStatus.DEACTIVATE)) {
                     throw new AccountDisableException(Const.MESSAGE_CODE.ACCOUNT_DISABLED);

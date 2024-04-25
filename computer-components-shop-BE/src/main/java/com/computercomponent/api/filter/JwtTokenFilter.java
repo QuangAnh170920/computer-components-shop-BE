@@ -74,7 +74,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             if (!loggedUsernameOpt.isPresent() || !loggedUsernameOpt.get().equals(username)) {
                 Claims claims = jwtTokenUtil.getAllClaimsFromToken(jwtToken);
 
-                Optional<Admin> opt = ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail) ? adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(username, false, UserStatus.ACTIVE) : adminRepository.findFirstByMobileAndDeletedAndStatus(username, false, UserStatus.ACTIVE);
+                Optional<Admin> opt = ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail) ? adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(username, 0, UserStatus.ACTIVE) : adminRepository.findFirstByMobileAndDeletedAndStatus(username, 0, UserStatus.ACTIVE);
 
                 if (opt.isPresent()) {
                     // If token is valid configure Spring Security to manually set authentication
