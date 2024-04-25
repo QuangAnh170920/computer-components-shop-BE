@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7f125063-1384-4bd7-958e-e0f5d125c85f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/src/main/java/com/computercomponent/api/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../computer-components-shop-BE/src/main/java/com/computercomponent/api/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/src/main/java/com/computercomponent/api/service/auth/AuthAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../computer-components-shop-BE/src/main/java/com/computercomponent/api/service/auth/AuthAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../computer-components-shop-BE/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/application-dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/ComputerComponentsShopBeApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/common/Const$MESSAGE_CODE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/common/Const$RESET_PASSWORD.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/common/Const$SYSTEM_VALUE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/common/Const$VALIDATE_INPUT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/common/Const.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/common/GenerateRandomToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/common/UserStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/config/ConvertString.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/config/CorsConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/config/I18nConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/config/MessageTemplate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/config/WebSecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/dto/UserPrincipal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/entity/Admin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/filter/JwtAuthenticationEntryPoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/filter/JwtTokenFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/repository/AdminRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/api/until/JwtTokenUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/dto/decodeToken/Account.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/dto/decodeToken/Example.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/dto/decodeToken/RealmAccess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/dto/decodeToken/ResourceAccess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/Customers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/Manufacturers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/OrderDetails.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/Orders.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/ProductCategories.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/ProductImages.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/ProductReviews.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/ProductSpecifications.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/entity/Products.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/model/ErrorDetails$ErrorDetailsBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/model/ErrorDetails.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/until/BaseCommon.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/until/DataUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/until/OTPUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/until/RandomCodeUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/until/TotalElementBaseResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/classes/com/computercomponent/until/ValidateUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/generated-sources/annotations/com/computercomponent/api/mapper/AdminMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../computer-components-shop-BE/target/test-classes/com/computercomponent/ComputerComponentsShopBeApplicationTests.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2faw5iY9ZKJEq5bOfl1Rkcg4CP1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-11.0.22-corretto-11.0.22-4caba194b151-868cef46" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7f125063-1384-4bd7-958e-e0f5d125c85f" name="Changes" comment="" />
+      <created>1714052316603</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714052316603</updated>
+      <workItem from="1714052317647" duration="523000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
