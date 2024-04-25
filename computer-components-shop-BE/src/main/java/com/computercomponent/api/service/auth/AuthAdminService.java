@@ -17,6 +17,8 @@ import com.computercomponent.api.repository.AdminRepository;
 import com.computercomponent.api.repository.UserRepository;
 import com.computercomponent.api.service.MailService;
 import com.computercomponent.api.until.JwtTokenUtil;
+import com.computercomponent.api.until.OTPUtil;
+import com.computercomponent.api.until.ValidateUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -79,7 +81,7 @@ public class AuthAdminService implements UserDetailsService {
     }
 
     public UserPrincipal findByEmail(String email) {
-        Optional<Admin> userOpt = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, 0, UserStatus.ACTIVE);
+        Optional<Admin> userOpt = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, false, UserStatus.ACTIVE);
         UserPrincipal userPrincipal;
         userPrincipal = new UserPrincipal();
         if (userOpt.isPresent()) {
@@ -95,7 +97,7 @@ public class AuthAdminService implements UserDetailsService {
     }
 
     public UserPrincipal findByMobile(String mobile) {
-        Optional<Admin> userOpt = adminRepository.findOneByMobileIgnoreCaseAndDeletedAndStatus(mobile, 0, UserStatus.ACTIVE);
+        Optional<Admin> userOpt = adminRepository.findOneByMobileIgnoreCaseAndDeletedAndStatus(mobile, false, UserStatus.ACTIVE);
         UserPrincipal userPrincipal;
         userPrincipal = new UserPrincipal();
         if (userOpt.isPresent()) {
@@ -112,7 +114,7 @@ public class AuthAdminService implements UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (com.computercomponent.until.ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail)) return findByEmail(username);
+        if (ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail)) return findByEmail(username);
         return findByMobile(username);
     }
 
@@ -120,16 +122,16 @@ public class AuthAdminService implements UserDetailsService {
     public void sendNewOtp(String email, String userName) {
 
         if (!ObjectUtils.isEmpty(email)) {
-            Assert.isTrue(com.computercomponent.until.ValidateUtil.regexValidation(email, Const.VALIDATE_INPUT.regexEmail), Const.MESSAGE_CODE.INVALID_EMAIL);
-            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, 0, UserStatus.ACTIVE).orElse(null);
+            Assert.isTrue(ValidateUtil.regexValidation(email, Const.VALIDATE_INPUT.regexEmail), Const.MESSAGE_CODE.INVALID_EMAIL);
+            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(email, false, UserStatus.ACTIVE).orElse(null);
             Assert.isNull(admin, Const.MESSAGE_CODE.ACCOUNT_EXISTED);
-            Optional<Admin> userOld = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, 0);
+            Optional<Admin> userOld = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, false);
             if (userOld.isEmpty()) {
                 throw new RuntimeException(Const.MESSAGE_CODE.EMAIL_NOT_REGISTER);
             }
         }
 
-        String otpCode = com.computercomponent.until.OTPUtil.generateOtpCode();
+        String otpCode = OTPUtil.generateOtpCode();
         String subject = "[QAP Store] Xác nhận đăng ký tài khoản";
         String content = "<p>Xin Chào " + (userName != null ? userName : "")  + "</p>" + "<p>Mã OTP của bạn là:</p>" + "<p><b>" + otpCode
                 + "</b></p>" + "<p>Note: Mã OTP sẽ hết hạn sau 5 phút nữa!.</p>"
@@ -141,11 +143,11 @@ public class AuthAdminService implements UserDetailsService {
     }
 
     public void activate(String email, String otp) {
-        Assert.isTrue(com.computercomponent.until.ValidateUtil.regexValidation(email, Const.VALIDATE_INPUT.regexEmail), Const.MESSAGE_CODE.INVALID_EMAIL);
+        Assert.isTrue(ValidateUtil.regexValidation(email, Const.VALIDATE_INPUT.regexEmail), Const.MESSAGE_CODE.INVALID_EMAIL);
         OtpVerify otpVerify = otpCache.getIfPresent(email);
         Assert.notNull(otpVerify, Const.MESSAGE_CODE.OTP_EXPIRED);
         Assert.isTrue(otpVerify.getRetryCount() < 5, Const.MESSAGE_CODE.OTP_5_TIMES);
-        Admin usersOURCE = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, 0).orElse(null);
+        Admin usersOURCE = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, false).orElse(null);
         if (usersOURCE == null || usersOURCE.getStatus() == UserStatus.ACTIVE) {
             throw new RuntimeException(Const.MESSAGE_CODE.ACCOUNT_ALREADY_ACTIVATED);
         }
@@ -158,7 +160,7 @@ public class AuthAdminService implements UserDetailsService {
                 throw new IllegalArgumentException(Const.MESSAGE_CODE.OTP_5_TIMES);
             }
         } else {
-            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, 0).orElse(null);
+            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeleted(email, false).orElse(null);
             if (admin != null) {
                 admin.setStatus(UserStatus.ACTIVE);
                 adminRepository.save(admin);
@@ -188,7 +190,7 @@ public class AuthAdminService implements UserDetailsService {
         }catch (Exception e){
             throw new UnauthorizedException(Const.MESSAGE_CODE.INVALID_CREDENTIALS);
         }
-        Admin changePassAdmin = adminRepository.findByAdminIdAndDeletedAndStatus(currenUserLogin.getUserId(), 0, UserStatus.ACTIVE).orElse(null);
+        Admin changePassAdmin = adminRepository.findByAdminIdAndDeletedAndStatus(currenUserLogin.getUserId(), false, UserStatus.ACTIVE).orElse(null);
         Assert.notNull(changePassAdmin, Const.MESSAGE_CODE.USER_NOT_FOUND);
         String currentEncryptedPassword = changePassAdmin.getPassword();
         if (!new BCryptPasswordEncoder().matches(currentClearTextPassword, currentEncryptedPassword)) {

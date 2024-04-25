@@ -6,7 +6,7 @@ import com.computercomponent.api.config.MessageTemplate;
 import com.computercomponent.api.entity.Admin;
 import com.computercomponent.api.repository.AdminRepository;
 import com.computercomponent.api.until.JwtTokenUtil;
-import com.computercomponent.until.ValidateUtil;
+import com.computercomponent.api.until.ValidateUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +74,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             if (!loggedUsernameOpt.isPresent() || !loggedUsernameOpt.get().equals(username)) {
                 Claims claims = jwtTokenUtil.getAllClaimsFromToken(jwtToken);
 
-                Optional<Admin> opt = ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail) ? adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(username, 0, UserStatus.ACTIVE) : adminRepository.findFirstByMobileAndDeletedAndStatus(username, 0, UserStatus.ACTIVE);
+                Optional<Admin> opt = ValidateUtil.regexValidation(username, Const.VALIDATE_INPUT.regexEmail) ? adminRepository.findOneByEmailIgnoreCaseAndDeletedAndStatus(username, false, UserStatus.ACTIVE) : adminRepository.findFirstByMobileAndDeletedAndStatus(username, false, UserStatus.ACTIVE);
 
                 if (opt.isPresent()) {
                     // If token is valid configure Spring Security to manually set authentication

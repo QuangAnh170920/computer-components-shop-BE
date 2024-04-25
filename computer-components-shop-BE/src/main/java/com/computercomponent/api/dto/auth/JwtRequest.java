@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class JwtRequest {
     @NotNull
-    private String username;
+    private String mobileOrEmail;
 
     @NotNull
     private String password;

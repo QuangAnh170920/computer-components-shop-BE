@@ -4,6 +4,7 @@ import com.computercomponent.api.common.EmailStatus;
 import com.computercomponent.api.entity.EmailSenderLog;
 import com.computercomponent.api.repository.EmailSenderLogRepository;
 import com.computercomponent.api.response.RegisterResponse;
+import com.computercomponent.api.until.DataUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +98,7 @@ public class MailService {
                 message.setBcc(bccs);
             }
 
-            if (!com.computercomponent.until.DataUtil.isNullOrEmpty(filePath)){
+            if (!DataUtil.isNullOrEmpty(filePath)){
                 File file = new File(filePath);
                 if (file.exists()){
                     byte[] fileContent = FileUtils.readFileToByteArray(file);
@@ -194,7 +195,7 @@ public class MailService {
         setMoreVariableContextObject(context, params);
         String content = templateEngine.process(templateName, context);
         String from = Objects.requireNonNull(MAIL_SENDER);
-        String to =  com.computercomponent.until.DataUtil.convertListStringToString(emailTo, ", ");
+        String to =  DataUtil.convertListStringToString(emailTo, ", ");
         sendEmail(from, to, ccs, bccs, subject, content, false, true, null);
     }
 

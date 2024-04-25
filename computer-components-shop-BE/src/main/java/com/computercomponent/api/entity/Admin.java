@@ -2,6 +2,7 @@ package com.computercomponent.api.entity;
 
 import com.computercomponent.api.common.UserStatus;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -21,7 +22,9 @@ public class Admin {
     private Date updateAt;
     private String createBy;
     private String updateBy;
-    private Integer deleted;
+    @Column(columnDefinition = "TINYINT", name = "deleted")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean deleted = false;
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = true)

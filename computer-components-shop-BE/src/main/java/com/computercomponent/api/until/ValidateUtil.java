@@ -1,4 +1,4 @@
-package com.computercomponent.until;
+package com.computercomponent.api.until;
 
 import java.util.regex.Pattern;
 

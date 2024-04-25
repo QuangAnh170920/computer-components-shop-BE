@@ -1,4 +1,4 @@
-package com.computercomponent.until;
+package com.computercomponent.api.until;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.CharMatcher;

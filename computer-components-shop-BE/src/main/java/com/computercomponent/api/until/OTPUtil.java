@@ -1,4 +1,4 @@
-package com.computercomponent.until;
+package com.computercomponent.api.until;
 
 public class OTPUtil {
   public static String generateOtpCode(){

@@ -10,15 +10,15 @@ import java.util.Optional;
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Long>, JpaSpecificationExecutor<Admin> {
-    Optional<Admin> findOneByEmailIgnoreCaseAndDeletedAndStatus(String email, int deleted, UserStatus userStatus);
+    Optional<Admin> findOneByEmailIgnoreCaseAndDeletedAndStatus(String email, Boolean deleted, UserStatus userStatus);
 
-    Optional<Admin> findOneByMobileIgnoreCaseAndDeletedAndStatus(String mobile, int deleted, UserStatus userStatus);
+    Optional<Admin> findOneByMobileIgnoreCaseAndDeletedAndStatus(String mobile, Boolean deleted, UserStatus userStatus);
 
-    Optional<Admin> findOneByEmailIgnoreCaseAndDeleted(String email, int deleted);
+    Optional<Admin> findOneByEmailIgnoreCaseAndDeleted(String email, Boolean deleted);
 
-    Optional<Admin> findFirstByMobileAndDeleted(String mobile, int deleted);
+    Optional<Admin> findFirstByMobileAndDeleted(String mobile, Boolean deleted);
 
-    Optional<Admin> findFirstByMobileAndDeletedAndStatus(String mobile, int deleted, UserStatus userStatus);
+    Optional<Admin> findFirstByMobileAndDeletedAndStatus(String mobile, Boolean deleted, UserStatus userStatus);
 
-    Optional<Admin> findByAdminIdAndDeletedAndStatus(Long adminId, int deleted, UserStatus status);
+    Optional<Admin> findByAdminIdAndDeletedAndStatus(Long adminId, Boolean deleted, UserStatus status);
 }
