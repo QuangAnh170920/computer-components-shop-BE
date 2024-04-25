@@ -51,11 +51,6 @@ public class AuthController {
         this.adminRepository = adminRepository;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<ResponseWrapper> create(@RequestBody UserRegistrationDto requestData) {
-        return ResponseEntity.ok(authAdminService.create(requestData));
-    }
-
     @PostMapping("login")
     public ResponseEntity<ResponseWrapper> login(@RequestBody @Valid JwtRequest jwtRequest) {
         Authentication authentication = authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());

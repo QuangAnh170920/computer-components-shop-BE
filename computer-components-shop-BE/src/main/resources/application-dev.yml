@@ -1,6 +1,6 @@
 # Server
 server:
-  port: 2002
+  port: 8080
   tomcat:
     accept-count: 1000
   servlet:
