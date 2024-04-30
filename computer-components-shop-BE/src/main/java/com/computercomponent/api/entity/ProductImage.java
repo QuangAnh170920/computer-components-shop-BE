@@ -7,10 +7,9 @@ import javax.persistence.Table;
 
 @Entity
 @Data
-@Table(name = "product_reviews")
-public class ProductReviews extends BaseEntity{
-    private Long userId;
+@Table(name = "product_image")
+public class ProductImage extends BaseEntity{
     private Long productId;
-    private Integer rate;
-    private String comment;
+    private String imageUrl;
+    private String description;
 }

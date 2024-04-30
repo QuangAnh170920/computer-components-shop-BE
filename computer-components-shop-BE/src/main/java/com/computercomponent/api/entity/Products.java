@@ -1,46 +1,23 @@
-package com.computercomponent.entity;
+package com.computercomponent.api.entity;
+
+import com.computercomponent.api.common.ProductsStatus;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
 
 @Entity
 @Data
 @Table(name = "products")
-public class Products {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "product_id")
-    private int productId;
-    @Basic
-    @Column(name = "name")
+public class Products extends BaseEntity{
     private String name;
-    @Basic
-    @Column(name = "description")
     private String description;
-    @Basic
-    @Column(name = "price")
     private BigDecimal price;
+    private Integer quantityAvailable;
     @Basic
-    @Column(name = "manufacturer_id")
-    private Integer manufacturerId;
-    @Basic
-    @Column(name = "category_id")
-    private Integer categoryId;
-    @Basic
-    @Column(name = "create_at")
-    private Date createAt;
-    @Basic
-    @Column(name = "update_at")
-    private Date updateAt;
-    @Basic
-    @Column(name = "create_by")
-    private String createBy;
-    @Basic
-    @Column(name = "update_by")
-    private String updateBy;
-    @Basic
-    @Column(name = "deleted")
-    private Integer deleted;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ProductsStatus status;
+    private Long categoryId;
+    private Long brandId;
 }

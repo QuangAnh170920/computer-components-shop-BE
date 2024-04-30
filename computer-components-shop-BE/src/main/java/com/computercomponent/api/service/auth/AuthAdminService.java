@@ -87,7 +87,7 @@ public class AuthAdminService implements UserDetailsService {
         if (userOpt.isPresent()) {
             Admin admin = userOpt.get();
             Set<GrantedAuthority> authorities = new HashSet<>();
-            userPrincipal.setUserId(admin.getAdminId());
+            userPrincipal.setUserId(admin.getId());
             userPrincipal.setUsername(admin.getUsername());
             userPrincipal.setPassword(admin.getPassword());
             userPrincipal.setStatus(admin.getStatus());
@@ -104,7 +104,7 @@ public class AuthAdminService implements UserDetailsService {
             Admin admin = userOpt.get();
             Set<GrantedAuthority> authorities = new HashSet<>();
 
-            userPrincipal.setUserId(admin.getAdminId());
+            userPrincipal.setUserId(admin.getId());
             userPrincipal.setUsername(admin.getUsername());
             userPrincipal.setPassword(admin.getPassword());
             userPrincipal.setStatus(admin.getStatus());
@@ -190,7 +190,7 @@ public class AuthAdminService implements UserDetailsService {
         }catch (Exception e){
             throw new UnauthorizedException(Const.MESSAGE_CODE.INVALID_CREDENTIALS);
         }
-        Admin changePassAdmin = adminRepository.findByAdminIdAndDeletedAndStatus(currenUserLogin.getUserId(), false, UserStatus.ACTIVE).orElse(null);
+        Admin changePassAdmin = adminRepository.findByIdAndDeletedAndStatus(currenUserLogin.getUserId(), false, UserStatus.ACTIVE).orElse(null);
         Assert.notNull(changePassAdmin, Const.MESSAGE_CODE.USER_NOT_FOUND);
         String currentEncryptedPassword = changePassAdmin.getPassword();
         if (!new BCryptPasswordEncoder().matches(currentClearTextPassword, currentEncryptedPassword)) {

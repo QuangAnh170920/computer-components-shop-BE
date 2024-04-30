@@ -77,4 +77,12 @@ public class Const {
         public static final String AUTHORITIES_KEY = "scopes";
         public static final String X_TOTAL_COUNT = "X-Total-Count";
     }
+
+    public static class BRAND {
+        public static final String BRAND_NAME_IS_NOT_EMPTY = "Tên thương hiệu không được để trống";
+        public static final String BRAND_IS_NOT_EMPTY = "Thương hiệu không được để trống";
+        public static final String BRAND_NAME_EXISTED = "Tên thương hiệu đã tồn tại";
+        public static final String BRAND_NAME_MORE_THAN_200_CHAR = "Tên thương hiệu không được vượt quá 200 ký tự";
+        public static final String BRAND_NOT_FOUND = "Không tìm thấy thương hiệu";
+    }
 }

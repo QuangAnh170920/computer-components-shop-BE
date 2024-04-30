@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("v1/products")
+@RequestMapping("v1/admin/products")
 @SecurityRequirement(name = "computer-components-admin-security")
 @PreAuthorize("{@ComputerComponentShopAuthorizer.authorize(authentication)}")
 public class ProductsController {

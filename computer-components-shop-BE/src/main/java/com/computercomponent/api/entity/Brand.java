@@ -4,14 +4,15 @@ import com.computercomponent.api.common.BrandStatus;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+
 @Entity
 @Data
-@Table(name = "orders")
-public class Orders extends BaseEntity{
-    private BigDecimal totalAmount;
+@Table(name = "brand")
+public class Brand extends BaseEntity{
+    @Column(name = "name")
+    private String name;
+    @Column(name = "description")
     private String description;
-    private Long userId;
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

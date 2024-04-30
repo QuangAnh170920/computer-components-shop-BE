@@ -10,24 +10,13 @@ import java.sql.Date;
 @Entity
 @Data
 @Table(name = "admin")
-public class Admin {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "admin_id", nullable = false)
-    private Long adminId;
+public class Admin extends BaseEntity {
     private String username;
     private String password;
     private String email;
-    private Date createAt;
-    private Date updateAt;
-    private String createBy;
-    private String updateBy;
-    @Column(columnDefinition = "TINYINT", name = "deleted")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean deleted = false;
     @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = true)
+    @Column(name = "status")
     private UserStatus status;
     private String mobile;
     private String changePasswordToken;

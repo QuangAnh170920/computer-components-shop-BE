@@ -20,5 +20,5 @@ public interface AdminRepository extends JpaRepository<Admin, Long>, JpaSpecific
 
     Optional<Admin> findFirstByMobileAndDeletedAndStatus(String mobile, Boolean deleted, UserStatus userStatus);
 
-    Optional<Admin> findByAdminIdAndDeletedAndStatus(Long adminId, Boolean deleted, UserStatus status);
+    Optional<Admin> findByIdAndDeletedAndStatus(Long id, Boolean deleted, UserStatus status);
 }
