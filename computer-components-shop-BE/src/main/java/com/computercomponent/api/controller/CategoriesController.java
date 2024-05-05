@@ -2,9 +2,12 @@ package com.computercomponent.api.controller;
 
 import com.computercomponent.api.dto.BrandDTO;
 import com.computercomponent.api.dto.BrandManagementDTO;
+import com.computercomponent.api.dto.CategoriesDTO;
+import com.computercomponent.api.dto.CategoriesManagementDTO;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.request.BrandRequest;
-import com.computercomponent.api.service.BrandService;
+import com.computercomponent.api.request.CategoriesRequest;
+import com.computercomponent.api.service.CategoriesService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,30 +20,30 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/api/admin/brand")
+@RequestMapping("/v1/api/admin/categories")
 @SecurityRequirement(name = "computer-components-admin-security")
 @PreAuthorize("{@ComputerComponentShopAuthorizer.authorize(authentication)}")
-public class BrandController {
+public class CategoriesController {
     @Autowired
-    private BrandService brandService;
+    private CategoriesService categoriesService;
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> createBrand(@RequestBody BrandDTO BrandDTO) {
-        return ResponseEntity.ok(new ResponseWrapper(brandService.createBrand(BrandDTO)));
+    public ResponseEntity<ResponseWrapper> createCate(@RequestBody CategoriesDTO categoriesDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.createCate(categoriesDTO)));
     }
 
     @PostMapping(value = "/find-all-and-search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> findAllAndSearchBrand(@RequestBody BrandRequest brandRequest) {
-        return ResponseEntity.ok(new ResponseWrapper(brandService.getBrandList(brandRequest)));
+    public ResponseEntity<ResponseWrapper> findAllAndSearchBrand(@RequestBody CategoriesRequest categoriesRequest) {
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.getCateList(categoriesRequest)));
     }
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> updateBrand(@RequestBody @Valid BrandManagementDTO brandManagementDTO) {
-        return ResponseEntity.ok(new ResponseWrapper(brandService.updateBrand(brandManagementDTO)));
+    public ResponseEntity<ResponseWrapper> updateBrand(@RequestBody @Valid CategoriesManagementDTO categoriesManagementDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.updateCate(categoriesManagementDTO)));
     }
 
     @PostMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> deleteBu(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(new ResponseWrapper(brandService.deleteBrand(id)));
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.deleteCate(id)));
     }
 }

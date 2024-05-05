@@ -3,5 +3,5 @@ package com.computercomponent.api.request;
 import lombok.Data;
 
 @Data
-public class ProductsRequest extends BasePageRequest {
+public class ProductImageRequest extends BasePageRequest {
 }

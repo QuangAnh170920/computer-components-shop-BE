@@ -85,4 +85,12 @@ public class Const {
         public static final String BRAND_NAME_MORE_THAN_200_CHAR = "Tên thương hiệu không được vượt quá 200 ký tự";
         public static final String BRAND_NOT_FOUND = "Không tìm thấy thương hiệu";
     }
+
+    public static class CATEGORIES {
+        public static final String CATE_NAME_IS_NOT_EMPTY = "Tên loại sản phẩm không được để trống";
+        public static final String CATE_IS_NOT_EMPTY = "Loại sản phẩm không được để trống";
+        public static final String CATE_NAME_EXISTED = "Tên loại sản phẩm đã tồn tại";
+        public static final String CATE_NAME_MORE_THAN_200_CHAR = "Tên loại sản phẩm không được vượt quá 200 ký tự";
+        public static final String CATE_NOT_FOUND = "Không tìm thấy loại sản phẩm";
+    }
 }

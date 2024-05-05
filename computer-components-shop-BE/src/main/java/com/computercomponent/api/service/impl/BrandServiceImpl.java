@@ -19,6 +19,7 @@ import org.springframework.util.Assert;
 public class BrandServiceImpl implements BrandService {
     @Autowired
     private BrandRepository brandRepository;
+
     @Override
     public String createBrand(BrandDTO brandDTO) {
         validateBrand(brandDTO);

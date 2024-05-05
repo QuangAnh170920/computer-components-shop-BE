@@ -12,7 +12,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-25T20:46:27+0700",
+    date = "2024-05-05T20:41:26+0700",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.22 (Amazon.com Inc.)"
 )
 public class AdminMapperImpl implements AdminMapper {
@@ -25,6 +25,11 @@ public class AdminMapperImpl implements AdminMapper {
 
         Admin admin = new Admin();
 
+        admin.setId( dto.getId() );
+        admin.setCreatedAt( dto.getCreatedAt() );
+        admin.setUpdatedAt( dto.getUpdatedAt() );
+        admin.setCreatedBy( dto.getCreatedBy() );
+        admin.setUpdatedBy( dto.getUpdatedBy() );
         admin.setUsername( dto.getUsername() );
         admin.setEmail( dto.getEmail() );
         admin.setStatus( dto.getStatus() );
@@ -41,10 +46,15 @@ public class AdminMapperImpl implements AdminMapper {
 
         AdminDto adminDto = new AdminDto();
 
+        adminDto.setId( entity.getId() );
         adminDto.setEmail( entity.getEmail() );
         adminDto.setMobile( entity.getMobile() );
         adminDto.setUsername( entity.getUsername() );
         adminDto.setStatus( entity.getStatus() );
+        adminDto.setCreatedAt( entity.getCreatedAt() );
+        adminDto.setUpdatedAt( entity.getUpdatedAt() );
+        adminDto.setCreatedBy( entity.getCreatedBy() );
+        adminDto.setUpdatedBy( entity.getUpdatedBy() );
 
         return adminDto;
     }
@@ -83,6 +93,21 @@ public class AdminMapperImpl implements AdminMapper {
             return;
         }
 
+        if ( dto.getId() != null ) {
+            entity.setId( dto.getId() );
+        }
+        if ( dto.getCreatedAt() != null ) {
+            entity.setCreatedAt( dto.getCreatedAt() );
+        }
+        if ( dto.getUpdatedAt() != null ) {
+            entity.setUpdatedAt( dto.getUpdatedAt() );
+        }
+        if ( dto.getCreatedBy() != null ) {
+            entity.setCreatedBy( dto.getCreatedBy() );
+        }
+        if ( dto.getUpdatedBy() != null ) {
+            entity.setUpdatedBy( dto.getUpdatedBy() );
+        }
         if ( dto.getUsername() != null ) {
             entity.setUsername( dto.getUsername() );
         }
@@ -103,6 +128,9 @@ public class AdminMapperImpl implements AdminMapper {
             return;
         }
 
+        if ( entity.getId() != null ) {
+            dto.setId( entity.getId() );
+        }
         if ( entity.getEmail() != null ) {
             dto.setEmail( entity.getEmail() );
         }
@@ -114,6 +142,18 @@ public class AdminMapperImpl implements AdminMapper {
         }
         if ( entity.getStatus() != null ) {
             dto.setStatus( entity.getStatus() );
+        }
+        if ( entity.getCreatedAt() != null ) {
+            dto.setCreatedAt( entity.getCreatedAt() );
+        }
+        if ( entity.getUpdatedAt() != null ) {
+            dto.setUpdatedAt( entity.getUpdatedAt() );
+        }
+        if ( entity.getCreatedBy() != null ) {
+            dto.setCreatedBy( entity.getCreatedBy() );
+        }
+        if ( entity.getUpdatedBy() != null ) {
+            dto.setUpdatedBy( entity.getUpdatedBy() );
         }
     }
 
@@ -191,6 +231,10 @@ public class AdminMapperImpl implements AdminMapper {
         userProfileDto.setEmail( principal.getEmail() );
         userProfileDto.setMobile( principal.getMobile() );
         userProfileDto.setStatus( principal.getStatus() );
+        userProfileDto.setCreatedAt( principal.getCreatedAt() );
+        userProfileDto.setUpdatedAt( principal.getUpdatedAt() );
+        userProfileDto.setCreatedBy( principal.getCreatedBy() );
+        userProfileDto.setUpdatedBy( principal.getUpdatedBy() );
 
         return userProfileDto;
     }
