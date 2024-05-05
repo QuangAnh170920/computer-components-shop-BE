@@ -13,6 +13,7 @@ import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.repository.AdminRepository;
 import com.computercomponent.api.service.auth.AuthAdminService;
 import com.computercomponent.api.until.*;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +52,7 @@ public class AuthController {
         this.adminRepository = adminRepository;
     }
 
+    @Operation(summary = "Đăng nhập", description = "Đăng nhập")
     @PostMapping("login")
     public ResponseEntity<ResponseWrapper> login(@RequestBody @Valid JwtRequest jwtRequest) {
         Authentication authentication = authenticate(jwtRequest.getMobileOrEmail(), jwtRequest.getPassword());
@@ -61,22 +63,26 @@ public class AuthController {
         )));
     }
 
+    @Operation(summary = "Đăng xuất", description = "Đăng xuất")
     @GetMapping("logout")
     public void logout(HttpServletRequest request) {
     }
 
+    @Operation(summary = "Gửi mã otp", description = "Gửi mã otp")
     @GetMapping(value = "/otp")
     public ResponseEntity<ResponseWrapper> generateOtp(@RequestParam @NotNull String email) {
         authAdminService.sendNewOtp(email, null);
         return ResponseEntity.ok(new ResponseWrapper(null));
     }
 
+    @Operation(summary = "Xác thực tài khoản", description = "Xác thực tài khoản")
     @GetMapping(value = "/verify")
     public ResponseEntity<ResponseWrapper> activate(@RequestParam @NotNull String email, @NotNull @RequestParam String otp) {
         authAdminService.activate(email, otp);
         return ResponseEntity.ok(new ResponseWrapper(null));
     }
 
+    @Operation(summary = "Reset mật khẩu", description = "Reset mật khẩu")
     @PutMapping("/reset-password-user")
     public ResponseEntity<ResponseWrapper> resetPasswordUser(@RequestParam Long customerId) {
         return ResponseEntity.ok(new ResponseWrapper(authAdminService.resetPasswordUser(customerId)));
