@@ -171,10 +171,10 @@ public class AuthAdminService implements UserDetailsService {
 
 
     public Object resetPasswordUser(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user != null) {
-            user.setPassword(passwordEncoder.encode(Const.RESET_PASSWORD.DEFAULT_RESET_PASSWORD));
-            userRepository.save(user);
+        Admin admin = adminRepository.findById(userId).orElse(null);
+        if (admin != null) {
+            admin.setPassword(passwordEncoder.encode(Const.RESET_PASSWORD.DEFAULT_RESET_PASSWORD));
+            adminRepository.save(admin);
         }
         return userId;
     }
@@ -216,48 +216,5 @@ public class AuthAdminService implements UserDetailsService {
 
             throw new UnauthorizedException(Const.MESSAGE_CODE.INVALID_CREDENTIALS);
         }
-    }
-
-
-    @Transactional
-    public ResponseWrapper create(UserRegistrationDto requestData) {
-        validateRegistration(requestData);
-        ResponseWrapper responseWrapper = new ResponseWrapper();
-        Admin dbAdmin = adminRepository.findFirstByMobileAndDeleted(requestData.getMobile(), false).orElse(null);
-        if (!ObjectUtils.isEmpty(requestData.getEmail())) {
-            User user = userRepository.findOneByEmailIgnoreCaseAndDeleted(requestData.getEmail(), false).orElse(null);
-            Assert.isNull(user, Const.MESSAGE_CODE.EMAIL_EXISTED);
-        }
-        Assert.isNull(dbAdmin, Const.MESSAGE_CODE.MOBILE_EXISTED);
-
-        String changePassToken = GenerateRandomToken.generateRandomPassword(128);
-        Admin saveAdmin = adminMapper.map(requestData);
-        saveAdmin.setChangePasswordToken(changePassToken);
-        saveAdmin.setPassword(passwordEncoder.encode(requestData.getPassword()));
-        saveAdmin.setUsername(requestData.getMobile());
-        saveAdmin.setStatus(UserStatus.DEACTIVATE);
-        Admin admin = adminRepository.save(saveAdmin);
-        admin.setAdminCode("QAP Store" + admin.getId());
-        adminRepository.save(admin);
-        AdminDto adminDto = new AdminDto();
-        BeanUtils.copyProperties(admin, adminDto);
-        responseWrapper.setResponseData(adminDto);
-        responseWrapper.setResponseCode(String.valueOf(HttpStatus.OK.value()));
-        sendNewOtp(requestData.getEmail(), requestData.getFullName());
-        return responseWrapper;
-    }
-
-    private void validateRegistration(UserRegistrationDto requestData) {
-        Assert.isTrue(requestData != null,Const.MESSAGE_CODE.INPUT_NOT_CORRECT);
-        Assert.isTrue(!DataUtil.isNullOrEmpty(requestData.getFullName()),Const.MESSAGE_CODE.FULL_NAME_IS_EMPTY);
-        Assert.isTrue((requestData.getFullName().length() <= 255),Const.MESSAGE_CODE.FULL_NAME_MORE_THAN_255_CHAR);
-        if (!ObjectUtils.isEmpty(requestData.getEmail())) {
-            Assert.isTrue(requestData.getEmail().length() <= 255,Const.MESSAGE_CODE.EMAIL_MORE_THAN_255_CHAR);
-            Assert.isTrue(ValidateUtil.regexValidation(requestData.getEmail(), Const.VALIDATE_INPUT.regexEmail), Const.MESSAGE_CODE.INVALID_EMAIL);
-            Admin admin = adminRepository.findOneByEmailIgnoreCaseAndDeleted(requestData.getEmail(), false).orElse(null);
-            Assert.isNull(admin, Const.MESSAGE_CODE.EMAIL_EXISTED);
-        }
-        Assert.isTrue(ValidateUtil.regexValidation(requestData.getMobile(), Const.VALIDATE_INPUT.regexPhone), Const.MESSAGE_CODE.INVALID_MOBILE);
-        Assert.isTrue(requestData.getPasswordConfirm().equals(requestData.getPassword()), Const.MESSAGE_CODE.CONFIRMING_PASS_NOT_MATCH);
     }
 }

@@ -53,12 +53,6 @@ public class AuthController {
         this.adminRepository = adminRepository;
     }
 
-    @Operation(summary = "Đăng ký", description = "Đăng ký")
-    @PostMapping("/register")
-    public ResponseEntity<ResponseWrapper> create(@RequestBody UserRegistrationDto requestData) {
-        return ResponseEntity.ok(authAdminService.create(requestData));
-    }
-
     @Operation(summary = "Đăng nhập", description = "Đăng nhập")
     @PostMapping("login")
     public ResponseEntity<ResponseWrapper> login(@RequestBody @Valid JwtRequest jwtRequest) {

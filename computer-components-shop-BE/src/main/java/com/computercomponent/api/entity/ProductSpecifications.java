@@ -17,4 +17,5 @@ public class ProductSpecifications extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ProductSpecificationsStatus status;
+    private Integer priority;
 }
