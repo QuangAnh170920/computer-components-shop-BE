@@ -6,6 +6,7 @@ import com.computercomponent.api.dto.UserPrincipal;
 import com.computercomponent.api.dto.auth.JwtRequest;
 import com.computercomponent.api.dto.auth.JwtResponse;
 
+import com.computercomponent.api.dto.auth.UserRegistrationDto;
 import com.computercomponent.api.entity.Admin;
 import com.computercomponent.api.entity.exception.AccountDisableException;
 import com.computercomponent.api.entity.exception.UnauthorizedException;
@@ -50,6 +51,12 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.authAdminService = authAdminService;
         this.adminRepository = adminRepository;
+    }
+
+    @Operation(summary = "Đăng ký", description = "Đăng ký")
+    @PostMapping("/register")
+    public ResponseEntity<ResponseWrapper> create(@RequestBody UserRegistrationDto requestData) {
+        return ResponseEntity.ok(authAdminService.create(requestData));
     }
 
     @Operation(summary = "Đăng nhập", description = "Đăng nhập")

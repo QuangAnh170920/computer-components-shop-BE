@@ -17,7 +17,7 @@ public class UserRegistrationDto {
     private String fullName;
     @NotNull
     @Convert(converter = ConvertString.class)
-    private String userName;
+    private String username;
     @Convert(converter = ConvertString.class)
     private String email;
     @NotNull

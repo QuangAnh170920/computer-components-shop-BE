@@ -47,7 +47,7 @@ public class JwtTokenUtil {
 
     public String generateToken(UserPrincipal userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("idAdmin", userDetails.getUserId());
+        claims.put("idAdmin", userDetails.getUserId());// cái này ko là admin đc. mà phải là sdt á đ
         return doGenerateToken(claims, userDetails.getUsername());
     }
     private String doGenerateToken(Map<String, Object> claims, String subject) {

@@ -22,6 +22,6 @@ public class Admin extends BaseEntity {
     private String changePasswordToken;
     @Column(name = "admin_code")
     private String adminCode;
-
+    private String fullName;
 
 }
