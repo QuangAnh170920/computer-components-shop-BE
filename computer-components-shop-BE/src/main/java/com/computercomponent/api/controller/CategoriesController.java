@@ -36,19 +36,19 @@ public class CategoriesController {
 
     @Operation(summary = "Tìm kiếm và danh sách loại sản phẩm", description = "Tìm kiếm và danh sách loại sản phẩm")
     @PostMapping(value = "/find-all-and-search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> findAllAndSearchBrand(@RequestBody CategoriesRequest categoriesRequest) {
+    public ResponseEntity<ResponseWrapper> findAllAndSearch(@RequestBody CategoriesRequest categoriesRequest) {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.getCateList(categoriesRequest)));
     }
 
     @Operation(summary = "Cập nhật loại sản phẩm", description = "Cập nhật loại sản phẩm ")
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> updateBrand(@RequestBody @Valid CategoriesManagementDTO categoriesManagementDTO) {
+    public ResponseEntity<ResponseWrapper> update(@RequestBody @Valid CategoriesManagementDTO categoriesManagementDTO) {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.updateCate(categoriesManagementDTO)));
     }
 
     @Operation(summary = "Xóa loại sản phẩm", description = "Xóa loại sản phẩm ")
     @PostMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> deleteBu(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseWrapper> delete(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.deleteCate(id)));
     }
 }

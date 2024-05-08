@@ -93,4 +93,12 @@ public class Const {
         public static final String CATE_NAME_MORE_THAN_200_CHAR = "Tên loại sản phẩm không được vượt quá 200 ký tự";
         public static final String CATE_NOT_FOUND = "Không tìm thấy loại sản phẩm";
     }
+
+    public static class PRODUCTS {
+        public static final String PROD_NAME_IS_NOT_EMPTY = "Tên sản phẩm không được để trống";
+        public static final String PROD_IS_NOT_EMPTY = "sản phẩm không được để trống";
+        public static final String PROD_NAME_EXISTED = "Tên sản phẩm đã tồn tại";
+        public static final String PROD_NAME_MORE_THAN_200_CHAR = "Tên sản phẩm không được vượt quá 200 ký tự";
+        public static final String PROD_NOT_FOUND = "Không tìm thấy sản phẩm";
+    }
 }

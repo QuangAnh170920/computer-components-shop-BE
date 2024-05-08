@@ -1,11 +1,8 @@
 package com.computercomponent.api.service.impl;
 
 import com.computercomponent.api.common.Const;
-import com.computercomponent.api.dto.BrandDTO;
-import com.computercomponent.api.dto.BrandManagementDTO;
 import com.computercomponent.api.dto.CategoriesDTO;
 import com.computercomponent.api.dto.CategoriesManagementDTO;
-import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.entity.Categories;
 import com.computercomponent.api.repository.CategoriesRepository;
 import com.computercomponent.api.request.CategoriesRequest;

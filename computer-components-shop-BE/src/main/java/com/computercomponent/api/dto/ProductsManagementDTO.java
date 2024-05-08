@@ -1,6 +1,6 @@
 package com.computercomponent.api.dto;
 
-import com.computercomponent.api.common.CategoriesStatus;
+import com.computercomponent.api.common.ProductsStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +14,8 @@ public class ProductsManagementDTO {
     private Long id;
     private String name;
     private String description;
-    private Long brandId;
-    private Long categoryId;
+    private String brandName;
+    private String categoryName;
     private BigDecimal price;
-    private CategoriesStatus status;
+    private ProductsStatus status;
 }
