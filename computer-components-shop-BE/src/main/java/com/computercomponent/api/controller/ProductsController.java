@@ -28,13 +28,13 @@ public class ProductsController {
     @Autowired
     private ProductsService productsService;
 
-    @Operation(summary = "Tạo mới 1 sản phẩm", description = "Tạo mới 1 sản phẩm")
+    @Operation(summary = "Tạo mới sản phẩm", description = "Tạo mới 1 sản phẩm")
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> createProd(@RequestBody ProductsDTO productsDTO) {
         return ResponseEntity.ok(new ResponseWrapper(productsService.createProduct(productsDTO)));
     }
 
-    @Operation(summary = "Tìm kiếm và danh sách sản phẩm", description = "Tìm kiếm và danh sách loại sản phẩm")
+    @Operation(summary = "Tìm kiếm và danh sách sản phẩm", description = "Tìm kiếm và danh sách sản phẩm")
     @PostMapping(value = "/find-all-and-search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> findAllAndSearch(@RequestBody ProductsRequest productsRequest) {
         return ResponseEntity.ok(new ResponseWrapper(productsService.getProductsList(productsRequest)));

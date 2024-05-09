@@ -28,7 +28,7 @@ public class CategoriesController {
     @Autowired
     private CategoriesService categoriesService;
 
-    @Operation(summary = "Tạo mới 1 loại sản phẩm", description = "Tạo mới 1 loại sản phẩm")
+    @Operation(summary = "Tạo mới loại sản phẩm", description = "Tạo mới 1 loại sản phẩm")
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> createCate(@RequestBody CategoriesDTO categoriesDTO) {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.createCate(categoriesDTO)));

@@ -96,9 +96,23 @@ public class Const {
 
     public static class PRODUCTS {
         public static final String PROD_NAME_IS_NOT_EMPTY = "Tên sản phẩm không được để trống";
-        public static final String PROD_IS_NOT_EMPTY = "sản phẩm không được để trống";
+        public static final String PROD_IS_NOT_EMPTY = "Sản phẩm không được để trống";
         public static final String PROD_NAME_EXISTED = "Tên sản phẩm đã tồn tại";
         public static final String PROD_NAME_MORE_THAN_200_CHAR = "Tên sản phẩm không được vượt quá 200 ký tự";
         public static final String PROD_NOT_FOUND = "Không tìm thấy sản phẩm";
+    }
+
+    public static class PRODUCT_SPEC {
+        public static final String PRODUCT_SPEC_NAME_IS_NOT_EMPTY = "Tên thông số sản phẩm không được để trống";
+        public static final String PRODUCT_SPEC_IS_NOT_EMPTY = "Thông số sản phẩm không được để trống";
+        public static final String PRODUCT_SPEC_NAME_EXISTED = "Tên thông số sản phẩm đã tồn tại";
+        public static final String PRODUCT_SPEC_NAME_MORE_THAN_200_CHAR = "Tên thông số sản phẩm không được vượt quá 200 ký tự";
+        public static final String PRODUCT_SPEC_NOT_FOUND = "Không tìm thấy thông số sản phẩm";
+    }
+
+    public static class PRODUCT_IMAGE {
+        public static final String PRODUCT_IMAGE_URL_IS_NOT_EMPTY = "Url ảnh sản phẩm không được để trống";
+        public static final String PRODUCT_IMAGE_IS_NOT_EMPTY = "Ảnh sản phẩm không được để trống";
+        public static final String PRODUCT_IMAGE_NOT_FOUND = "Không tìm thấy ảnh sản phẩm";
     }
 }

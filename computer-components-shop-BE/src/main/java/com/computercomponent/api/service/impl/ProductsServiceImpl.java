@@ -4,7 +4,6 @@ import com.computercomponent.api.common.Const;
 import com.computercomponent.api.common.ProductsStatus;
 import com.computercomponent.api.dto.ProductsDTO;
 import com.computercomponent.api.dto.ProductsManagementDTO;
-import com.computercomponent.api.entity.Categories;
 import com.computercomponent.api.entity.Products;
 import com.computercomponent.api.repository.ProductsRepository;
 import com.computercomponent.api.request.ProductsRequest;
@@ -59,7 +58,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public String deleteProduct(Long id) {
         Products products = productsRepository.findProductsById(id);
-        Assert.isTrue(products != null, Const.CATEGORIES.CATE_NOT_FOUND);
+        Assert.isTrue(products != null, Const.PRODUCTS.PROD_NOT_FOUND);
         products.setDeleted(true);
         productsRepository.save(products);
         return null;
