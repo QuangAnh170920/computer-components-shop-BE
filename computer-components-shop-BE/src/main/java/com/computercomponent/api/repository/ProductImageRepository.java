@@ -1,9 +1,7 @@
 package com.computercomponent.api.repository;
 
 import com.computercomponent.api.dto.ProductImageManagementDTO;
-import com.computercomponent.api.dto.ProductSpecificationsManagementDTO;
 import com.computercomponent.api.entity.ProductImage;
-import com.computercomponent.api.entity.ProductSpecifications;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -5,8 +5,11 @@ import com.computercomponent.api.common.ProductsStatus;
 import com.computercomponent.api.dto.ProductsDTO;
 import com.computercomponent.api.dto.ProductsManagementDTO;
 import com.computercomponent.api.entity.Products;
+import com.computercomponent.api.repository.ProductSpecificationsRepository;
 import com.computercomponent.api.repository.ProductsRepository;
 import com.computercomponent.api.request.ProductsRequest;
+import com.computercomponent.api.response.ProductDetail;
+import com.computercomponent.api.response.ProductSpecificationDetail;
 import com.computercomponent.api.service.ProductsService;
 import com.computercomponent.api.until.DataUtil;
 import io.jsonwebtoken.lang.Assert;
@@ -16,10 +19,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductsServiceImpl implements ProductsService {
     @Autowired
     private ProductsRepository productsRepository;
+    @Autowired
+    private ProductSpecificationsRepository productSpecificationsRepository;
 
     @Override
     public String createProduct(ProductsDTO productsDTO) {
@@ -62,6 +69,16 @@ public class ProductsServiceImpl implements ProductsService {
         products.setDeleted(true);
         productsRepository.save(products);
         return null;
+    }
+
+    @Override
+    public ProductDetail getDetail(Long id) {
+        ProductDetail productDetail = productsRepository.getDetail(id);
+        if (productDetail != null) {
+            List<ProductSpecificationDetail> specifications = productSpecificationsRepository.getDetail(id);
+            productDetail.setDetails(specifications);
+        }
+        return productDetail;
     }
 
     private void validateProduct(ProductsDTO productsDTO) {

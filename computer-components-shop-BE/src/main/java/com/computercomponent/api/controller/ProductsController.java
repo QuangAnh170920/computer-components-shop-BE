@@ -6,6 +6,7 @@ import com.computercomponent.api.dto.ProductsDTO;
 import com.computercomponent.api.dto.ProductsManagementDTO;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.request.CategoriesRequest;
+import com.computercomponent.api.request.ProductDetailRequest;
 import com.computercomponent.api.request.ProductsRequest;
 import com.computercomponent.api.service.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,5 +51,11 @@ public class ProductsController {
     @PostMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> delete(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new ResponseWrapper(productsService.deleteProduct(id)));
+    }
+
+    @Operation(summary = "thông tin chi tiết sản phẩm", description = "thông tin chi tiết sản phẩm")
+    @PostMapping(value = "/get-detail", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> getDetail(@RequestBody ProductDetailRequest productDetailRequest) {
+        return ResponseEntity.ok(new ResponseWrapper(productsService.getDetail(productDetailRequest.getId())));
     }
 }
