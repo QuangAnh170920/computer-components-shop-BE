@@ -2,6 +2,7 @@ package com.computercomponent.api.service.impl;
 
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.BrandDTO;
+import com.computercomponent.api.dto.BrandDropListDTO;
 import com.computercomponent.api.dto.BrandManagementDTO;
 import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.repository.BrandRepository;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.List;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -57,6 +60,11 @@ public class BrandServiceImpl implements BrandService {
         brand.setDeleted(true);
         brandRepository.save(brand);
         return null;
+    }
+
+    @Override
+    public List<BrandDropListDTO> dropList() {
+        return brandRepository.dropList();
     }
 
     private void validateBrand(BrandDTO brandDTO) {

@@ -20,4 +20,7 @@ public class Products extends BaseEntity{
     private ProductsStatus status;
     private Long categoryId;
     private Long brandId;
+    private BigDecimal discountAmount; // số tiền được chiết khấu
+    private Integer discountPercentage; // Số phần trăm chiết khấu được áp dụng cho sản phẩm
+    private BigDecimal finalTotalPrice; // tổng số tiền sau khi áp dụng chiết khấu
 }

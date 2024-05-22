@@ -19,4 +19,6 @@ public class Orders extends BaseEntity{
     private OrderStatus status;
     private String shippingAddress; // địa chỉ giao hàng
     private String paymentMethod; // phương thức thanh toán
+    private Integer totalQuantity; // tổng số lượng sản phẩm trong đơn hàng
+    private BigDecimal totalPrice; // tổng tiền của cả đơn hàng
 }

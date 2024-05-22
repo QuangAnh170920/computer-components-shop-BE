@@ -100,6 +100,13 @@ public class Const {
         public static final String PROD_NAME_EXISTED = "Tên sản phẩm đã tồn tại";
         public static final String PROD_NAME_MORE_THAN_200_CHAR = "Tên sản phẩm không được vượt quá 200 ký tự";
         public static final String PROD_NOT_FOUND = "Không tìm thấy sản phẩm";
+        public static final String PROD_PRICE_IS_NOT_EMPTY = "Giá sản phẩm không được để trống";
+        public static final String PROD_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO = "Giá sản phẩm phải lớn hơn hoặc bằng 0";
+        public static final String PROD_QUANTITY_AVAILABLE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO = "Số lượng tồn hàng của sản phẩm phải lớn hơn hoặc bằng 0";
+        public static final String PROD_STATUS_IS_NOT_EMPTY = "Trạng thái của sản phẩm không được để trống";
+        public static final String PROD_DISCOUNT_AMOUNT_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO = "Số tiền chiết khấu của sản phẩm phải lớn hơn hoặc bằng 0";
+        public static final String PROD_DISCOUNT_PERCENTAGE_MUST_BE_BETWEEN_0_AND_100 = "Tỷ lệ chiết khấu của sản phẩm phải lớn hơn 0 và nhỏ hơn 100";
+        public static final String PROD_FINAL_TOTAL_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO = "Tổng giá sau khi chiết khấu của sản phẩm phải lớn hơn hoặc bằng 0";
     }
 
     public static class PRODUCT_SPEC {

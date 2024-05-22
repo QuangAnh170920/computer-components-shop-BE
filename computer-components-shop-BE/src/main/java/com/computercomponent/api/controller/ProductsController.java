@@ -1,9 +1,6 @@
 package com.computercomponent.api.controller;
 
-import com.computercomponent.api.dto.CategoriesDTO;
-import com.computercomponent.api.dto.CategoriesManagementDTO;
-import com.computercomponent.api.dto.ProductsDTO;
-import com.computercomponent.api.dto.ProductsManagementDTO;
+import com.computercomponent.api.dto.*;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.request.CategoriesRequest;
 import com.computercomponent.api.request.ProductDetailRequest;
@@ -43,8 +40,8 @@ public class ProductsController {
 
     @Operation(summary = "Cập nhật sản phẩm", description = "Cập nhật sản phẩm ")
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> update(@RequestBody @Valid ProductsManagementDTO productsManagementDTO) {
-        return ResponseEntity.ok(new ResponseWrapper(productsService.updateProduct(productsManagementDTO)));
+    public ResponseEntity<ResponseWrapper> update(@RequestBody @Valid ProductUpdateRequestDTO productUpdateRequestDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(productsService.updateProduct(productUpdateRequestDTO)));
     }
 
     @Operation(summary = "Xóa sản phẩm", description = "Xóa sản phẩm ")

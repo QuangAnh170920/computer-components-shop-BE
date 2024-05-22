@@ -3,6 +3,7 @@ package com.computercomponent.api.service.impl;
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.CategoriesDTO;
 import com.computercomponent.api.dto.CategoriesManagementDTO;
+import com.computercomponent.api.dto.CategoryDropListDTO;
 import com.computercomponent.api.entity.Categories;
 import com.computercomponent.api.repository.CategoriesRepository;
 import com.computercomponent.api.request.CategoriesRequest;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.List;
 
 @Service
 public class CategoriesServiceImpl implements CategoriesService {
@@ -57,6 +60,11 @@ public class CategoriesServiceImpl implements CategoriesService {
         categories.setDeleted(true);
         categoriesRepository.save(categories);
         return null;
+    }
+
+    @Override
+    public List<CategoryDropListDTO> dropList() {
+        return categoriesRepository.dropList();
     }
 
     private void validateCate(CategoriesDTO categoriesDTO) {

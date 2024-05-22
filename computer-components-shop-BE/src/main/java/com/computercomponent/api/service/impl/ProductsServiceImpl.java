@@ -2,6 +2,8 @@ package com.computercomponent.api.service.impl;
 
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.common.ProductsStatus;
+import com.computercomponent.api.dto.ProductDropListDTO;
+import com.computercomponent.api.dto.ProductUpdateRequestDTO;
 import com.computercomponent.api.dto.ProductsDTO;
 import com.computercomponent.api.dto.ProductsManagementDTO;
 import com.computercomponent.api.entity.Products;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -28,6 +31,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Autowired
     private ProductSpecificationsRepository productSpecificationsRepository;
 
+    //check tính toán discountAmount và finalTotalPrice
     @Override
     public String createProduct(ProductsDTO productsDTO) {
         validateProduct(productsDTO);
@@ -50,13 +54,13 @@ public class ProductsServiceImpl implements ProductsService {
         return productsRepository.findAllAndSearch(productsRequest.getSearchField().trim(), productsRequest.getStatus(), pageRequest);
     }
 
-    // cần viết và check update status
+    // cần viết và check update status, check tính toán discountAmount và finalTotalPrice
     @Override
-    public ProductsManagementDTO updateProduct(ProductsManagementDTO productsManagementDTO) {
-        Products products = productsRepository.findProductsById(productsManagementDTO.getId());
+    public ProductUpdateRequestDTO updateProduct(ProductUpdateRequestDTO productUpdateRequestDTO) {
+        Products products = productsRepository.findProductsById(productUpdateRequestDTO.getId());
         Assert.isTrue(products != null, Const.PRODUCTS.PROD_NOT_FOUND);
-        validateUpdateProduct(productsManagementDTO);
-        BeanUtils.copyProperties(productsManagementDTO, products);
+        validateUpdateProduct(productUpdateRequestDTO);
+        BeanUtils.copyProperties(productUpdateRequestDTO, products);
         productsRepository.save(products);
         return null;
     }
@@ -81,12 +85,27 @@ public class ProductsServiceImpl implements ProductsService {
         return productDetail;
     }
 
-    private void validateProduct(ProductsDTO productsDTO) {
-        productsDTO.setName(validateProductName(productsDTO.getName()));
+    @Override
+    public List<ProductDropListDTO> dropList() {
+        return productsRepository.dropList();
     }
 
-    private void validateUpdateProduct(ProductsManagementDTO productsManagementDTO) {
-        productsManagementDTO.setName(validateProductName(productsManagementDTO.getName()));
+    private void validateProduct(ProductsDTO productsDTO) {
+        productsDTO.setName(validateProductName(productsDTO.getName()));
+        Assert.notNull(productsDTO.getPrice(), Const.PRODUCTS.PROD_PRICE_IS_NOT_EMPTY);
+        Assert.isTrue(productsDTO.getPrice().compareTo(BigDecimal.ZERO) >= 0, Const.PRODUCTS.PROD_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
+        Assert.isTrue(productsDTO.getQuantityAvailable() >= 0, Const.PRODUCTS.PROD_QUANTITY_AVAILABLE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
+        Assert.notNull(productsDTO.getStatus(), Const.PRODUCTS.PROD_STATUS_IS_NOT_EMPTY);
+        Assert.isTrue(productsDTO.getDiscountPercentage() >= 0 && productsDTO.getDiscountPercentage() <= 100, Const.PRODUCTS.PROD_DISCOUNT_PERCENTAGE_MUST_BE_BETWEEN_0_AND_100);
+    }
+
+    private void validateUpdateProduct(ProductUpdateRequestDTO productUpdateRequestDTO) {
+        productUpdateRequestDTO.setName(validateProductName(productUpdateRequestDTO.getName()));
+        Assert.notNull(productUpdateRequestDTO.getPrice(), Const.PRODUCTS.PROD_PRICE_IS_NOT_EMPTY);
+        Assert.isTrue(productUpdateRequestDTO.getPrice().compareTo(BigDecimal.ZERO) >= 0, Const.PRODUCTS.PROD_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
+        Assert.isTrue(productUpdateRequestDTO.getQuantityAvailable() >= 0, Const.PRODUCTS.PROD_QUANTITY_AVAILABLE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
+        Assert.notNull(productUpdateRequestDTO.getStatus(), Const.PRODUCTS.PROD_STATUS_IS_NOT_EMPTY);
+        Assert.isTrue(productUpdateRequestDTO.getDiscountPercentage() >= 0 && productUpdateRequestDTO.getDiscountPercentage() <= 100, Const.PRODUCTS.PROD_DISCOUNT_PERCENTAGE_MUST_BE_BETWEEN_0_AND_100);
     }
 
     private String validateProductName(String str) {

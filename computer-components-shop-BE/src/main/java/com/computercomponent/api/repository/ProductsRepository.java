@@ -1,6 +1,7 @@
 package com.computercomponent.api.repository;
 
 import com.computercomponent.api.common.ProductsStatus;
+import com.computercomponent.api.dto.ProductDropListDTO;
 import com.computercomponent.api.dto.ProductsManagementDTO;
 import com.computercomponent.api.entity.Products;
 import com.computercomponent.api.response.ProductDetail;
@@ -10,12 +11,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "select prod from Products prod  where prod.name = :name and prod.deleted = false")
     Products findProductsByName(String name);
 
-    @Query(value = "select new com.computercomponent.api.dto.ProductsManagementDTO(p.id, p.name, p.description, b.name, c.name, p.price, p.status) " +
+    @Query(value = "select new com.computercomponent.api.dto.ProductsManagementDTO(p.id, p.name, p.description, p.price, p.quantityAvailable, p.status, c.name, b.name, p.discountAmount, p.discountPercentage, p.finalTotalPrice) " +
             "from Products as p " +
             "left join  Brand  b on p.brandId = b.id " +
             "left join Categories as c on p.categoryId = c.id " +
@@ -35,7 +38,7 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "select prod from Products prod  where prod.id = :id and prod.deleted = false")
     Products findProductsById(Long id);
 
-    @Query(value = "select new com.computercomponent.api.response.ProductDetail(p.id, p.name, p.status, b.name, c.name) " +
+    @Query(value = "select new com.computercomponent.api.response.ProductDetail(p.id, p.name, p.description, p.price, p.quantityAvailable, p.status, b.name, c.name, p.discountAmount, p.discountPercentage, p.finalTotalPrice) " +
             "from Products as p " +
             "left join  Brand  b on p.brandId = b.id " +
             "left join Categories as c on p.categoryId = c.id " +
@@ -45,4 +48,7 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
                     "left join Categories as c on p.categoryId = c.id " +
                     "where p.id = :id")
     ProductDetail getDetail(Long id);
+
+    @Query("select new com.computercomponent.api.dto.ProductDropListDTO(p.id, p.name) from Products p  where p.deleted = false order by p.createdAt DESC ")
+    List<ProductDropListDTO> dropList();
 }

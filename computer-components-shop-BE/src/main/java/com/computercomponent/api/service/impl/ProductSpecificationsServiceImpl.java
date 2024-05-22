@@ -4,8 +4,8 @@ import com.computercomponent.api.common.Const;
 import com.computercomponent.api.common.ProductsStatus;
 import com.computercomponent.api.dto.ProductSpecificationsDTO;
 import com.computercomponent.api.dto.ProductSpecificationsManagementDTO;
+import com.computercomponent.api.dto.ProductSpecificationsUpdateRequestDTO;
 import com.computercomponent.api.entity.ProductSpecifications;
-import com.computercomponent.api.entity.Products;
 import com.computercomponent.api.repository.ProductSpecificationsRepository;
 import com.computercomponent.api.request.ProductSpecificationsRequest;
 import com.computercomponent.api.service.ProductSpecificationsService;
@@ -22,6 +22,7 @@ public class ProductSpecificationsServiceImpl implements ProductSpecificationsSe
     @Autowired
     private ProductSpecificationsRepository productSpecificationsRepository;
 
+    // cần check thêm vaildate các trường còn lại
     @Override
     public String createProductSpec(ProductSpecificationsDTO productSpecificationsDTO) {
         validateProductSpec(productSpecificationsDTO);
@@ -44,13 +45,13 @@ public class ProductSpecificationsServiceImpl implements ProductSpecificationsSe
         return productSpecificationsRepository.findAllAndSearch(productSpecificationsRequest.getSearchField().trim(), productSpecificationsRequest.getStatus(), pageRequest);
     }
 
-    // cần viết và check update status
+    // cần viết và check update status và các trường còn lại
     @Override
-    public ProductSpecificationsManagementDTO updateProductSpec(ProductSpecificationsManagementDTO productSpecificationsManagementDTO) {
-        ProductSpecifications productSpecifications = productSpecificationsRepository.findProductSpecificationsById(productSpecificationsManagementDTO.getId());
+    public ProductSpecificationsUpdateRequestDTO updateProductSpec(ProductSpecificationsUpdateRequestDTO productSpecificationsUpdateRequestDTO) {
+        ProductSpecifications productSpecifications = productSpecificationsRepository.findProductSpecificationsById(productSpecificationsUpdateRequestDTO.getId());
         Assert.isTrue(productSpecifications != null, Const.PRODUCT_SPEC.PRODUCT_SPEC_NOT_FOUND);
-        validateUpdateProductSpec(productSpecificationsManagementDTO);
-        BeanUtils.copyProperties(productSpecificationsManagementDTO, productSpecifications);
+        validateUpdateProductSpec(productSpecificationsUpdateRequestDTO);
+        BeanUtils.copyProperties(productSpecificationsUpdateRequestDTO, productSpecifications);
         productSpecificationsRepository.save(productSpecifications);
         return null;
     }
@@ -68,8 +69,8 @@ public class ProductSpecificationsServiceImpl implements ProductSpecificationsSe
         productSpecificationsDTO.setName(validateProductSpecName(productSpecificationsDTO.getName()));
     }
 
-    private void validateUpdateProductSpec(ProductSpecificationsManagementDTO productSpecificationsManagementDTO) {
-        productSpecificationsManagementDTO.setName(validateProductSpecName(productSpecificationsManagementDTO.getName()));
+    private void validateUpdateProductSpec(ProductSpecificationsUpdateRequestDTO productSpecificationsUpdateRequestDTO) {
+        productSpecificationsUpdateRequestDTO.setName(validateProductSpecName(productSpecificationsUpdateRequestDTO.getName()));
     }
 
     private String validateProductSpecName(String str) {

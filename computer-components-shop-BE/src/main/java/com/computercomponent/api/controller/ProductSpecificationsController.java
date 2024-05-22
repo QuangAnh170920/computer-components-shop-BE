@@ -1,9 +1,6 @@
 package com.computercomponent.api.controller;
 
-import com.computercomponent.api.dto.ProductSpecificationsDTO;
-import com.computercomponent.api.dto.ProductSpecificationsManagementDTO;
-import com.computercomponent.api.dto.ProductsDTO;
-import com.computercomponent.api.dto.ProductsManagementDTO;
+import com.computercomponent.api.dto.*;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.request.ProductSpecificationsRequest;
 import com.computercomponent.api.request.ProductsRequest;
@@ -42,8 +39,8 @@ public class ProductSpecificationsController {
 
     @Operation(summary = "Cập nhật thông số sản phẩm", description = "Cập nhật thông số sản phẩm ")
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> update(@RequestBody @Valid ProductSpecificationsManagementDTO productSpecificationsManagementDTO) {
-        return ResponseEntity.ok(new ResponseWrapper(productSpecificationsService.updateProductSpec(productSpecificationsManagementDTO)));
+    public ResponseEntity<ResponseWrapper> update(@RequestBody @Valid ProductSpecificationsUpdateRequestDTO productSpecificationsUpdateRequestDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(productSpecificationsService.updateProductSpec(productSpecificationsUpdateRequestDTO)));
     }
 
     @Operation(summary = "Xóa thông số sản phẩm", description = "Xóa thông số sản phẩm ")

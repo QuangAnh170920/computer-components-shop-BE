@@ -1,12 +1,15 @@
 package com.computercomponent.api.repository;
 
 import com.computercomponent.api.dto.CategoriesManagementDTO;
+import com.computercomponent.api.dto.CategoryDropListDTO;
 import com.computercomponent.api.entity.Categories;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface CategoriesRepository extends JpaRepository<Categories, Long> {
@@ -19,4 +22,7 @@ public interface CategoriesRepository extends JpaRepository<Categories, Long> {
 
     @Query(value = "select cg from Categories cg  where cg.id = :id and cg.deleted = false")
     Categories findCategoriesById(Long id);
+
+    @Query("select new com.computercomponent.api.dto.CategoryDropListDTO(c.id, c.name) from Categories c where c.deleted = false order by c.createdAt DESC ")
+    List<CategoryDropListDTO> dropList();
 }
