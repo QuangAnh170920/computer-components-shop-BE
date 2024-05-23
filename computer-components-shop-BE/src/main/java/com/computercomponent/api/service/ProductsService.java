@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ProductsService {
     String createProduct(ProductsDTO productsDTO);
+
     Page<ProductsManagementDTO> getProductsList(ProductsRequest productsRequest);
 
     ProductUpdateRequestDTO updateProduct(ProductUpdateRequestDTO ProductUpdateRequestDTO);

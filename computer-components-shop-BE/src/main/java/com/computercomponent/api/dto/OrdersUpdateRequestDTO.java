@@ -11,13 +11,15 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrdersDTO {
+public class OrdersUpdateRequestDTO {
+    private Long id;
     private String name;
+    private String description;
+    private Long userId;
+    private OrderStatus status;
     private String shippingAddress;
     private String paymentMethod;
     private Integer totalQuantity;
     private BigDecimal totalPrice;
-    private OrderStatus status;
-    private Long userId;
-    private List<OrderDetailDTO> orderDetail;
+    private List<OrderDetailDTO> orderDetails;
 }

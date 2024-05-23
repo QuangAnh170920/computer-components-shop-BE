@@ -122,4 +122,12 @@ public class Const {
         public static final String PRODUCT_IMAGE_IS_NOT_EMPTY = "Ảnh sản phẩm không được để trống";
         public static final String PRODUCT_IMAGE_NOT_FOUND = "Không tìm thấy ảnh sản phẩm";
     }
+
+    public static class ORDERS {
+        public static final String ORDERS_NOT_FOUND = "Không tìm thấy đơn hàng";
+    }
+
+    public static class USER {
+        public static final String USER_NOT_FOUND = "Không tìm thấy người dùng";
+    }
 }
