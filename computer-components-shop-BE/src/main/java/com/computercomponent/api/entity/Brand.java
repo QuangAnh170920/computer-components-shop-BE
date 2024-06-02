@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Data
 @Table(name = "brand")
 public class Brand extends BaseEntity{
+    @Column(name = "code")
+    private String code;
     @Column(name = "name")
     private String name;
     @Column(name = "description")

@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class CategoriesRequest extends BasePageRequest {
-    private String name;
+    private String searchField;
+    private Integer status;
 }

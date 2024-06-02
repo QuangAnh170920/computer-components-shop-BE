@@ -16,9 +16,16 @@ public interface CategoriesRepository extends JpaRepository<Categories, Long> {
     @Query(value = "select cg from Categories cg  where cg.name = :name and cg.deleted = false")
     Categories findCategoriesByName(String name);
 
-    @Query(value = "select new com.computercomponent.api.dto.CategoriesManagementDTO(cg.id, cg.name, cg.description, cg.status) from Categories as cg where cg.name like concat('%', :name, '%')",
-            countQuery = "select count(cg) from Categories as cg where cg.name like concat('%', :name, '%')")
-    Page<CategoriesManagementDTO> findAllAndSearch(String name, Pageable pageable);
+    @Query(value = "select new com.computercomponent.api.dto.CategoriesManagementDTO(cg.id, cg.code, cg.name, cg.description, cg.status) " +
+            "from Categories as cg where " +
+            "cg.name like concat('%', :searchField, '%')" +
+            "or cg.code like concat('%', :searchField, '%')" +
+            "and (:status is null or cg.status = :status)",
+            countQuery = "select count(cg) from Categories as cg " +
+                    "where cg.name like concat('%', :searchField, '%')" +
+                    "or cg.code like  concat('%', :searchField, '%') " +
+                    "and (:status is null or cg.status = :status)")
+    Page<CategoriesManagementDTO> findAllAndSearch(String searchField, Integer status, Pageable pageable);
 
     @Query(value = "select cg from Categories cg  where cg.id = :id and cg.deleted = false")
     Categories findCategoriesById(Long id);

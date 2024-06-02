@@ -1,5 +1,7 @@
 package com.computercomponent.api.service.impl;
 
+import com.computercomponent.api.common.BrandStatus;
+import com.computercomponent.api.common.CategoriesStatus;
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.CategoriesDTO;
 import com.computercomponent.api.dto.CategoriesManagementDTO;
@@ -35,10 +37,14 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Override
     public Page<CategoriesManagementDTO> getCateList(CategoriesRequest categoriesRequest) {
         PageRequest pageRequest = DataUtil.getPageable(categoriesRequest.getPageNumber(), categoriesRequest.getPageSize());
-        if (categoriesRequest.getName() == null) {
-            categoriesRequest.setName("");
+        if (categoriesRequest.getSearchField() == null) {
+            categoriesRequest.setSearchField("");
         }
-        return categoriesRepository.findAllAndSearch(categoriesRequest.getName().trim(), pageRequest);
+        if (categoriesRequest.getStatus() != null) {
+            CategoriesStatus categoriesStatus = CategoriesStatus.fromValue(categoriesRequest.getStatus());
+            Assert.notNull(categoriesStatus, Const.MESSAGE_CODE.STATUS_NOT_FOUND);
+        }
+        return categoriesRepository.findAllAndSearch(categoriesRequest.getSearchField().trim(), categoriesRequest.getStatus(), pageRequest);
     }
 
     // cần viết và check update status của cate

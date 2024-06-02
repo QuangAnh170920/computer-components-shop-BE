@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class BrandDropListDTO {
     private Long id;
+    private String code;
     private String name;
 }

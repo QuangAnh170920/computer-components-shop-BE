@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BrandDTO {
+    private String code;
     private String name;
     private String description;
     private BrandStatus status;

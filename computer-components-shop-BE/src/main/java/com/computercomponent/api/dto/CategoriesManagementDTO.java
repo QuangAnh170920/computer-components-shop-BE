@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoriesManagementDTO {
     private Long id;
+    private String code;
     private String name;
     private String description;
     private CategoriesStatus status;

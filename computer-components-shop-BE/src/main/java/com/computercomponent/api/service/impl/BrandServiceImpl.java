@@ -1,5 +1,6 @@
 package com.computercomponent.api.service.impl;
 
+import com.computercomponent.api.common.BrandStatus;
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.BrandDTO;
 import com.computercomponent.api.dto.BrandDropListDTO;
@@ -35,10 +36,14 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Page<BrandManagementDTO> getBrandList(BrandRequest brandRequest) {
         PageRequest pageRequest = DataUtil.getPageable(brandRequest.getPageNumber(), brandRequest.getPageSize());
-        if (brandRequest.getName() == null) {
-            brandRequest.setName("");
+        if (brandRequest.getSearchField() == null) {
+            brandRequest.setSearchField("");
         }
-        return brandRepository.findAllAndSearch(brandRequest.getName().trim(), pageRequest);
+        if (brandRequest.getStatus() != null) {
+            BrandStatus brandStatus = BrandStatus.fromValue(brandRequest.getStatus());
+            Assert.notNull(brandStatus, Const.MESSAGE_CODE.STATUS_NOT_FOUND);
+        }
+        return brandRepository.findAllAndSearch(brandRequest.getSearchField().trim(), brandRequest.getStatus(), pageRequest);
     }
 
     // cần viết và check update status của brand
