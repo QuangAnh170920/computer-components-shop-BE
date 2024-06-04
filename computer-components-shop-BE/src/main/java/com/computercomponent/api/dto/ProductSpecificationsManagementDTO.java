@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class ProductSpecificationsManagementDTO {
     private Long id;
     private String name;
+    private String value;
     private String description;
     private String productName;
     private ProductSpecificationsStatus status;

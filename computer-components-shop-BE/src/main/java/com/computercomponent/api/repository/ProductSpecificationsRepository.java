@@ -19,7 +19,7 @@ public interface ProductSpecificationsRepository extends JpaRepository<ProductSp
     @Query(value = "select ps from ProductSpecifications ps  where ps.id = :id and ps.deleted = false")
     ProductSpecifications findProductSpecificationsById(Long id);
 
-    @Query(value = "select new com.computercomponent.api.dto.ProductSpecificationsManagementDTO(ps.id, ps.name, ps.description, p.name, ps.status, ps.priority) " +
+    @Query(value = "select new com.computercomponent.api.dto.ProductSpecificationsManagementDTO(ps.id, ps.name, ps.value, ps.description, p.name, ps.status, ps.priority) " +
             "from ProductSpecifications as ps " +
             "left join  Products  p on ps.productId = p.id " +
             "where ps.name like concat('%', :searchField, '%') " +
