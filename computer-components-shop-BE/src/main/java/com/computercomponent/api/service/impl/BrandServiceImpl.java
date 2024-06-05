@@ -8,6 +8,9 @@ import com.computercomponent.api.dto.BrandManagementDTO;
 import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.repository.BrandRepository;
 import com.computercomponent.api.request.BrandRequest;
+import com.computercomponent.api.response.BrandDetail;
+import com.computercomponent.api.response.ProductDetail;
+import com.computercomponent.api.response.ProductSpecificationDetail;
 import com.computercomponent.api.service.BrandService;
 import com.computercomponent.api.until.DataUtil;
 import org.springframework.beans.BeanUtils;
@@ -70,6 +73,12 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<BrandDropListDTO> dropList() {
         return brandRepository.dropList();
+    }
+
+    @Override
+    public BrandDetail getDetail(Long id) {
+        BrandDetail brandDetail = brandRepository.getDetail(id);
+        return brandDetail;
     }
 
     private void validateBrand(BrandDTO brandDTO) {

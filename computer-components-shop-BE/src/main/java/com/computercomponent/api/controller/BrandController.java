@@ -3,7 +3,9 @@ package com.computercomponent.api.controller;
 import com.computercomponent.api.dto.BrandDTO;
 import com.computercomponent.api.dto.BrandManagementDTO;
 import com.computercomponent.api.model.ResponseWrapper;
+import com.computercomponent.api.request.BrandDetailRequest;
 import com.computercomponent.api.request.BrandRequest;
+import com.computercomponent.api.request.ProductDetailRequest;
 import com.computercomponent.api.service.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -47,5 +49,11 @@ public class BrandController {
     @PostMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> deleteBu(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new ResponseWrapper(brandService.deleteBrand(id)));
+    }
+
+    @Operation(summary = "thông tin chi tiết thương hiệu", description = "thông tin chi tiết thương hiệu")
+    @PostMapping(value = "/get-detail/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> getDetail(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new ResponseWrapper(brandService.getDetail(id)));
     }
 }

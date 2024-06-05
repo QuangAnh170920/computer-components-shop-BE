@@ -3,6 +3,8 @@ package com.computercomponent.api.repository;
 import com.computercomponent.api.dto.BrandDropListDTO;
 import com.computercomponent.api.dto.BrandManagementDTO;
 import com.computercomponent.api.entity.Brand;
+import com.computercomponent.api.response.BrandDetail;
+import com.computercomponent.api.response.ProductDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,4 +34,13 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     @Query("select new com.computercomponent.api.dto.BrandDropListDTO(b.id, b.code, b.name) from Brand b where b.deleted = false order by b.createdAt DESC ")
     List<BrandDropListDTO> dropList();
+
+    @Query(value = "select new com.computercomponent.api.response.BrandDetail(b.id, b.code, b.name, b.description, b.status) " +
+            "from Brand as b " +
+            "where b.id = :id ",
+            countQuery = "select count(p) from Products as p " +
+                    "left join  Brand  b on p.brandId = b.id " +
+                    "left join Categories as c on p.categoryId = c.id " +
+                    "where p.id = :id")
+    BrandDetail getDetail(Long id);
 }
