@@ -3,6 +3,7 @@ package com.computercomponent.api.service;
 import com.computercomponent.api.dto.BrandDTO;
 import com.computercomponent.api.dto.BrandDropListDTO;
 import com.computercomponent.api.dto.BrandManagementDTO;
+import com.computercomponent.api.dto.BrandManagementStatusDTO;
 import com.computercomponent.api.request.BrandRequest;
 import com.computercomponent.api.response.BrandDetail;
 import org.springframework.data.domain.Page;
@@ -20,4 +21,6 @@ public interface BrandService {
     List<BrandDropListDTO> dropList();
 
     BrandDetail getDetail(Long id);
+
+    BrandManagementStatusDTO updateStatus(BrandManagementStatusDTO brandManagementStatusDTO);
 }

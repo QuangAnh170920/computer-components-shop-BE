@@ -5,6 +5,7 @@ import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.BrandDTO;
 import com.computercomponent.api.dto.BrandDropListDTO;
 import com.computercomponent.api.dto.BrandManagementDTO;
+import com.computercomponent.api.dto.BrandManagementStatusDTO;
 import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.repository.BrandRepository;
 import com.computercomponent.api.request.BrandRequest;
@@ -79,6 +80,15 @@ public class BrandServiceImpl implements BrandService {
     public BrandDetail getDetail(Long id) {
         BrandDetail brandDetail = brandRepository.getDetail(id);
         return brandDetail;
+    }
+
+    @Override
+    public BrandManagementStatusDTO updateStatus(BrandManagementStatusDTO brandManagementStatusDTO) {
+        Brand brand = brandRepository.findBrandById(brandManagementStatusDTO.getId());
+        Assert.isTrue(brand != null, Const.BRAND.BRAND_NOT_FOUND);
+        BeanUtils.copyProperties(brandManagementStatusDTO, brand);
+        brandRepository.save(brand);
+        return null;
     }
 
     private void validateBrand(BrandDTO brandDTO) {

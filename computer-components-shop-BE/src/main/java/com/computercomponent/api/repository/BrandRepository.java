@@ -20,13 +20,15 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     @Query(value = "select new com.computercomponent.api.dto.BrandManagementDTO(br.id, br.code, br.name, br.description, br.status)" +
             " from Brand as br" +
-            " where br.name like concat('%', :searchField, '%')" +
-            "or  br.code like concat('%', :searchField, '%') " +
-            "and (:status is null or br.status = :status)",
+            " where (br.name like concat('%', :searchField, '%')" +
+            "or br.code like concat('%', :searchField, '%')) " +
+            "and (:status is null or br.status = :status)" +
+            "and br.deleted = false",
             countQuery = "select count(br) from Brand as br " +
-                    "where br.name like concat('%', :searchField, '%')" +
-                    "or  br.code like concat('%', :searchField, '%') " +
-                    "and (:status is null or br.status = :status)")
+                    "where (br.name like concat('%', :searchField, '%')" +
+                    "or  br.code like concat('%', :searchField, '%')) " +
+                    "and (:status is null or br.status = :status)" +
+                    "and br.deleted = false")
     Page<BrandManagementDTO> findAllAndSearch(String searchField, Integer status, Pageable pageable);
 
     @Query(value = "select br from Brand br  where br.id = :id and br.deleted = false")

@@ -2,6 +2,7 @@ package com.computercomponent.api.controller;
 
 import com.computercomponent.api.dto.BrandDTO;
 import com.computercomponent.api.dto.BrandManagementDTO;
+import com.computercomponent.api.dto.BrandManagementStatusDTO;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.request.BrandDetailRequest;
 import com.computercomponent.api.request.BrandRequest;
@@ -43,6 +44,12 @@ public class BrandController {
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> updateBrand(@RequestBody @Valid BrandManagementDTO brandManagementDTO) {
         return ResponseEntity.ok(new ResponseWrapper(brandService.updateBrand(brandManagementDTO)));
+    }
+
+    @Operation(summary = "Cập nhật status thương hiệu", description = "Cập nhật status thương hiệu thương hiệu")
+    @PutMapping(value = "/update-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> updateStatusBrand(@RequestBody @Valid BrandManagementStatusDTO brandManagementStatusDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(brandService.updateStatus(brandManagementStatusDTO)));
     }
 
     @Operation(summary = "Xóa thương hiệu", description = "Xóa thương hiệu")
