@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -50,15 +51,27 @@ public class BrandServiceImpl implements BrandService {
         return brandRepository.findAllAndSearch(brandRequest.getSearchField().trim(), brandRequest.getStatus(), pageRequest);
     }
 
-    // cần viết và check update status của brand
     @Override
-    public BrandManagementDTO updateBrand(BrandManagementDTO brandManagementDTO) {
+    public String updateBrand(BrandManagementDTO brandManagementDTO) {
         Brand brand = brandRepository.findBrandById(brandManagementDTO.getId());
         Assert.isTrue(brand != null, Const.BRAND.BRAND_NOT_FOUND);
-        validateUpdateBrand(brandManagementDTO);
-        BeanUtils.copyProperties(brandManagementDTO, brand);
+
+        if (brandManagementDTO.getName() != null && !Objects.equals(brand.getName(), brandManagementDTO.getName())) {
+            validateUpdateBrandName(brandManagementDTO.getName());
+            brand.setName(brandManagementDTO.getName());
+        }
+
+        if (brandManagementDTO.getDescription() != null && !Objects.equals(brand.getDescription(), brandManagementDTO.getDescription())) {
+            validateBrandDescription(brandManagementDTO.getDescription());
+            brand.setDescription(brandManagementDTO.getDescription());
+        }
+
+        if (brandManagementDTO.getCode() != null && !Objects.equals(brand.getCode(), brandManagementDTO.getCode())) {
+            validateBrandCode(brandManagementDTO.getCode());
+            brand.setCode(brandManagementDTO.getCode());
+        }
         brandRepository.save(brand);
-        return null;
+        return Const.MESSAGE_CODE.SUCCESS;
     }
 
     // cần check thêm điều kiện của Brand. Nếu trong TH Brand đã có sản phẩm dùng => không được xóa
@@ -114,5 +127,35 @@ public class BrandServiceImpl implements BrandService {
                 return name;
             }
         }
+    }
+
+    private String validateUpdateBrandName(String str) {
+        String name = DataUtil.replaceSpaceSolr(str);
+        if(name.length() > 200){
+            throw new RuntimeException(Const.BRAND.BRAND_NAME_MORE_THAN_200_CHAR);
+        }
+        Brand brand = brandRepository.findBrandByName(name);
+        if (brand != null) {
+            throw new RuntimeException(Const.BRAND.BRAND_NAME_EXISTED);
+        }else {
+            return name;
+        }
+    }
+
+    private String validateBrandCode(String str) {
+        String code = DataUtil.replaceSpaceSolr(str);
+        if(code.length() > 200){
+            throw new RuntimeException(Const.BRAND.BRAND_CODE_MORE_THAN_200_CHAR);
+        }
+        Brand brand = brandRepository.findBrandByCode(code);
+        if (brand != null) {
+            throw new RuntimeException(Const.BRAND.BRAND_CODE_EXISTED);
+        }else {
+            return code;
+        }
+    }
+
+    private void validateBrandDescription(String description) {
+        Assert.isTrue(description == null || description.length() <= 255, Const.BRAND.INVALID_DESCRIPTION_LENGTH);
     }
 }

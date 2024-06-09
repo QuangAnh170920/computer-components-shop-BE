@@ -84,6 +84,10 @@ public class Const {
         public static final String BRAND_NAME_EXISTED = "Tên thương hiệu đã tồn tại";
         public static final String BRAND_NAME_MORE_THAN_200_CHAR = "Tên thương hiệu không được vượt quá 200 ký tự";
         public static final String BRAND_NOT_FOUND = "Không tìm thấy thương hiệu";
+        public static final String INVALID_DESCRIPTION_LENGTH = "Độ dài không được quá 255 ký tự";
+        public static final String BRAND_CODE_IS_NOT_EMPTY = "Mã thương hiệu không được để trống";
+        public static final String BRAND_CODE_MORE_THAN_200_CHAR = "Mã thương hiệu không được vượt quá 200 ký tự";
+        public static final String BRAND_CODE_EXISTED = "Mã thương hiệu đã tồn tại";
     }
 
     public static class CATEGORIES {
@@ -92,6 +96,10 @@ public class Const {
         public static final String CATE_NAME_EXISTED = "Tên loại sản phẩm đã tồn tại";
         public static final String CATE_NAME_MORE_THAN_200_CHAR = "Tên loại sản phẩm không được vượt quá 200 ký tự";
         public static final String CATE_NOT_FOUND = "Không tìm thấy loại sản phẩm";
+        public static final String CATE_CODE_MORE_THAN_200_CHAR = "Mã loại sản phẩm không được vượt quá 200 ký tự";
+        public static final String CATE_CODE_EXISTED = "Mã loại sản phẩm đã tồn tại";
+        public static final String CATE_CODE_IS_NOT_EMPTY = "Mã loại sản phẩm không được để trống";
+        public static final String INVALID_DESCRIPTION_LENGTH = "Độ dài không được quá 255 ký tự";
     }
 
     public static class PRODUCTS {

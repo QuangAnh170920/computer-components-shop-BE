@@ -1,9 +1,6 @@
 package com.computercomponent.api.controller;
 
-import com.computercomponent.api.dto.BrandDTO;
-import com.computercomponent.api.dto.BrandManagementDTO;
-import com.computercomponent.api.dto.CategoriesDTO;
-import com.computercomponent.api.dto.CategoriesManagementDTO;
+import com.computercomponent.api.dto.*;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.request.BrandRequest;
 import com.computercomponent.api.request.CategoriesRequest;
@@ -50,5 +47,17 @@ public class CategoriesController {
     @PostMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> delete(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.deleteCate(id)));
+    }
+
+    @Operation(summary = "thông tin chi tiết loại sản phẩm", description = "thông tin chi tiết loại sản phẩm")
+    @PostMapping(value = "/get-detail/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> getDetail(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.getDetail(id)));
+    }
+
+    @Operation(summary = "Cập nhật status loại sản phẩm", description = "Cập nhật status loại sản phẩm")
+    @PutMapping(value = "/update-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> updateStatus(@RequestBody @Valid CategoriesManagementStatusDTO categoriesManagementStatusDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.updateStatus(categoriesManagementStatusDTO)));
     }
 }

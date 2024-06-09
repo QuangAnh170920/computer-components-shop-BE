@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("v1/admin/products")
+@RequestMapping("v1/api/admin/products")
 @SecurityRequirement(name = "computer-components-admin-security")
 @PreAuthorize("{@ComputerComponentShopAuthorizer.authorize(authentication)}")
 public class ProductsController {
@@ -51,8 +51,8 @@ public class ProductsController {
     }
 
     @Operation(summary = "thông tin chi tiết sản phẩm", description = "thông tin chi tiết sản phẩm")
-    @PostMapping(value = "/get-detail", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> getDetail(@RequestBody ProductDetailRequest productDetailRequest) {
-        return ResponseEntity.ok(new ResponseWrapper(productsService.getDetail(productDetailRequest.getId())));
+    @PostMapping(value = "/get-detail/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> getDetail(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new ResponseWrapper(productsService.getDetail(id)));
     }
 }

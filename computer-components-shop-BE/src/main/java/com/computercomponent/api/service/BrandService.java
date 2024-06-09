@@ -14,7 +14,7 @@ public interface BrandService {
     String createBrand(BrandDTO brandDTO);
     Page<BrandManagementDTO> getBrandList(BrandRequest brandRequest);
 
-    BrandManagementDTO updateBrand(BrandManagementDTO brandManagementDTO);
+    String updateBrand(BrandManagementDTO brandManagementDTO);
 
     String deleteBrand(Long id);
 

@@ -18,6 +18,9 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     @Query(value = "select br from Brand br  where br.name = :name and br.deleted = false")
     Brand findBrandByName(String name);
 
+    @Query(value = "select br from Brand br  where br.code = :code and br.deleted = false")
+    Brand findBrandByCode(String code);
+
     @Query(value = "select new com.computercomponent.api.dto.BrandManagementDTO(br.id, br.code, br.name, br.description, br.status)" +
             " from Brand as br" +
             " where (br.name like concat('%', :searchField, '%')" +
@@ -40,9 +43,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     @Query(value = "select new com.computercomponent.api.response.BrandDetail(b.id, b.code, b.name, b.description, b.status) " +
             "from Brand as b " +
             "where b.id = :id ",
-            countQuery = "select count(p) from Products as p " +
-                    "left join  Brand  b on p.brandId = b.id " +
-                    "left join Categories as c on p.categoryId = c.id " +
-                    "where p.id = :id")
+            countQuery = "select count(Brand) from Brand as b " +
+                    "where b.id = :id")
     BrandDetail getDetail(Long id);
 }

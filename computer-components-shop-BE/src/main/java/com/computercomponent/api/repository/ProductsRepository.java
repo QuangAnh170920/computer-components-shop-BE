@@ -18,11 +18,12 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "select prod from Products prod  where prod.name = :name and prod.deleted = false")
     Products findProductsByName(String name);
 
-    @Query(value = "select new com.computercomponent.api.dto.ProductsManagementDTO(p.id, p.name, p.description, p.price, p.quantityAvailable, p.status, c.name, b.name, p.discountAmount, p.discountPercentage, p.finalTotalPrice) " +
+    @Query(value = "select new com.computercomponent.api.dto.ProductsManagementDTO(p.id, p.code, p.name, p.description, p.price, p.quantityAvailable, p.status, c.name, b.name, p.discountAmount, p.discountPercentage, p.finalTotalPrice) " +
             "from Products as p " +
             "left join  Brand  b on p.brandId = b.id " +
             "left join Categories as c on p.categoryId = c.id " +
             "where p.name like concat('%', :searchField, '%') " +
+            "or  p.code like concat('%', :searchField, '%') " +
             "or  c.name like concat('%', :searchField, '%') " +
             "or b.name like concat('%', :searchField, '%') " +
             "and (:status is null or p.status = :status)",
@@ -30,6 +31,7 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
                     "left join  Brand  b on p.brandId = b.id " +
                     "left join Categories as c on p.categoryId = c.id " +
                     "where p.name like concat('%', :searchField, '%') " +
+                    "or  p.code like concat('%', :searchField, '%') " +
                     "or  c.name like concat('%', :searchField, '%') " +
                     "or b.name like concat('%', :searchField, '%') " +
                     "and (:status is null or p.status = :status)")
