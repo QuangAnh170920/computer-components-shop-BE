@@ -138,4 +138,8 @@ public class Const {
     public static class USER {
         public static final String USER_NOT_FOUND = "Không tìm thấy người dùng";
     }
+
+    public static class PRODUCT_REVIEW {
+        public static final String PR_NOT_FOUND = "Không tìm thấy đánh giá sản phẩm";
+    }
 }
