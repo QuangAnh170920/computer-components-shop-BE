@@ -18,18 +18,18 @@ import java.util.List;
 @Repository
 public interface ProductReviewRepository extends JpaRepository<ProductReviews, Long> {
 
-    @Query(value = "select new com.computercomponent.api.dto.ProductReviewManagementDTO(pr.id, pr.productId, pr.userId, pr.comment, pr.rate)" +
+    @Query(value = "select new com.computercomponent.api.dto.ProductReviewManagementDTO(pr.id, p.name, u.fullName, pr.comment, pr.rate)" +
             "from ProductReviews as pr " +
             "left join  Products p on pr.productId = p.id " +
             "left join User as u on pr.userId = u.id " +
-            "where (:userId is null or pr.userId = :userId) " +
-            "or  (:productId is null or pr.productId = :productId) " +
+            "where ((:userId is null or pr.userId = :userId) " +
+            "and  (:productId is null or pr.productId = :productId)) " +
             "and pr.deleted = false",
             countQuery = "select count(pr) from ProductReviews as pr " +
                     "left join  Products p on pr.productId = p.id  " +
                     "left join User as u on pr.userId = u.id " +
-                    "where (:userId is null or pr.userId = :userId) " +
-                    "or  (:productId is null or pr.productId = :productId) " +
+                    "where ((:userId is null or pr.userId = :userId) " +
+                    "and  (:productId is null or pr.productId = :productId)) " +
                     "and pr.deleted = false")
     Page<ProductReviewManagementDTO> findAllAndSearch(Long productId, Long userId, Pageable pageable);
 

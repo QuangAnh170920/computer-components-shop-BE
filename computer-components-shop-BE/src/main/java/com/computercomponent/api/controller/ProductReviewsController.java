@@ -1,9 +1,6 @@
 package com.computercomponent.api.controller;
 
-import com.computercomponent.api.dto.BrandDTO;
-import com.computercomponent.api.dto.BrandManagementDTO;
-import com.computercomponent.api.dto.ProductReviewDTO;
-import com.computercomponent.api.dto.ProductReviewManagementDTO;
+import com.computercomponent.api.dto.*;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.request.BrandRequest;
 import com.computercomponent.api.request.ProductReviewRequest;
@@ -36,8 +33,8 @@ public class ProductReviewsController {
 
     @Operation(summary = "Cập nhật đánh giá sản phẩm", description = "Cập nhật đánh giá sản phẩm")
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> updateBrand(@RequestBody @Valid ProductReviewManagementDTO productReviewManagementDTO) {
-        return ResponseEntity.ok(new ResponseWrapper(productReviewService.updatePR(productReviewManagementDTO)));
+    public ResponseEntity<ResponseWrapper> updateBrand(@RequestBody @Valid ProductReviewUpdateManagementDTO productReviewUpdateManagementDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(productReviewService.updatePR(productReviewUpdateManagementDTO)));
     }
 
     @Operation(summary = "Tìm kiếm và danh sách đánh giá sản phẩm", description = "Tìm kiếm và danh sách đánh giá sản phẩm")

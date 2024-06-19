@@ -4,6 +4,7 @@ import com.computercomponent.api.common.BrandStatus;
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.ProductReviewDTO;
 import com.computercomponent.api.dto.ProductReviewManagementDTO;
+import com.computercomponent.api.dto.ProductReviewUpdateManagementDTO;
 import com.computercomponent.api.entity.ProductReviews;
 import com.computercomponent.api.repository.ProductReviewRepository;
 import com.computercomponent.api.request.ProductReviewRequest;
@@ -45,21 +46,21 @@ public class ProductReviewServiceImpl implements ProductReviewService {
     }
 
     @Override
-    public String updatePR(ProductReviewManagementDTO productReviewManagementDTO) {
-        ProductReviews productReviews = productReviewRepository.findProductReviewsById(productReviewManagementDTO.getId());
+    public String updatePR(ProductReviewUpdateManagementDTO productReviewUpdateManagementDTO) {
+        ProductReviews productReviews = productReviewRepository.findProductReviewsById(productReviewUpdateManagementDTO.getId());
         Assert.isTrue(productReviews != null, Const.PRODUCT_REVIEW.PR_NOT_FOUND);
 
-        if (productReviewManagementDTO.getUserId() != null && !Objects.equals(productReviews.getUserId(), productReviewManagementDTO.getUserId())) {
-            productReviews.setUserId(productReviewManagementDTO.getUserId());
+        if (productReviewUpdateManagementDTO.getUserId() != null && !Objects.equals(productReviews.getUserId(), productReviewUpdateManagementDTO.getUserId())) {
+            productReviews.setUserId(productReviewUpdateManagementDTO.getUserId());
         }
-        if (productReviewManagementDTO.getProductId() != null && !Objects.equals(productReviews.getProductId(), productReviewManagementDTO.getProductId())) {
-            productReviews.setProductId(productReviewManagementDTO.getProductId());
+        if (productReviewUpdateManagementDTO.getProductId() != null && !Objects.equals(productReviews.getProductId(), productReviewUpdateManagementDTO.getProductId())) {
+            productReviews.setProductId(productReviewUpdateManagementDTO.getProductId());
         }
-        if (productReviewManagementDTO.getComment() != null && !Objects.equals(productReviews.getComment(), productReviewManagementDTO.getComment())) {
-            productReviews.setComment(productReviewManagementDTO.getComment());
+        if (productReviewUpdateManagementDTO.getComment() != null && !Objects.equals(productReviews.getComment(), productReviewUpdateManagementDTO.getComment())) {
+            productReviews.setComment(productReviewUpdateManagementDTO.getComment());
         }
-        if (productReviewManagementDTO.getRate() != null && !Objects.equals(productReviews.getRate(), productReviewManagementDTO.getRate())) {
-            productReviews.setRate(productReviewManagementDTO.getRate());
+        if (productReviewUpdateManagementDTO.getRate() != null && !Objects.equals(productReviews.getRate(), productReviewUpdateManagementDTO.getRate())) {
+            productReviews.setRate(productReviewUpdateManagementDTO.getRate());
         }
         productReviewRepository.save(productReviews);
         return Const.MESSAGE_CODE.SUCCESS;
