@@ -142,4 +142,16 @@ public class Const {
     public static class PRODUCT_REVIEW {
         public static final String PR_NOT_FOUND = "Không tìm thấy đánh giá sản phẩm";
     }
+
+    public static class PROMOTION {
+        public static final String PROMOTION_NAME_IS_NOT_EMPTY = "Tên khuyến mãi không được để trống";
+        public static final String PROMOTION_IS_NOT_EMPTY = "Khuyến mãi không được để trống";
+        public static final String PROMOTION_NAME_EXISTED = "Tên khuyến mãi đã tồn tại";
+        public static final String PROMOTION_NAME_MORE_THAN_200_CHAR = "Tên khuyến mãi không được vượt quá 200 ký tự";
+        public static final String PROMOTION_NOT_FOUND = "Không tìm thấy khuyến mãi";
+        public static final String INVALID_DESCRIPTION_LENGTH = "Độ dài không được quá 255 ký tự";
+        public static final String PROMOTION_CODE_IS_NOT_EMPTY = "Mã khuyến mãi không được để trống";
+        public static final String PROMOTION_CODE_MORE_THAN_200_CHAR = "Mã khuyến mãi không được vượt quá 200 ký tự";
+        public static final String PROMOTION_CODE_EXISTED = "Mã khuyến mãi đã tồn tại";
+    }
 }
