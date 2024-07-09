@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @PreAuthorize("{@ComputerComponentShopAuthorizer.authorize(authentication)}")
 public class PromotionController {
     @Autowired
-    protected PromotionService promotionService;
+    private PromotionService promotionService;
 
     @Operation(summary = "Tạo mới khuyến mãi", description = "Tạo mới khuyến mãi")
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)

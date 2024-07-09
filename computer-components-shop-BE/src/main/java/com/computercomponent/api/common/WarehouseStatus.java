@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Stream;
 
 public enum WarehouseStatus {
-    ACTIVE(1),
-    DEACTIVATE(2),
+    PENDING(1),
+    APPROVED(2),
     ALL(3);
 
     private final Integer value;

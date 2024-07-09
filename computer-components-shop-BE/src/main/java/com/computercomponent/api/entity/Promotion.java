@@ -4,6 +4,7 @@ import com.computercomponent.api.common.PromotionStatus;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -19,4 +20,6 @@ public class Promotion extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private PromotionStatus status;
+    @Column(name = "price")
+    private BigDecimal price;
 }

@@ -14,8 +14,9 @@ import java.util.Date;
 public class WarehouseTransaction extends BaseEntity{
     private TransactionType type; //loại giao dịch (nhập/ xuất)
     private Long warehouseId;
-    private Date transactionDate;
+    private Date transactionDate; //ngày nhập/xuất
     private Integer totalQuantity; //tổng số lượng trong giao dịch
+    private BigDecimal importPrice;
     private BigDecimal totalPrice; //tổng số tiền trong giao dịch
     private String description;
 }
