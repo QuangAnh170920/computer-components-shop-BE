@@ -55,4 +55,10 @@ public class ProductsController {
     public ResponseEntity<ResponseWrapper> getDetail(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new ResponseWrapper(productsService.getDetail(id)));
     }
+
+    @Operation(summary = "Tìm kiếm và danh sách số lượng tồn của sản phẩm", description = "Tìm kiếm và danh sách số lượng tồn của sản phẩm")
+    @PostMapping(value = "/find-all-and-search-quantity-product", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> findAllAndSearchQuantityProduct(@RequestBody ProductsRequest productsRequest) {
+        return ResponseEntity.ok(new ResponseWrapper(productsService.getProductsQuantityList(productsRequest)));
+    }
 }

@@ -2,6 +2,7 @@ package com.computercomponent.api.repository;
 
 import com.computercomponent.api.common.ProductsStatus;
 import com.computercomponent.api.dto.ProductDropListDTO;
+import com.computercomponent.api.dto.ProductQuantityDTO;
 import com.computercomponent.api.dto.ProductsManagementDTO;
 import com.computercomponent.api.entity.Products;
 import com.computercomponent.api.response.ProductDetail;
@@ -53,4 +54,15 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
 
     @Query("select new com.computercomponent.api.dto.ProductDropListDTO(p.id, p.name) from Products p  where p.deleted = false order by p.createdAt DESC ")
     List<ProductDropListDTO> dropList();
+
+    @Query(value = "select new com.computercomponent.api.dto.ProductQuantityDTO(p.id, p.code, p.name, p.quantityAvailable, p.updatedAt) " +
+            "from Products as p " +
+            "where p.name like concat('%', :searchField, '%') " +
+            "or  p.code like concat('%', :searchField, '%') " +
+            "and (:status is null or p.status = :status)",
+            countQuery = "select count(p) from Products as p " +
+                    "where p.name like concat('%', :searchField, '%') " +
+                    "or  p.code like concat('%', :searchField, '%') " +
+                    "and (:status is null or p.status = :status)")
+    Page<ProductQuantityDTO> getProductQuantityList(String searchField, Integer status, Pageable pageable);
 }

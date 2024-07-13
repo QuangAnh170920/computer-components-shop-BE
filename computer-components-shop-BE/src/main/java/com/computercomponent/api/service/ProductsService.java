@@ -19,4 +19,6 @@ public interface ProductsService {
     ProductDetail getDetail(Long id);
 
     List<ProductDropListDTO> dropList();
+
+    Page<ProductQuantityDTO> getProductsQuantityList(ProductsRequest productsRequest);
 }

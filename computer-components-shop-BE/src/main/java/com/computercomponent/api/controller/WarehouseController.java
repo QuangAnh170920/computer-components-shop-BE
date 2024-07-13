@@ -27,31 +27,31 @@ public class WarehouseController {
 
     @Operation(summary = "Tạo mới đơn hàng", description = "Tạo mới đơn hàng")
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> createBrand(@RequestBody WarehouseDTO warehouseDTO) {
+    public ResponseEntity<ResponseWrapper> create(@RequestBody WarehouseDTO warehouseDTO) {
         return ResponseEntity.ok(new ResponseWrapper(warehouseService.create(warehouseDTO)));
     }
 
     @Operation(summary = "Tìm kiếm và danh sách đơn hàng", description = "Tìm kiếm và danh sách đơn hàng")
     @PostMapping(value = "/find-all-and-search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> findAllAndSearchBrand(@RequestBody WarehouseRequest warehouseRequest) {
+    public ResponseEntity<ResponseWrapper> findAllAndSearch(@RequestBody WarehouseRequest warehouseRequest) {
         return ResponseEntity.ok(new ResponseWrapper(warehouseService.getList(warehouseRequest)));
     }
 
     @Operation(summary = "Cập nhật đơn hàng", description = "Cập nhật thương hiệu đơn hàng")
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> updateBrand(@RequestBody @Valid WarehouseManagementDTO warehouseManagementDTO) {
-        return ResponseEntity.ok(new ResponseWrapper(warehouseService.update(warehouseManagementDTO)));
+    public ResponseEntity<ResponseWrapper> update(@RequestBody @Valid WarehouseUpdateRequestDTO warehouseUpdateRequestDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(warehouseService.update(warehouseUpdateRequestDTO)));
     }
 
     @Operation(summary = "Cập nhật status đơn hàng", description = "Cập nhật status đơn hàng")
     @PutMapping(value = "/update-status", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> updateStatusBrand(@RequestBody @Valid WarehouseManagementStatusDTO warehouseManagementStatusDTO) {
+    public ResponseEntity<ResponseWrapper> updateStatus(@RequestBody @Valid WarehouseManagementStatusDTO warehouseManagementStatusDTO) {
         return ResponseEntity.ok(new ResponseWrapper(warehouseService.updateStatus(warehouseManagementStatusDTO)));
     }
 
     @Operation(summary = "Xóa đơn hàng", description = "Xóa đơn hàng")
     @PostMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> deleteBu(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseWrapper> delete(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new ResponseWrapper(warehouseService.delete(id)));
     }
 

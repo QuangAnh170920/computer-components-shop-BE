@@ -2,10 +2,7 @@ package com.computercomponent.api.service.impl;
 
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.common.ProductsStatus;
-import com.computercomponent.api.dto.ProductDropListDTO;
-import com.computercomponent.api.dto.ProductUpdateRequestDTO;
-import com.computercomponent.api.dto.ProductsDTO;
-import com.computercomponent.api.dto.ProductsManagementDTO;
+import com.computercomponent.api.dto.*;
 import com.computercomponent.api.entity.Products;
 import com.computercomponent.api.repository.ProductSpecificationsRepository;
 import com.computercomponent.api.repository.ProductsRepository;
@@ -88,6 +85,19 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public List<ProductDropListDTO> dropList() {
         return productsRepository.dropList();
+    }
+
+    @Override
+    public Page<ProductQuantityDTO> getProductsQuantityList(ProductsRequest productsRequest) {
+        PageRequest pageRequest = DataUtil.getPageable(productsRequest.getPageNumber(), productsRequest.getPageSize());
+        if (productsRequest.getSearchField() == null) {
+            productsRequest.setSearchField("");
+        }
+        if (productsRequest.getStatus() != null) {
+            ProductsStatus status = ProductsStatus.fromValue(productsRequest.getStatus());
+            Assert.notNull(status, Const.MESSAGE_CODE.STATUS_NOT_FOUND);
+        }
+        return productsRepository.getProductQuantityList(productsRequest.getSearchField().trim(), productsRequest.getStatus(), pageRequest);
     }
 
     private void validateProduct(ProductsDTO productsDTO) {

@@ -154,4 +154,15 @@ public class Const {
         public static final String PROMOTION_CODE_MORE_THAN_200_CHAR = "Mã khuyến mãi không được vượt quá 200 ký tự";
         public static final String PROMOTION_CODE_EXISTED = "Mã khuyến mãi đã tồn tại";
     }
+
+    public static class WAREHOUSE {
+        public static final String WAREHOUSE_NAME_IS_NOT_EMPTY = "Tên đơn hàng không được để trống";
+        public static final String WAREHOUSE_IS_NOT_EMPTY = "Đơn hàng không được để trống";
+        public static final String WAREHOUSE_NAME_MORE_THAN_200_CHAR = "Tên đơn hàng không được vượt quá 200 ký tự";
+        public static final String WAREHOUSE_NOT_FOUND = "Không tìm thấy đơn hàng";
+        public static final String INVALID_DESCRIPTION_LENGTH = "Độ dài không được quá 255 ký tự";
+        public static final String WAREHOUSE_CODE_IS_NOT_EMPTY = "Mã đơn hàng không được để trống";
+        public static final String WAREHOUSE_CODE_MORE_THAN_200_CHAR = "Mã đơn hàng không được vượt quá 200 ký tự";
+        public static final String WAREHOUSE_CODE_EXISTED = "Mã đơn hàng đã tồn tại";
+    }
 }
