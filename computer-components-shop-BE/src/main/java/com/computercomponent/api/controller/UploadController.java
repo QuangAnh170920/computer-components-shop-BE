@@ -19,8 +19,6 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @RequestMapping("/v1/api/admin/upload")
-@SecurityRequirement(name = "computer-components-admin-security")
-@PreAuthorize("{@ComputerComponentShopAuthorizer.authorize(authentication)}")
 public class UploadController {
     @Autowired
     private UploadService uploadService;

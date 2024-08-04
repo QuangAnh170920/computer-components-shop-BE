@@ -8,6 +8,7 @@ import com.computercomponent.api.dto.BrandManagementDTO;
 import com.computercomponent.api.dto.BrandManagementStatusDTO;
 import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.repository.BrandRepository;
+import com.computercomponent.api.repository.ProductsRepository;
 import com.computercomponent.api.request.BrandRequest;
 import com.computercomponent.api.response.BrandDetail;
 import com.computercomponent.api.response.ProductDetail;
@@ -28,6 +29,9 @@ import java.util.Objects;
 public class BrandServiceImpl implements BrandService {
     @Autowired
     private BrandRepository brandRepository;
+
+    @Autowired
+    private ProductsRepository productsRepository;
 
     @Override
     public String createBrand(BrandDTO brandDTO) {
@@ -79,6 +83,8 @@ public class BrandServiceImpl implements BrandService {
     public String deleteBrand(Long id) {
         Brand brand = brandRepository.findBrandById(id);
         Assert.isTrue(brand != null, Const.BRAND.BRAND_NOT_FOUND);
+        long productCount = productsRepository.countProductsByBrandId(id);
+        Assert.isTrue(productCount == 0, Const.BRAND.BRAND_CANNOT_DELETE);
         brand.setDeleted(true);
         brandRepository.save(brand);
         return null;

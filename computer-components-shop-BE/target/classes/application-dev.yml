@@ -45,10 +45,10 @@ spring:
       ssl.enable: false
     test-connection: false
     default-param:
-      banner-image-url: http://210.245.85.229:8004/ariba-cdn/data/MailLogo/20240301/48a81168-868f-4feb-90d5-4ff67c3e50b2.png
-      mail-image-url: http://210.245.85.229:8004/ariba-cdn/data/mail-icon.png
-      line-image-url: http://210.245.85.229:8004/ariba-cdn/data/mail-line.png
-      logo-image-url: http://210.245.85.229:8004/ariba-cdn/data/logo.png
+      banner-image-url:
+      mail-image-url:
+      line-image-url:
+      logo-image-url:
       company: Cửa hàng QAP Store
       address: Hà Nội
       phoneNumber: 0528 541 357

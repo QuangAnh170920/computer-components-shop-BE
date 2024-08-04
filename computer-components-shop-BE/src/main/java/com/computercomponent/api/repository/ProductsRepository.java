@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -65,4 +66,7 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
                     "or  p.code like concat('%', :searchField, '%') " +
                     "and (:status is null or p.status = :status)")
     Page<ProductQuantityDTO> getProductQuantityList(String searchField, Integer status, Pageable pageable);
+
+    @Query(value = "SELECT COUNT(prod) FROM Products prod WHERE prod.brandId = :brandId AND prod.deleted = false")
+    long countProductsByBrandId(@Param("brandId") Long brandId);
 }

@@ -88,6 +88,7 @@ public class Const {
         public static final String BRAND_CODE_IS_NOT_EMPTY = "Mã thương hiệu không được để trống";
         public static final String BRAND_CODE_MORE_THAN_200_CHAR = "Mã thương hiệu không được vượt quá 200 ký tự";
         public static final String BRAND_CODE_EXISTED = "Mã thương hiệu đã tồn tại";
+        public static final String BRAND_CANNOT_DELETE = "Thương hiệu đã có sản phẩm sử dụng, không thể xóa";
     }
 
     public static class CATEGORIES {

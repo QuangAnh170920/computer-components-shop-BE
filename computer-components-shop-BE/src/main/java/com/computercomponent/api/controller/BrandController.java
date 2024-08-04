@@ -54,7 +54,7 @@ public class BrandController {
 
     @Operation(summary = "Xóa thương hiệu", description = "Xóa thương hiệu")
     @PostMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> deleteBu(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseWrapper> deleteBrand(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new ResponseWrapper(brandService.deleteBrand(id)));
     }
 

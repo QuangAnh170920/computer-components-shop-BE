@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface BrandService {
     String createBrand(BrandDTO brandDTO);
+
     Page<BrandManagementDTO> getBrandList(BrandRequest brandRequest);
 
     String updateBrand(BrandManagementDTO brandManagementDTO);

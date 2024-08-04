@@ -49,7 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/user/register",
                         "/swagger-ui*/**",
                         "/auth/**",
-                        "/static-data/**"
+                        "/static-data/**",
+                        "/v1/api/admin/upload/**"
                 ).permitAll()
                 // All other requests need to be authenticated
                 .and().authorizeRequests()
