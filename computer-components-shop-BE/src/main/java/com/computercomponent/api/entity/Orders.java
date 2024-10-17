@@ -1,6 +1,5 @@
 package com.computercomponent.api.entity;
 
-import com.computercomponent.api.common.BrandStatus;
 import com.computercomponent.api.common.OrderStatus;
 import lombok.Data;
 

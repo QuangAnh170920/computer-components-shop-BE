@@ -2,7 +2,6 @@ package com.computercomponent.api.controller;
 
 import com.computercomponent.api.dto.*;
 import com.computercomponent.api.model.ResponseWrapper;
-import com.computercomponent.api.request.BrandRequest;
 import com.computercomponent.api.request.PromotionRequest;
 import com.computercomponent.api.service.PromotionService;
 import io.swagger.v3.oas.annotations.Operation;

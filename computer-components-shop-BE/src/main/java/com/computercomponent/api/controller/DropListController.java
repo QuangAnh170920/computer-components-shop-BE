@@ -1,7 +1,6 @@
 package com.computercomponent.api.controller;
 
 import com.computercomponent.api.model.ResponseWrapper;
-import com.computercomponent.api.service.BrandService;
 import com.computercomponent.api.service.CategoriesService;
 import com.computercomponent.api.service.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,19 +26,10 @@ public class DropListController {
     @Autowired
     private ProductsService productsService;
 
-    @Autowired
-    private BrandService brandService;
-
     @Operation(summary = "drop list loại sản phẩm", description = "drop list loại sản phẩm")
     @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> categoryDropList() {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.dropList()));
-    }
-
-    @Operation(summary = "drop list thương hiệu sản phẩm", description = "drop list thương hiệu sản phẩm")
-    @GetMapping(value = "/brand", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseWrapper> brandDropList() {
-        return ResponseEntity.ok(new ResponseWrapper(brandService.dropList()));
     }
 
     @Operation(summary = "drop list sản phẩm", description = "drop list sản phẩm")

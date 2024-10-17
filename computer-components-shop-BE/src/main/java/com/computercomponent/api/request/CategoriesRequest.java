@@ -6,4 +6,5 @@ import lombok.Data;
 public class CategoriesRequest extends BasePageRequest {
     private String searchField;
     private Integer status;
+    private Long parentId;
 }

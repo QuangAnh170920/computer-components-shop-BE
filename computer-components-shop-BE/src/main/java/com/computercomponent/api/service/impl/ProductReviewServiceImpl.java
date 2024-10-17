@@ -1,6 +1,5 @@
 package com.computercomponent.api.service.impl;
 
-import com.computercomponent.api.common.BrandStatus;
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.ProductReviewDTO;
 import com.computercomponent.api.dto.ProductReviewManagementDTO;

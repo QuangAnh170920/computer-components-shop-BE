@@ -1,14 +1,11 @@
 package com.computercomponent.api.service.impl;
 
-import com.computercomponent.api.common.BrandStatus;
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.common.PromotionStatus;
 import com.computercomponent.api.dto.*;
-import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.entity.Promotion;
 import com.computercomponent.api.repository.PromotionRepository;
 import com.computercomponent.api.request.PromotionRequest;
-import com.computercomponent.api.response.BrandDetail;
 import com.computercomponent.api.response.PromotionDetail;
 import com.computercomponent.api.service.PromotionService;
 import com.computercomponent.api.until.DataUtil;

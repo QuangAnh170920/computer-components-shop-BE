@@ -101,6 +101,9 @@ public class Const {
         public static final String CATE_CODE_EXISTED = "Mã loại sản phẩm đã tồn tại";
         public static final String CATE_CODE_IS_NOT_EMPTY = "Mã loại sản phẩm không được để trống";
         public static final String INVALID_DESCRIPTION_LENGTH = "Độ dài không được quá 255 ký tự";
+        public static final String PARENT_CATE_NOT_FOUND = "Parent ID không tồn tại";
+        public static final String CATE_HAS_PRODUCTS = "Danh mục này đang chứa sản phẩm và không thể xóa.";
+        public static final String CATE_STATUS_IS_NOT_VALID = "Trạng thái không hợp lệ.";
     }
 
     public static class PRODUCTS {

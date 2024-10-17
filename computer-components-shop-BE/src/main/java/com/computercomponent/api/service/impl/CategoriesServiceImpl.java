@@ -1,15 +1,14 @@
 package com.computercomponent.api.service.impl;
 
-import com.computercomponent.api.common.BrandStatus;
 import com.computercomponent.api.common.CategoriesStatus;
 import com.computercomponent.api.common.Const;
 import com.computercomponent.api.dto.CategoriesDTO;
 import com.computercomponent.api.dto.CategoriesManagementDTO;
 import com.computercomponent.api.dto.CategoriesManagementStatusDTO;
 import com.computercomponent.api.dto.CategoryDropListDTO;
-import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.entity.Categories;
 import com.computercomponent.api.repository.CategoriesRepository;
+import com.computercomponent.api.repository.ProductsRepository;
 import com.computercomponent.api.request.CategoriesRequest;
 import com.computercomponent.api.response.CategoriesDetail;
 import com.computercomponent.api.service.CategoriesService;
@@ -29,9 +28,12 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Autowired
     private CategoriesRepository categoriesRepository;
 
+    @Autowired
+    private ProductsRepository productsRepository;
+
     @Override
     public String createCate(CategoriesDTO categoriesDTO) {
-        validateCate(categoriesDTO);
+        validateCreateCate(categoriesDTO);
         Categories categories = new Categories();
         BeanUtils.copyProperties(categoriesDTO, categories);
         categoriesRepository.save(categories);
@@ -48,7 +50,7 @@ public class CategoriesServiceImpl implements CategoriesService {
             CategoriesStatus categoriesStatus = CategoriesStatus.fromValue(categoriesRequest.getStatus());
             Assert.notNull(categoriesStatus, Const.MESSAGE_CODE.STATUS_NOT_FOUND);
         }
-        return categoriesRepository.findAllAndSearch(categoriesRequest.getSearchField().trim(), categoriesRequest.getStatus(), pageRequest);
+        return categoriesRepository.findAllAndSearch(categoriesRequest.getSearchField().trim(), categoriesRequest.getStatus(), categoriesRequest.getParentId(), pageRequest);
     }
 
     // cần viết và check update status của cate
@@ -71,6 +73,13 @@ public class CategoriesServiceImpl implements CategoriesService {
             validateCateCode(categoriesManagementDTO.getCode());
             categories.setCode(categoriesManagementDTO.getCode());
         }
+
+        if (categoriesManagementDTO.getParentId() != null && !Objects.equals(categories.getParentId(), categoriesManagementDTO.getParentId())) {
+            if (!categoriesRepository.existsById(categoriesManagementDTO.getParentId())) {
+                throw new CategoryValidationException(Const.CATEGORIES.PARENT_CATE_NOT_FOUND);
+            }
+            categories.setCode(categoriesManagementDTO.getCode());
+        }
         categoriesRepository.save(categories);
         return Const.MESSAGE_CODE.SUCCESS;
     }
@@ -80,6 +89,10 @@ public class CategoriesServiceImpl implements CategoriesService {
     public String deleteCate(Long id) {
         Categories categories = categoriesRepository.findCategoriesById(id);
         Assert.isTrue(categories != null, Const.CATEGORIES.CATE_NOT_FOUND);
+        boolean hasProducts = productsRepository.existsByCategoryId(id);
+        if (hasProducts) {
+            throw new CategoryValidationException(Const.CATEGORIES.CATE_HAS_PRODUCTS);
+        }
         categories.setDeleted(true);
         categoriesRepository.save(categories);
         return null;
@@ -91,39 +104,39 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
-    public CategoriesDetail getDetail(Long id) {
-        CategoriesDetail categoriesDetail = categoriesRepository.getDetail(id);
-        return categoriesDetail;
-    }
-
-    @Override
     public CategoriesManagementStatusDTO updateStatus(CategoriesManagementStatusDTO categoriesManagementStatusDTO) {
         Categories categories = categoriesRepository.findCategoriesById(categoriesManagementStatusDTO.getId());
         Assert.isTrue(categories != null, Const.CATEGORIES.CATE_NOT_FOUND);
-        BeanUtils.copyProperties(categoriesManagementStatusDTO, categories);
+        if (categoriesManagementStatusDTO.getStatus() == null) {
+            throw new IllegalArgumentException(Const.CATEGORIES.CATE_STATUS_IS_NOT_VALID);
+        }
+        categories.setStatus(categoriesManagementStatusDTO.getStatus());
+        if (categories.getStatus() == CategoriesStatus.DEACTIVATE && productsRepository.existsByCategoryId(categories.getId())) {
+            throw new CategoryValidationException(Const.CATEGORIES.CATE_HAS_PRODUCTS);
+        }
         categoriesRepository.save(categories);
-        return null;
+        return new CategoriesManagementStatusDTO(categories.getId(), categories.getStatus());
     }
 
-    private void validateCate(CategoriesDTO categoriesDTO) {
+    private void validateCreateCate(CategoriesDTO categoriesDTO) {
         categoriesDTO.setName(validateCateName(categoriesDTO.getName()));
-    }
-
-    private void validateUpdateCate(CategoriesManagementDTO categoriesManagementDTO) {
-        categoriesManagementDTO.setName(validateUpdateCateName(categoriesManagementDTO.getName()));
+        categoriesDTO.setCode(validateCateCode(categoriesDTO.getCode()));
+        if (categoriesDTO.getParentId() != null && !categoriesRepository.existsById(categoriesDTO.getParentId())) {
+            throw new CategoryValidationException(Const.CATEGORIES.PARENT_CATE_NOT_FOUND);
+        }
     }
 
     private String validateCateName(String str) {
         if (DataUtil.isNullOrEmpty(str)) {
-            throw new RuntimeException(Const.CATEGORIES.CATE_NAME_IS_NOT_EMPTY);
+            throw new CategoryValidationException(Const.CATEGORIES.CATE_NAME_IS_NOT_EMPTY);
         } else {
             String name = DataUtil.replaceSpaceSolr(str);
             if(name.length() > 200){
-                throw new RuntimeException(Const.CATEGORIES.CATE_NAME_MORE_THAN_200_CHAR);
+                throw new CategoryValidationException(Const.CATEGORIES.CATE_NAME_MORE_THAN_200_CHAR);
             }
             Categories categories = categoriesRepository.findCategoriesByName(name);
             if (categories != null) {
-                throw new RuntimeException(Const.CATEGORIES.CATE_NAME_EXISTED);
+                throw new CategoryValidationException(Const.CATEGORIES.CATE_NAME_EXISTED);
             }else {
                 return name;
             }
@@ -146,11 +159,11 @@ public class CategoriesServiceImpl implements CategoriesService {
     private String validateCateCode(String str) {
         String code = DataUtil.replaceSpaceSolr(str);
         if(code.length() > 200){
-            throw new RuntimeException(Const.CATEGORIES.CATE_CODE_MORE_THAN_200_CHAR);
+            throw new CategoryValidationException(Const.CATEGORIES.CATE_CODE_MORE_THAN_200_CHAR);
         }
         Categories categories = categoriesRepository.findCategoriesByCode(code);
         if (categories != null) {
-            throw new RuntimeException(Const.CATEGORIES.CATE_CODE_EXISTED);
+            throw new CategoryValidationException(Const.CATEGORIES.CATE_CODE_EXISTED);
         }else {
             return code;
         }
@@ -158,5 +171,11 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     private void validateCateDescription(String description) {
         Assert.isTrue(description == null || description.length() <= 255, Const.CATEGORIES.INVALID_DESCRIPTION_LENGTH);
+    }
+
+    public static class CategoryValidationException extends RuntimeException {
+        public CategoryValidationException(String message) {
+            super(message);
+        }
     }
 }

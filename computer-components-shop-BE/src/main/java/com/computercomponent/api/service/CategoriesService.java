@@ -21,7 +21,5 @@ public interface CategoriesService {
 
     List<CategoryDropListDTO> dropList();
 
-    CategoriesDetail getDetail(Long id);
-
     CategoriesManagementStatusDTO updateStatus(CategoriesManagementStatusDTO categoriesManagementStatusDTO);
 }

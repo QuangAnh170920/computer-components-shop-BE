@@ -6,14 +6,11 @@ import com.computercomponent.api.dto.WarehouseDTO;
 import com.computercomponent.api.dto.WarehouseManagementDTO;
 import com.computercomponent.api.dto.WarehouseManagementStatusDTO;
 import com.computercomponent.api.dto.WarehouseUpdateRequestDTO;
-import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.entity.Products;
 import com.computercomponent.api.entity.Warehouse;
 import com.computercomponent.api.repository.ProductsRepository;
 import com.computercomponent.api.repository.WarehouseRepository;
 import com.computercomponent.api.request.WarehouseRequest;
-import com.computercomponent.api.response.ProductDetail;
-import com.computercomponent.api.response.ProductSpecificationDetail;
 import com.computercomponent.api.response.WarehouseDetail;
 import com.computercomponent.api.service.WarehouseService;
 import com.computercomponent.api.until.DataUtil;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {

@@ -1,19 +1,13 @@
 package com.computercomponent.api.repository;
 
-import com.computercomponent.api.dto.BrandDropListDTO;
-import com.computercomponent.api.dto.BrandManagementDTO;
 import com.computercomponent.api.dto.ProductReviewManagementDTO;
-import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.entity.ProductReviews;
-import com.computercomponent.api.response.BrandDetail;
 import com.computercomponent.api.response.ProductReviewDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface ProductReviewRepository extends JpaRepository<ProductReviews, Long> {

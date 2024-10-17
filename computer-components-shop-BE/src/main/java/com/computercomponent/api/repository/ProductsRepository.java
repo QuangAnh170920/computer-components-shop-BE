@@ -20,35 +20,29 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "select prod from Products prod  where prod.name = :name and prod.deleted = false")
     Products findProductsByName(String name);
 
-    @Query(value = "select new com.computercomponent.api.dto.ProductsManagementDTO(p.id, p.code, p.name, p.description, p.price, p.quantityAvailable, p.status, c.name, b.name, p.discountAmount, p.discountPercentage, p.finalTotalPrice) " +
+    @Query(value = "select new com.computercomponent.api.dto.ProductsManagementDTO(p.id, p.code, p.name, p.description, p.price, p.quantityAvailable, p.status, c.name, p.finalTotalPrice) " +
             "from Products as p " +
-            "left join  Brand  b on p.brandId = b.id " +
             "left join Categories as c on p.categoryId = c.id " +
             "where p.name like concat('%', :searchField, '%') " +
             "or  p.code like concat('%', :searchField, '%') " +
             "or  c.name like concat('%', :searchField, '%') " +
-            "or b.name like concat('%', :searchField, '%') " +
             "and (:status is null or p.status = :status)",
             countQuery = "select count(p) from Products as p " +
-                    "left join  Brand  b on p.brandId = b.id " +
                     "left join Categories as c on p.categoryId = c.id " +
                     "where p.name like concat('%', :searchField, '%') " +
                     "or  p.code like concat('%', :searchField, '%') " +
                     "or  c.name like concat('%', :searchField, '%') " +
-                    "or b.name like concat('%', :searchField, '%') " +
                     "and (:status is null or p.status = :status)")
     Page<ProductsManagementDTO> findAllAndSearch(String searchField, Integer status, Pageable pageable);
 
     @Query(value = "select prod from Products prod  where prod.id = :id and prod.deleted = false")
     Products findProductsById(Long id);
 
-    @Query(value = "select new com.computercomponent.api.response.ProductDetail(p.id, p.name, p.description, p.price, p.quantityAvailable, p.status, b.name, c.name, p.discountAmount, p.discountPercentage, p.finalTotalPrice) " +
+    @Query(value = "select new com.computercomponent.api.response.ProductDetail(p.id, p.name, p.description, p.price, p.quantityAvailable, p.status, c.name, p.finalTotalPrice) " +
             "from Products as p " +
-            "left join  Brand  b on p.brandId = b.id " +
             "left join Categories as c on p.categoryId = c.id " +
             "where p.id = :id ",
             countQuery = "select count(p) from Products as p " +
-                    "left join  Brand  b on p.brandId = b.id " +
                     "left join Categories as c on p.categoryId = c.id " +
                     "where p.id = :id")
     ProductDetail getDetail(Long id);
@@ -67,6 +61,6 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
                     "and (:status is null or p.status = :status)")
     Page<ProductQuantityDTO> getProductQuantityList(String searchField, Integer status, Pageable pageable);
 
-    @Query(value = "SELECT COUNT(prod) FROM Products prod WHERE prod.brandId = :brandId AND prod.deleted = false")
-    long countProductsByBrandId(@Param("brandId") Long brandId);
+    @Query("select count(p) > 0 from Products p where p.categoryId = :categoryId and p.deleted = false")
+    boolean existsByCategoryId(Long categoryId);
 }

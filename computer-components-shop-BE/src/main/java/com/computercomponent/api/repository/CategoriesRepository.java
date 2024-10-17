@@ -2,9 +2,7 @@ package com.computercomponent.api.repository;
 
 import com.computercomponent.api.dto.CategoriesManagementDTO;
 import com.computercomponent.api.dto.CategoryDropListDTO;
-import com.computercomponent.api.entity.Brand;
 import com.computercomponent.api.entity.Categories;
-import com.computercomponent.api.response.BrandDetail;
 import com.computercomponent.api.response.CategoriesDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,16 +20,18 @@ public interface CategoriesRepository extends JpaRepository<Categories, Long> {
     @Query(value = "select cg from Categories cg  where cg.code = :code and cg.deleted = false")
     Categories findCategoriesByCode(String code);
 
-    @Query(value = "select new com.computercomponent.api.dto.CategoriesManagementDTO(cg.id, cg.code, cg.name, cg.description, cg.status) " +
+    @Query(value = "select new com.computercomponent.api.dto.CategoriesManagementDTO(cg.id, cg.code, cg.name, cg.description, cg.status, cg.parentId) " +
             "from Categories as cg where " +
             "cg.name like concat('%', :searchField, '%')" +
             "or cg.code like concat('%', :searchField, '%')" +
-            "and (:status is null or cg.status = :status)",
+            "and (:status is null or cg.status = :status)" +
+            "and (:parentId is null or cg.parentId = :parentId)",
             countQuery = "select count(cg) from Categories as cg " +
                     "where cg.name like concat('%', :searchField, '%')" +
                     "or cg.code like  concat('%', :searchField, '%') " +
-                    "and (:status is null or cg.status = :status)")
-    Page<CategoriesManagementDTO> findAllAndSearch(String searchField, Integer status, Pageable pageable);
+                    "and (:status is null or cg.status = :status)" +
+                    "and (:parentId is null or cg.parentId = :parentId)")
+    Page<CategoriesManagementDTO> findAllAndSearch(String searchField, Integer status, Long parentId, Pageable pageable);
 
     @Query(value = "select cg from Categories cg  where cg.id = :id and cg.deleted = false")
     Categories findCategoriesById(Long id);

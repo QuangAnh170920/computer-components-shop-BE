@@ -19,8 +19,5 @@ public class ProductsManagementDTO {
     private Integer quantityAvailable;
     private ProductsStatus status;
     private String categoryName;
-    private String brandName;
-    private BigDecimal discountAmount;
-    private Integer discountPercentage;
     private BigDecimal finalTotalPrice;
 }
