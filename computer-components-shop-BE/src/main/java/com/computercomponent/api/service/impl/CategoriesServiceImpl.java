@@ -2,10 +2,7 @@ package com.computercomponent.api.service.impl;
 
 import com.computercomponent.api.common.CategoriesStatus;
 import com.computercomponent.api.common.Const;
-import com.computercomponent.api.dto.CategoriesDTO;
-import com.computercomponent.api.dto.CategoriesManagementDTO;
-import com.computercomponent.api.dto.CategoriesManagementStatusDTO;
-import com.computercomponent.api.dto.CategoryDropListDTO;
+import com.computercomponent.api.dto.*;
 import com.computercomponent.api.entity.Categories;
 import com.computercomponent.api.repository.CategoriesRepository;
 import com.computercomponent.api.repository.ProductsRepository;
@@ -16,12 +13,13 @@ import com.computercomponent.api.until.DataUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoriesServiceImpl implements CategoriesService {
@@ -40,17 +38,149 @@ public class CategoriesServiceImpl implements CategoriesService {
         return Const.MESSAGE_CODE.SUCCESS;
     }
 
+    // Ánh xạ các danh mục con vào danh mục cha
+    private void mapChildrenRecursively(List<CategoriesManagementDTO> children, CategoriesChildrenDTO parentDTO) {
+        for (CategoriesManagementDTO child : children) {
+            CategoriesChildrenDTO childDTO = new CategoriesChildrenDTO(
+                    child.getId(),
+                    child.getCode(),
+                    child.getName(),
+                    child.getParentId(),
+                    new ArrayList<>()
+            );
+
+            // Thêm child vào danh sách children của parentDTO
+            parentDTO.getChildren().add(childDTO);
+
+            // Tìm các danh mục con của child
+            List<CategoriesManagementDTO> grandchildren = children.stream()
+                    .filter(grandchild -> grandchild.getParentId().equals(child.getId()))
+                    .collect(Collectors.toList());
+
+            // Đệ quy nếu child có danh mục con
+            if (!grandchildren.isEmpty()) {
+                mapChildrenRecursively(grandchildren, childDTO);
+            }
+        }
+    }
+
     @Override
     public Page<CategoriesManagementDTO> getCateList(CategoriesRequest categoriesRequest) {
         PageRequest pageRequest = DataUtil.getPageable(categoriesRequest.getPageNumber(), categoriesRequest.getPageSize());
+
         if (categoriesRequest.getSearchField() == null) {
             categoriesRequest.setSearchField("");
         }
+
         if (categoriesRequest.getStatus() != null) {
             CategoriesStatus categoriesStatus = CategoriesStatus.fromValue(categoriesRequest.getStatus());
             Assert.notNull(categoriesStatus, Const.MESSAGE_CODE.STATUS_NOT_FOUND);
         }
-        return categoriesRepository.findAllAndSearch(categoriesRequest.getSearchField().trim(), categoriesRequest.getStatus(), categoriesRequest.getParentId(), pageRequest);
+
+        // Lấy tất cả danh mục (không lọc theo parentId)
+        List<CategoriesManagementDTO> allCategories = categoriesRepository.findAllAndSearch(
+                categoriesRequest.getSearchField().trim(),
+                categoriesRequest.getStatus(),
+                null, // Lấy tất cả danh mục
+                pageRequest
+        ).getContent(); // Lấy nội dung Page để làm việc với List
+
+        // Map để lưu trữ danh mục cha
+        Map<Long, CategoriesManagementDTO> parentCategoriesMap = new HashMap<>();
+
+        // Danh sách chứa các danh mục con chưa được ánh xạ
+        List<CategoriesManagementDTO> orphans = new ArrayList<>();
+
+        // Tạo Map các danh mục cha
+        for (CategoriesManagementDTO category : allCategories) {
+            if (category.getParentId() == null) {
+                // Danh mục không có parentId là danh mục cha
+                parentCategoriesMap.put(category.getId(), category);
+                category.setChildren(new ArrayList<>()); // Đảm bảo children luôn là mảng trống nếu không có con
+            } else {
+                // Nếu danh mục có parentId thì thêm vào danh sách con chưa được ánh xạ
+                orphans.add(category);
+            }
+        }
+
+        // Ánh xạ các danh mục con vào danh mục cha
+        for (CategoriesManagementDTO child : orphans) {
+            CategoriesManagementDTO parent = parentCategoriesMap.get(child.getParentId());
+            if (parent != null) {
+                // Tạo DTO cho danh mục con
+                CategoriesChildrenDTO childDTO = new CategoriesChildrenDTO(
+                        child.getId(),
+                        child.getCode(),
+                        child.getName(),
+                        child.getParentId(),
+                        new ArrayList<>() // Khởi tạo danh sách children rỗng
+                );
+
+                // Thêm childDTO vào danh sách children của parent
+                if (parent.getChildren() == null) {
+                    parent.setChildren(new ArrayList<>());
+                }
+                parent.getChildren().add(childDTO);
+
+                // Tìm danh mục con của childDTO và ánh xạ đệ quy
+                List<CategoriesManagementDTO> childrenOfChild = orphans.stream()
+                        .filter(grandchild -> grandchild.getParentId().equals(child.getId()))
+                        .collect(Collectors.toList());
+
+                if (!childrenOfChild.isEmpty()) {
+                    mapChildrenRecursively(childrenOfChild, childDTO);
+                }
+            }
+        }
+
+        // Chuyển Map danh mục cha thành List để trả về
+        List<CategoriesManagementDTO> finalCategories = new ArrayList<>(parentCategoriesMap.values());
+
+        // Nếu bạn vẫn cần trả về dưới dạng Page, có thể bọc lại:
+        return new PageImpl<>(finalCategories, pageRequest, finalCategories.size());
+    }
+
+    @Override
+    public CategoriesManagementDTO getDetail(Long id) {
+        // Lấy danh mục chính theo id
+        CategoriesManagementDTO mainCategory = categoriesRepository.findById(id)
+                .map(category -> new CategoriesManagementDTO(
+                        category.getId(),
+                        category.getCode(),
+                        category.getName(),
+                        category.getDescription(),
+                        category.getStatus(),
+                        category.getParentId(),
+                        new ArrayList<>() // Khởi tạo danh sách children rỗng
+                ))
+                .orElse(null); // Trả về null nếu không tìm thấy
+
+        if (mainCategory == null) {
+            return null; // Nếu không tìm thấy danh mục chính, trả về null
+        }
+
+        // Tìm danh sách các danh mục con
+        List<CategoriesManagementDTO> children = categoriesRepository.findByParentId(id);
+
+        // Ánh xạ các danh mục con
+        for (CategoriesManagementDTO child : children) {
+            CategoriesChildrenDTO childDTO = new CategoriesChildrenDTO(
+                    child.getId(),
+                    child.getCode(),
+                    child.getName(),
+                    child.getParentId(),
+                    new ArrayList<>()
+            );
+
+            // Thêm childDTO vào danh sách children của danh mục chính
+            mainCategory.getChildren().add(childDTO);
+
+            // Tìm và ánh xạ các danh mục con cho childDTO
+            List<CategoriesManagementDTO> grandchildren = categoriesRepository.findByParentId(child.getId());
+            mapChildrenRecursively(grandchildren, childDTO);
+        }
+
+        return mainCategory;
     }
 
     // cần viết và check update status của cate
@@ -74,14 +204,41 @@ public class CategoriesServiceImpl implements CategoriesService {
             categories.setCode(categoriesManagementDTO.getCode());
         }
 
+        // Kiểm tra parentId
         if (categoriesManagementDTO.getParentId() != null && !Objects.equals(categories.getParentId(), categoriesManagementDTO.getParentId())) {
+            // Kiểm tra xem danh mục cha mới có tồn tại không
             if (!categoriesRepository.existsById(categoriesManagementDTO.getParentId())) {
                 throw new CategoryValidationException(Const.CATEGORIES.PARENT_CATE_NOT_FOUND);
             }
-            categories.setCode(categoriesManagementDTO.getCode());
+
+            // Lấy danh sách các ID của danh mục con
+            List<Long> childIds = getAllChildIds(categories.getId());
+
+            // Kiểm tra xem parentId mới có nằm trong danh sách ID của danh mục con không
+            if (childIds.contains(categoriesManagementDTO.getParentId())) {
+                throw new CategoryValidationException(Const.CATEGORIES.PARENT_ID_CATE_CANNOT_BE_CHILD);
+            }
+
+            categories.setParentId(categoriesManagementDTO.getParentId());
         }
+
         categoriesRepository.save(categories);
         return Const.MESSAGE_CODE.SUCCESS;
+    }
+
+    // Phương thức để lấy tất cả các ID danh mục con
+    private List<Long> getAllChildIds(Long parentId) {
+        List<Long> childIds = new ArrayList<>();
+        List<CategoriesManagementDTO> children = categoriesRepository.findByParentId(parentId);
+
+        // Thêm các ID của danh mục con vào danh sách
+        for (CategoriesManagementDTO child : children) {
+            childIds.add(child.getId());
+            // Gọi đệ quy để lấy các danh mục con của danh mục con
+            childIds.addAll(getAllChildIds(child.getId()));
+        }
+
+        return childIds;
     }
 
     // cần check thêm điều kiện của Cate. Nếu trong TH Cate đã có sản phẩm dùng => không được xóa

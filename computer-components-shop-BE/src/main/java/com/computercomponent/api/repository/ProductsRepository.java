@@ -20,6 +20,9 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "select prod from Products prod  where prod.name = :name and prod.deleted = false")
     Products findProductsByName(String name);
 
+    @Query(value = "select prod from Products prod  where prod.code = :code and prod.deleted = false")
+    Products findProductsByCode(String code);
+
     @Query(value = "select new com.computercomponent.api.dto.ProductsManagementDTO(p.id, p.code, p.name, p.description, p.price, p.quantityAvailable, p.status, c.name, p.finalTotalPrice) " +
             "from Products as p " +
             "left join Categories as c on p.categoryId = c.id " +

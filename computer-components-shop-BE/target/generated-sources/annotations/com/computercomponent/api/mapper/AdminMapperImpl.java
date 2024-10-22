@@ -12,7 +12,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-05T20:41:26+0700",
+    date = "2024-10-23T00:15:58+0700",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.22 (Amazon.com Inc.)"
 )
 public class AdminMapperImpl implements AdminMapper {
@@ -34,6 +34,7 @@ public class AdminMapperImpl implements AdminMapper {
         admin.setEmail( dto.getEmail() );
         admin.setStatus( dto.getStatus() );
         admin.setMobile( dto.getMobile() );
+        admin.setFullName( dto.getFullName() );
 
         return admin;
     }
@@ -47,6 +48,7 @@ public class AdminMapperImpl implements AdminMapper {
         AdminDto adminDto = new AdminDto();
 
         adminDto.setId( entity.getId() );
+        adminDto.setFullName( entity.getFullName() );
         adminDto.setEmail( entity.getEmail() );
         adminDto.setMobile( entity.getMobile() );
         adminDto.setUsername( entity.getUsername() );
@@ -120,6 +122,9 @@ public class AdminMapperImpl implements AdminMapper {
         if ( dto.getMobile() != null ) {
             entity.setMobile( dto.getMobile() );
         }
+        if ( dto.getFullName() != null ) {
+            entity.setFullName( dto.getFullName() );
+        }
     }
 
     @Override
@@ -130,6 +135,9 @@ public class AdminMapperImpl implements AdminMapper {
 
         if ( entity.getId() != null ) {
             dto.setId( entity.getId() );
+        }
+        if ( entity.getFullName() != null ) {
+            dto.setFullName( entity.getFullName() );
         }
         if ( entity.getEmail() != null ) {
             dto.setEmail( entity.getEmail() );
@@ -165,9 +173,11 @@ public class AdminMapperImpl implements AdminMapper {
 
         Admin admin = new Admin();
 
+        admin.setUsername( userRegistrationDto.getUsername() );
         admin.setPassword( userRegistrationDto.getPassword() );
         admin.setEmail( userRegistrationDto.getEmail() );
         admin.setMobile( userRegistrationDto.getMobile() );
+        admin.setFullName( userRegistrationDto.getFullName() );
 
         return admin;
     }
@@ -184,6 +194,9 @@ public class AdminMapperImpl implements AdminMapper {
         if ( userBasicInfo.getMobile() != null ) {
             admin.setMobile( userBasicInfo.getMobile() );
         }
+        if ( userBasicInfo.getFullName() != null ) {
+            admin.setFullName( userBasicInfo.getFullName() );
+        }
 
         return admin;
     }
@@ -199,6 +212,9 @@ public class AdminMapperImpl implements AdminMapper {
         }
         if ( userUpdateByAdmin.getMobile() != null ) {
             admin.setMobile( userUpdateByAdmin.getMobile() );
+        }
+        if ( userUpdateByAdmin.getFullName() != null ) {
+            admin.setFullName( userUpdateByAdmin.getFullName() );
         }
 
         return admin;
@@ -231,6 +247,7 @@ public class AdminMapperImpl implements AdminMapper {
         userProfileDto.setEmail( principal.getEmail() );
         userProfileDto.setMobile( principal.getMobile() );
         userProfileDto.setStatus( principal.getStatus() );
+        userProfileDto.setFullName( principal.getFullName() );
         userProfileDto.setCreatedAt( principal.getCreatedAt() );
         userProfileDto.setUpdatedAt( principal.getUpdatedAt() );
         userProfileDto.setCreatedBy( principal.getCreatedBy() );

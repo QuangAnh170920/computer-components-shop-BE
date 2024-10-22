@@ -15,6 +15,8 @@ public interface CategoriesService {
 
     Page<CategoriesManagementDTO> getCateList(CategoriesRequest categoriesRequest);
 
+    CategoriesManagementDTO getDetail(Long id);
+
     String updateCate(CategoriesManagementDTO categoriesManagementDTO);
 
     String deleteCate(Long id);

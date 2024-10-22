@@ -36,6 +36,12 @@ public class CategoriesController {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.getCateList(categoriesRequest)));
     }
 
+    @Operation(summary = "Xem chi tiết loại sản phẩm", description = "Xem chi tiết loại sản phẩm")
+    @PostMapping(value = "/get-detail/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> getDetail(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.getDetail(id)));
+    }
+
     @Operation(summary = "Cập nhật loại sản phẩm", description = "Cập nhật loại sản phẩm ")
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> update(@RequestBody @Valid CategoriesManagementDTO categoriesManagementDTO) {

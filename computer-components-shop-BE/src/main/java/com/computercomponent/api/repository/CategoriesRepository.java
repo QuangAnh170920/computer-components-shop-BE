@@ -22,16 +22,20 @@ public interface CategoriesRepository extends JpaRepository<Categories, Long> {
 
     @Query(value = "select new com.computercomponent.api.dto.CategoriesManagementDTO(cg.id, cg.code, cg.name, cg.description, cg.status, cg.parentId) " +
             "from Categories as cg where " +
-            "cg.name like concat('%', :searchField, '%')" +
-            "or cg.code like concat('%', :searchField, '%')" +
-            "and (:status is null or cg.status = :status)" +
+            "(:searchField is null or cg.name like concat('%', :searchField, '%') " +
+            "or cg.code like concat('%', :searchField, '%')) " +
+            "and (:status is null or cg.status = :status) " +
             "and (:parentId is null or cg.parentId = :parentId)",
             countQuery = "select count(cg) from Categories as cg " +
-                    "where cg.name like concat('%', :searchField, '%')" +
-                    "or cg.code like  concat('%', :searchField, '%') " +
-                    "and (:status is null or cg.status = :status)" +
+                    "where (:searchField is null or cg.name like concat('%', :searchField, '%') " +
+                    "or cg.code like concat('%', :searchField, '%')) " +
+                    "and (:status is null or cg.status = :status) " +
                     "and (:parentId is null or cg.parentId = :parentId)")
     Page<CategoriesManagementDTO> findAllAndSearch(String searchField, Integer status, Long parentId, Pageable pageable);
+
+    @Query("select new com.computercomponent.api.dto.CategoriesManagementDTO(cg.id, cg.code, cg.name, cg.description, cg.status, cg.parentId) " +
+            "from Categories as cg where cg.parentId = :parentId")
+    List<CategoriesManagementDTO> findByParentId(Long parentId);
 
     @Query(value = "select cg from Categories cg  where cg.id = :id and cg.deleted = false")
     Categories findCategoriesById(Long id);

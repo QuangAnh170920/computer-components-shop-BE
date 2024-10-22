@@ -94,11 +94,12 @@ public class ProductsServiceImpl implements ProductsService {
 
     private void validateProduct(ProductsDTO productsDTO) {
         productsDTO.setName(validateProductName(productsDTO.getName()));
+        productsDTO.setCode(validateProductCode(productsDTO.getCode()));
+        // Kiểm tra giá sản phẩm
         Assert.notNull(productsDTO.getPrice(), Const.PRODUCTS.PROD_PRICE_IS_NOT_EMPTY);
         Assert.isTrue(productsDTO.getPrice().compareTo(BigDecimal.ZERO) >= 0, Const.PRODUCTS.PROD_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
+        // Kiểm tra số lượng
         Assert.isTrue(productsDTO.getQuantityAvailable() >= 0, Const.PRODUCTS.PROD_QUANTITY_AVAILABLE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
-        Assert.notNull(productsDTO.getStatus(), Const.PRODUCTS.PROD_STATUS_IS_NOT_EMPTY);
-        Assert.isTrue(productsDTO.getDiscountPercentage() >= 0 && productsDTO.getDiscountPercentage() <= 100, Const.PRODUCTS.PROD_DISCOUNT_PERCENTAGE_MUST_BE_BETWEEN_0_AND_100);
     }
 
     private void validateUpdateProduct(ProductUpdateRequestDTO productUpdateRequestDTO) {
@@ -123,6 +124,31 @@ public class ProductsServiceImpl implements ProductsService {
                 throw new RuntimeException(Const.PRODUCTS.PROD_NAME_EXISTED);
             }else {
                 return name;
+            }
+        }
+    }
+
+    private String validateProductCode(String str) {
+        if (DataUtil.isNullOrEmpty(str)) {
+            throw new RuntimeException(Const.PRODUCTS.PROD_CODE_IS_NOT_EMPTY);
+        } else {
+            String code = DataUtil.replaceSpaceSolr(str);
+
+            // Kiểm tra độ dài tối thiểu
+            if (code.length() < 3) {
+                throw new RuntimeException(Const.PRODUCTS.PROD_CODE_MIN_LENGTH);
+            }
+
+            // Kiểm tra độ dài tối đa
+            if (code.length() > 200) {
+                throw new RuntimeException(Const.PRODUCTS.PROD_CODE_MAX_LENGTH);
+            }
+
+            Products products = productsRepository.findProductsByCode(code);
+            if (products != null) {
+                throw new RuntimeException(Const.PRODUCTS.PROD_CODE_EXISTED);
+            } else {
+                return code;
             }
         }
     }
