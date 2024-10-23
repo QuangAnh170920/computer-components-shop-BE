@@ -13,14 +13,16 @@ public class PromotionDetail {
     private String code;
     private String name;
     private BigDecimal price;
+    private Integer discountPercentage;
     private String description;
     private PromotionStatus status;
 
-    public PromotionDetail(Long id, String code, String name, BigDecimal price, String description, PromotionStatus status) {
+    public PromotionDetail(Long id, String code, String name, BigDecimal price, Integer discountPercentage, String description, PromotionStatus status) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.price = price;
+        this.discountPercentage = discountPercentage;
         this.description = description;
         this.status = status;
     }

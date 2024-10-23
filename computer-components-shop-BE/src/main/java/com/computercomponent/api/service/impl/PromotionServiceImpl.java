@@ -9,6 +9,7 @@ import com.computercomponent.api.request.PromotionRequest;
 import com.computercomponent.api.response.PromotionDetail;
 import com.computercomponent.api.service.PromotionService;
 import com.computercomponent.api.until.DataUtil;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,6 +65,16 @@ public class PromotionServiceImpl implements PromotionService {
             validatePromotionCode(promotionManagementDTO.getCode());
             promotion.setCode(promotionManagementDTO.getCode());
         }
+
+        if (promotionManagementDTO.getDiscountPercentage() != null && !Objects.equals(promotion.getDiscountPercentage(), promotionManagementDTO.getDiscountPercentage())) {
+            validateDiscountPercentage(promotionManagementDTO.getDiscountPercentage());
+            promotion.setDiscountPercentage(promotionManagementDTO.getDiscountPercentage());
+        }
+
+        if (promotionManagementDTO.getPrice() != null && !Objects.equals(promotion.getPrice(), promotionManagementDTO.getPrice())) {
+            promotion.setPrice(promotionManagementDTO.getPrice());
+        }
+
         promotionRepository.save(promotion);
         return Const.MESSAGE_CODE.SUCCESS;
     }
@@ -94,6 +105,13 @@ public class PromotionServiceImpl implements PromotionService {
 
     private void validatePromotion(PromotionDTO promotionDTO) {
         promotionDTO.setName(validatePromotionName(promotionDTO.getName()));
+        promotionDTO.setCode(validatePromotionCode(promotionDTO.getCode()));
+        if (promotionDTO.getDiscountPercentage() < 0 || promotionDTO.getDiscountPercentage() >= 100) {
+            throw new RuntimeException(Const.PROMOTION.DISCOUNT_PERCENTAGE_MUST_BE_BETWEEN_0_AND_100);
+        }
+        if (!NumberUtils.isCreatable(promotionDTO.getDiscountPercentage().toString())) {
+            throw new RuntimeException(Const.PROMOTION.INVALID_PROMOTION_PERCENTAGE);
+        }
     }
 
     private void validateUpdatePromotion(PromotionManagementDTO promotionManagementDTO) {
@@ -131,19 +149,29 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     private String validatePromotionCode(String str) {
-        String code = DataUtil.replaceSpaceSolr(str);
-        if(code.length() > 200){
-            throw new RuntimeException(Const.PROMOTION.PROMOTION_CODE_MORE_THAN_200_CHAR);
-        }
-        Promotion promotion = promotionRepository.findPromotionsByCode(code);
-        if (promotion != null) {
-            throw new RuntimeException(Const.PROMOTION.PROMOTION_CODE_EXISTED);
-        }else {
-            return code;
+        if (DataUtil.isNullOrEmpty(str)) {
+            throw new RuntimeException(Const.PROMOTION.PROMOTION_NAME_IS_NOT_EMPTY);
+        } else {
+            String code = DataUtil.replaceSpaceSolr(str);
+            if(code.length() > 200){
+                throw new RuntimeException(Const.PROMOTION.PROMOTION_CODE_MORE_THAN_200_CHAR);
+            }
+            Promotion promotion = promotionRepository.findPromotionsByCode(code);
+            if (promotion != null) {
+                throw new RuntimeException(Const.PROMOTION.PROMOTION_CODE_EXISTED);
+            }else {
+                return code;
+            }
         }
     }
 
     private void validatePromotionDescription(String description) {
         Assert.isTrue(description == null || description.length() <= 255, Const.PROMOTION.INVALID_DESCRIPTION_LENGTH);
+    }
+
+    private void validateDiscountPercentage(Integer discountPercentage) {
+        if (discountPercentage < 0 || discountPercentage >= 100) {
+            throw new RuntimeException(Const.PROMOTION.DISCOUNT_PERCENTAGE_MUST_BE_BETWEEN_0_AND_100);
+        }
     }
 }

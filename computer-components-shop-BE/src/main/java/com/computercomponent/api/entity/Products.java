@@ -17,9 +17,11 @@ public class Products extends BaseEntity{
     private BigDecimal finalTotalPrice; // tổng số tiền sau khi áp dụng chiết khấu
     private String power;
     private Integer quantityAvailable; // số lượng có sẵn
+    private String imageUrl;
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ProductsStatus status;
     private Long categoryId;
+    private Long promotionId;
 }

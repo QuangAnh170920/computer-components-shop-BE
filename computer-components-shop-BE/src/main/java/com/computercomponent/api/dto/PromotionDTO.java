@@ -14,6 +14,7 @@ public class PromotionDTO {
     private String code;
     private String name;
     private BigDecimal price;
+    private Integer discountPercentage;
     private String description;
     private PromotionStatus status;
 }

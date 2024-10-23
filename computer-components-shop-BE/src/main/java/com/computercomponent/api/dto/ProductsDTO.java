@@ -17,9 +17,10 @@ public class ProductsDTO {
     private String description;
     private BigDecimal price;
     private BigDecimal finalTotalPrice;
-    private Integer quantityAvailable;
     private String power;
     private Integer status;
     private Long imageUrl;
+    private Long categoryId;
+    private Long promotionId;
     private List<ProductFeaturesDTO> productFeatures;
 }

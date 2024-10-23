@@ -1,6 +1,7 @@
 package com.computercomponent.api.response;
 
 import com.computercomponent.api.common.ProductsStatus;
+import com.computercomponent.api.dto.ProductFeaturesDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,20 +17,28 @@ public class ProductDetail {
     private String name;
     private String description;
     private BigDecimal price;
-    private Integer quantityAvailable;
-    private ProductsStatus status;
-    private String categoryName;
     private BigDecimal finalTotalPrice;
+    private String power;
+    private ProductsStatus status;
+    private String imageUrl;
+    private String promotionName;
+    private String categoryName;
+    private List<ProductFeaturesDTO> productFeatures;
 
-    public ProductDetail(Long id, String name, String description, BigDecimal price, Integer quantityAvailable,
-                         ProductsStatus status, String categoryName, BigDecimal finalTotalPrice) {
+    public ProductDetail(Long id, String name, String description, BigDecimal price, BigDecimal finalTotalPrice,
+                         String power, ProductsStatus status,
+                         String imageUrl, String promotionName, String categoryName) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.quantityAvailable = quantityAvailable;
-        this.status = status;
-        this.categoryName = categoryName;
         this.finalTotalPrice = finalTotalPrice;
+        this.power = power;
+        this.status = status;
+        this.imageUrl = imageUrl;
+        this.promotionName = promotionName;
+        this.categoryName = categoryName;
+        this.productFeatures = new ArrayList<>();
     }
+
 }

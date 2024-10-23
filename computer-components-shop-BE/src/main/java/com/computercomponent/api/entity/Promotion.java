@@ -22,4 +22,6 @@ public class Promotion extends BaseEntity{
     private PromotionStatus status;
     @Column(name = "price")
     private BigDecimal price;
+    @Column(name = "discountPercentage")
+    private Integer discountPercentage;
 }

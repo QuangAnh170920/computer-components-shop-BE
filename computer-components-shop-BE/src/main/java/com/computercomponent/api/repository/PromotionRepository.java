@@ -17,7 +17,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long> {
     @Query(value = "select pr from Promotion pr  where pr.code = :code and pr.deleted = false")
     Promotion findPromotionsByCode(String code);
 
-    @Query(value = "select new com.computercomponent.api.dto.PromotionManagementDTO(pr.id, pr.code, pr.name, pr.price, pr.description, pr.status)" +
+    @Query(value = "select new com.computercomponent.api.dto.PromotionManagementDTO(pr.id, pr.code, pr.name, pr.price, pr.discountPercentage, pr.description, pr.status)" +
             " from Promotion as pr" +
             " where (pr.name like concat('%', :searchField, '%')" +
             "or pr.code like concat('%', :searchField, '%')) " +
@@ -33,7 +33,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long> {
     @Query(value = "select pr from Promotion pr  where pr.id = :id and pr.deleted = false")
     Promotion findPromotionById(Long id);
 
-    @Query(value = "select new com.computercomponent.api.response.PromotionDetail(pr.id, pr.code, pr.name, pr.price, pr.description, pr.status) " +
+    @Query(value = "select new com.computercomponent.api.response.PromotionDetail(pr.id, pr.code, pr.name, pr.price, pr.discountPercentage, pr.description, pr.status) " +
             "from Promotion as pr " +
             "where pr.id = :id ",
             countQuery = "select count(pr) from Promotion as pr " +
