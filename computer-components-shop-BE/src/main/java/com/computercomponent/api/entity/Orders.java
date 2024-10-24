@@ -1,10 +1,13 @@
 package com.computercomponent.api.entity;
 
 import com.computercomponent.api.common.OrderStatus;
+import com.computercomponent.api.common.PaymentMethod;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "orders")
@@ -18,7 +21,7 @@ public class Orders extends BaseEntity{
     @Column(name = "status")
     private OrderStatus status;
     private String shippingAddress; // địa chỉ giao hàng
-    private String paymentMethod; // phương thức thanh toán
+    private PaymentMethod paymentMethod; // phương thức thanh toán
     private Integer totalQuantity; // tổng số lượng sản phẩm trong đơn hàng
     private BigDecimal totalPrice; // tổng tiền của cả đơn hàng
 }

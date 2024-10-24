@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.stream.Stream;
 
-public enum InventoryStatus {
-    ACTIVE(1),
-    DEACTIVATE(2),
-    ALL(3);
+public enum PaymentMethod {
+    CASH (1),
+    BANK_TRANSFER (2),
+    MOBILE_PAYMENT  (3);
 
     private final Integer value;
 
-    InventoryStatus(Integer value) {
+    PaymentMethod(Integer value) {
         this.value = value;
     }
 
@@ -20,8 +20,8 @@ public enum InventoryStatus {
         return value;
     }
 
-    public static InventoryStatus fromValue(Integer value) {
-        return Stream.of(InventoryStatus.values())
+    public static PaymentMethod fromValue(Integer value) {
+        return Stream.of(PaymentMethod.values())
                 .filter(targetEnum -> targetEnum.value.equals(value))
                 .findFirst().orElse(null);
     }

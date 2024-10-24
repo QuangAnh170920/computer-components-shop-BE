@@ -1,5 +1,7 @@
 package com.computercomponent.api.dto;
 
+import com.computercomponent.api.common.PaymentMethod;
+import com.computercomponent.api.common.PaymentStatus;
 import com.computercomponent.api.common.TransactionType;
 import com.computercomponent.api.common.WarehouseStatus;
 import lombok.AllArgsConstructor;
@@ -17,9 +19,11 @@ public class WarehouseUpdateRequestDTO {
     private String name;
     private String supplier;
     private String description;
-    private WarehouseStatus status;
     private Long productId;
     private TransactionType type;
-    private Integer totalQuantity; //tổng số lượng trong giao dịch
-    private BigDecimal totalPrice; //tổng số tiền trong giao dịch
+    private Integer totalQuantity;
+    private BigDecimal totalPrice;
+    private Long employeeId; // ID của nhân viên thực hiện
+    private PaymentMethod paymentMethod; // Phương thức thanh toán
+    private PaymentStatus paymentStatus; // Trạng thái thanh toán
 }

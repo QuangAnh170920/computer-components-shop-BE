@@ -20,5 +20,5 @@ public interface ProductsService {
 
     List<ProductDropListDTO> dropList();
 
-    Page<ProductQuantityDTO> getProductsQuantityList(ProductsRequest productsRequest);
+    Page<ProductWarehouseDTO> getProductsQuantityList(ProductsRequest productsRequest);
 }

@@ -126,6 +126,7 @@ public class Const {
         public static final String PROD_CODE_MAX_LENGTH = "Mã sản phẩm không được vượt quá 200 ký tự";
         public static final String PROD_CODE_EXISTED = "Mã sản phẩm đã tồn tại";
         public static final String PROD_POWER_MUST_BE_A_NUMBER = "Công suất sản phẩm không hợp lệ";
+        public static final String INSUFFICIENT_QUANTITY = "Số lượng hàng tồn kho không đủ để thực hiện một giao dịch xuất kho";
     }
 
     public static class PRODUCT_SPEC {
@@ -177,5 +178,7 @@ public class Const {
         public static final String WAREHOUSE_CODE_IS_NOT_EMPTY = "Mã đơn hàng không được để trống";
         public static final String WAREHOUSE_CODE_MORE_THAN_200_CHAR = "Mã đơn hàng không được vượt quá 200 ký tự";
         public static final String WAREHOUSE_CODE_EXISTED = "Mã đơn hàng đã tồn tại";
+        public static final String INVALID_TRANSACTION_TYPE = "Loại giao dịch không hợp lệ";
+        public static final String CANNOT_DELETE_WAREHOUSE_RECORD = "Không thể xóa đơn hàng khi đang ở trạng thái thanh toán là thành công";
     }
 }

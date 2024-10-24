@@ -172,7 +172,7 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public Page<ProductQuantityDTO> getProductsQuantityList(ProductsRequest productsRequest) {
+    public Page<ProductWarehouseDTO> getProductsQuantityList(ProductsRequest productsRequest) {
         PageRequest pageRequest = DataUtil.getPageable(productsRequest.getPageNumber(), productsRequest.getPageSize());
         if (productsRequest.getSearchField() == null) {
             productsRequest.setSearchField("");
@@ -183,6 +183,7 @@ public class ProductsServiceImpl implements ProductsService {
         }
         return productsRepository.getProductQuantityList(productsRequest.getSearchField().trim(), productsRequest.getStatus(), pageRequest);
     }
+
 
     private void validateProduct(ProductsDTO productsDTO) {
         productsDTO.setName(validateProductName(productsDTO.getName()));
