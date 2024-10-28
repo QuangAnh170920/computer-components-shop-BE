@@ -281,6 +281,11 @@ public class CategoriesServiceImpl implements CategoriesService {
         return new CategoriesManagementStatusDTO(categories.getId(), categories.getStatus());
     }
 
+    @Override
+    public List<CategoryDropListDTO> dropListExcludingChildren(Long categoryId) {
+        return categoriesRepository.dropListExcludingChildren(categoryId);
+    }
+
     private void validateCreateCate(CategoriesDTO categoriesDTO) {
         categoriesDTO.setName(validateCateName(categoriesDTO.getName()));
         categoriesDTO.setCode(validateCateCode(categoriesDTO.getCode()));

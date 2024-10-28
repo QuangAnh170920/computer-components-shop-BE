@@ -11,8 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -36,5 +39,11 @@ public class DropListController {
     @GetMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> productsDropList() {
         return ResponseEntity.ok(new ResponseWrapper(productsService.dropList()));
+    }
+
+    @Operation(summary = "drop list loại sản phẩm excluding children", description = "drop list loại sản phẩm excluding children by category ID")
+    @GetMapping(value = "/categories/exclude-children/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> categoryDropListExcludingChildren(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(new ResponseWrapper(categoriesService.dropListExcludingChildren(categoryId)));
     }
 }

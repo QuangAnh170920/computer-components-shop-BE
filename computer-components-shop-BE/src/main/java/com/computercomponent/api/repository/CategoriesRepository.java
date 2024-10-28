@@ -49,4 +49,13 @@ public interface CategoriesRepository extends JpaRepository<Categories, Long> {
             countQuery = "select count(c) from Categories as c " +
                     "where c.id = :id")
     CategoriesDetail getDetail(Long id);
+
+    @Query("SELECT new com.computercomponent.api.dto.CategoryDropListDTO(c.id, c.name) " +
+            "FROM Categories c WHERE c.deleted = false " +
+            "AND c.id != :categoryId " +
+            "AND c.id NOT IN (SELECT descendant.id FROM Categories descendant WHERE descendant.parentId = :categoryId " +
+            "OR descendant.parentId IN (SELECT child.id FROM Categories child WHERE child.parentId = :categoryId)) " +
+            "ORDER BY c.createdAt DESC")
+    List<CategoryDropListDTO> dropListExcludingChildren(Long categoryId);
+
 }
