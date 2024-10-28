@@ -45,6 +45,8 @@ public class CategoriesServiceImpl implements CategoriesService {
                     child.getId(),
                     child.getCode(),
                     child.getName(),
+                    child.getDescription(),
+                    child.getStatus(),
                     child.getParentId(),
                     new ArrayList<>()
             );
@@ -112,8 +114,10 @@ public class CategoriesServiceImpl implements CategoriesService {
                         child.getId(),
                         child.getCode(),
                         child.getName(),
+                        child.getDescription(),
+                        child.getStatus(),
                         child.getParentId(),
-                        new ArrayList<>() // Khởi tạo danh sách children rỗng
+                        new ArrayList<>()
                 );
 
                 // Thêm childDTO vào danh sách children của parent
@@ -168,6 +172,8 @@ public class CategoriesServiceImpl implements CategoriesService {
                     child.getId(),
                     child.getCode(),
                     child.getName(),
+                    child.getDescription(),
+                    child.getStatus(),
                     child.getParentId(),
                     new ArrayList<>()
             );
