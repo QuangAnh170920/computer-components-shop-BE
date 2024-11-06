@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -341,6 +343,7 @@ public class CategoriesServiceImpl implements CategoriesService {
         Assert.isTrue(description == null || description.length() <= 255, Const.CATEGORIES.INVALID_DESCRIPTION_LENGTH);
     }
 
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public static class CategoryValidationException extends RuntimeException {
         public CategoryValidationException(String message) {
             super(message);

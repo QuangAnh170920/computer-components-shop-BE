@@ -52,9 +52,8 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query("select new com.computercomponent.api.dto.ProductDropListDTO(p.id, p.name) from Products p  where p.deleted = false order by p.createdAt DESC ")
     List<ProductDropListDTO> dropList();
 
-    @Query(value = "SELECT new com.computercomponent.api.dto.ProductWarehouseDTO(p.code, p.name, p.quantityAvailable, p.status, w.employeeId, w.supplier) " +
+    @Query(value = "SELECT new com.computercomponent.api.dto.ProductWarehouseDTO(p.id, p.code, p.name, p.quantityAvailable, p.status) " +
             "FROM Products p " +
-            "LEFT JOIN Warehouse w ON p.id = w.productId " +
             "WHERE (p.name LIKE concat('%', :searchField, '%') OR p.code LIKE concat('%', :searchField, '%')) " +
             "AND (:status IS NULL OR p.status = :status)",
             countQuery = "SELECT count(p) FROM Products p " +
