@@ -21,13 +21,13 @@ public class ProductDetail {
     private String power;
     private ProductsStatus status;
     private String imageUrl;
-    private String promotionName;
-    private String categoryName;
+    private Long promotionId;
+    private Long categoryId;
     private List<ProductFeaturesDTO> productFeatures;
 
     public ProductDetail(Long id, String name, String description, BigDecimal price, BigDecimal finalTotalPrice,
                          String power, ProductsStatus status,
-                         String imageUrl, String promotionName, String categoryName) {
+                         String imageUrl, Long promotionId, Long categoryId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,8 +36,8 @@ public class ProductDetail {
         this.power = power;
         this.status = status;
         this.imageUrl = imageUrl;
-        this.promotionName = promotionName;
-        this.categoryName = categoryName;
+        this.promotionId = promotionId;
+        this.categoryId = categoryId;
         this.productFeatures = new ArrayList<>();
     }
 

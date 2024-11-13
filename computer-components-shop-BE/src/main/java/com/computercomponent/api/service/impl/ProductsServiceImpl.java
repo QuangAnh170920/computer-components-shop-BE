@@ -42,29 +42,12 @@ public class ProductsServiceImpl implements ProductsService {
 
         // Tạo đối tượng Products từ ProductsDTO
         Products products = new Products();
+        products.setStatus(ProductsStatus.DEACTIVATE);
         BeanUtils.copyProperties(productsDTO, products);
 
         // Thêm chữ "W" vào sau giá trị power nếu có
         if (productsDTO.getPower() != null) {
             products.setPower(productsDTO.getPower() + "W");
-        }
-
-        // Nếu có promotionId, tính toán finalTotalPrice
-        if (productsDTO.getPromotionId() != null) {
-            // Tìm thông tin khuyến mãi dựa trên promotionId
-            Promotion promotion = promotionRepository.findById(productsDTO.getPromotionId())
-                    .orElseThrow(() -> new RuntimeException(Const.PROMOTION.PROMOTION_NOT_FOUND));
-
-            // Tính giá sau khi giảm (finalTotalPrice = price - (price * discount / 100))
-            BigDecimal discountAmount = productsDTO.getPrice()
-                    .multiply(BigDecimal.valueOf(promotion.getDiscountPercentage()))
-                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
-
-            BigDecimal finalPrice = productsDTO.getPrice().subtract(discountAmount);
-
-            products.setFinalTotalPrice(finalPrice); // Set giá sau khi áp dụng khuyến mãi
-        } else {
-            products.setFinalTotalPrice(productsDTO.getPrice()); // Nếu không có khuyến mãi, finalTotalPrice là giá gốc
         }
 
         // Lưu sản phẩm vào bảng 'Products'
@@ -109,23 +92,6 @@ public class ProductsServiceImpl implements ProductsService {
         // Thêm chữ "W" vào sau giá trị power nếu có
         if (productUpdateRequestDTO.getPower() != null) {
             products.setPower(productUpdateRequestDTO.getPower() + "W");
-        }
-
-        // Nếu có promotionId, tính toán finalTotalPrice
-        if (productUpdateRequestDTO.getPromotionId() != null) {
-            // Tìm thông tin khuyến mãi dựa trên promotionId
-            Promotion promotion = promotionRepository.findById(productUpdateRequestDTO.getPromotionId())
-                    .orElseThrow(() -> new RuntimeException(Const.PROMOTION.PROMOTION_NOT_FOUND));
-
-            // Tính giá sau khi giảm (finalTotalPrice = price - (price * discount / 100))
-            BigDecimal discountAmount = products.getPrice()
-                    .multiply(BigDecimal.valueOf(promotion.getDiscountPercentage()))
-                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
-
-            BigDecimal finalPrice = products.getPrice().subtract(discountAmount);
-            products.setFinalTotalPrice(finalPrice); // Set giá sau khi áp dụng khuyến mãi
-        } else {
-            products.setFinalTotalPrice(products.getPrice()); // Nếu không có khuyến mãi, finalTotalPrice là giá gốc
         }
 
         // Lưu sản phẩm vào bảng 'Products'

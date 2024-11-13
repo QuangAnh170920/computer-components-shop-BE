@@ -2,13 +2,11 @@ package com.computercomponent.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProductFeaturesDTO {
+public class PromotionDropListDTO {
     private Long id;
-    private String feature;
-    private Integer priority;
+    private String name;
+    private Integer discountPercentage;
 }

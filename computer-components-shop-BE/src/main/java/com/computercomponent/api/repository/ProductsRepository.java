@@ -38,7 +38,7 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "select prod from Products prod  where prod.id = :id and prod.deleted = false")
     Products findProductsById(Long id);
 
-    @Query(value = "select new com.computercomponent.api.response.ProductDetail(p.id, p.name, p.description, p.price, p.finalTotalPrice, p.power, p.status, p.imageUrl, prm.name, c.name) " +
+    @Query(value = "select new com.computercomponent.api.response.ProductDetail(p.id, p.name, p.description, p.price, p.finalTotalPrice, p.power, p.status, p.imageUrl, prm.id, c.id) " +
             "from Products as p " +
             "left join Categories as c on p.categoryId = c.id " +
             "left join Promotion as prm on p.promotionId = prm.id " +

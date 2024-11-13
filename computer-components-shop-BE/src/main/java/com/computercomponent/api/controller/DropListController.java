@@ -3,6 +3,7 @@ package com.computercomponent.api.controller;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.service.CategoriesService;
 import com.computercomponent.api.service.ProductsService;
+import com.computercomponent.api.service.PromotionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class DropListController {
     @Autowired
     private ProductsService productsService;
 
+    @Autowired
+    private PromotionService promotionService;
+
     @Operation(summary = "drop list loại sản phẩm", description = "drop list loại sản phẩm")
     @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> categoryDropList() {
@@ -45,5 +49,11 @@ public class DropListController {
     @GetMapping(value = "/categories/exclude-children/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseWrapper> categoryDropListExcludingChildren(@PathVariable Long categoryId) {
         return ResponseEntity.ok(new ResponseWrapper(categoriesService.dropListExcludingChildren(categoryId)));
+    }
+
+    @Operation(summary = "drop list khuyến mãi", description = "drop list khuyến mãi")
+    @GetMapping(value = "/promotions", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> promotionsDropList() {
+        return ResponseEntity.ok(new ResponseWrapper(promotionService.dropList()));
     }
 }

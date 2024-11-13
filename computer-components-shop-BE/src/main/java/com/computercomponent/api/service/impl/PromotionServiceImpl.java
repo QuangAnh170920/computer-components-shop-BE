@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -101,6 +102,11 @@ public class PromotionServiceImpl implements PromotionService {
         BeanUtils.copyProperties(promotionManagementStatusDTO, promotion);
         promotionRepository.save(promotion);
         return null;
+    }
+
+    @Override
+    public List<PromotionDropListDTO> dropList() {
+        return promotionRepository.dropList();
     }
 
     private void validatePromotion(PromotionDTO promotionDTO) {
