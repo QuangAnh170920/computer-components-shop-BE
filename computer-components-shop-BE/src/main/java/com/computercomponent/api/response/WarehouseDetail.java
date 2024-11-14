@@ -17,8 +17,6 @@ public class WarehouseDetail {
     private String supplier;
     private String description;
     private WarehouseStatus status;
-    private String productCode;
-    private String productName;
     private TransactionType type;
     private LocalDateTime transactionDate;
     private Integer totalQuantity;
@@ -28,7 +26,7 @@ public class WarehouseDetail {
     private PaymentStatus paymentStatus;
 
     public WarehouseDetail(Long id, String code, String name, String supplier, String description, WarehouseStatus status,
-                           String productCode, String productName, TransactionType type, LocalDateTime transactionDate,
+                           TransactionType type, LocalDateTime transactionDate,
                            Integer totalQuantity, BigDecimal totalPrice, Long employeeId, PaymentMethod paymentMethod, PaymentStatus paymentStatus) {
         this.id = id;
         this.code = code;
@@ -36,8 +34,6 @@ public class WarehouseDetail {
         this.supplier = supplier;
         this.description = description;
         this.status = status;
-        this.productCode = productCode;
-        this.productName = productName;
         this.type = type;
         this.transactionDate = transactionDate;
         this.totalQuantity = totalQuantity;

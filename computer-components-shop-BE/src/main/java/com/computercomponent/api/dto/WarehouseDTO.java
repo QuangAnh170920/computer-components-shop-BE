@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,11 +20,11 @@ public class WarehouseDTO {
     private String supplier;
     private String description;
     private WarehouseStatus status; // Thay Integer bằng WarehouseStatus
-    private Long productId;
     private TransactionType type; // Thay Integer bằng TransactionType
     private Integer totalQuantity;
     private BigDecimal totalPrice;
     private Long employeeId; // ID của nhân viên thực hiện
     private PaymentMethod paymentMethod; // Phương thức thanh toán
     private PaymentStatus paymentStatus; // Trạng thái thanh toán
+    private List<WarehouseProductDTO> warehouseProductDTOS;
 }

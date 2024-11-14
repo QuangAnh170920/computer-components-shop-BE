@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,8 +23,6 @@ public class WarehouseManagementDTO {
     private String supplier;
     private String description;
     private WarehouseStatus status;
-    private String productCode;
-    private String productName;
     private TransactionType type;
     private LocalDateTime transactionDate;
     private Integer totalQuantity;

@@ -24,7 +24,6 @@ public class Warehouse extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private WarehouseStatus status;
-    private Long productId;
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "type")

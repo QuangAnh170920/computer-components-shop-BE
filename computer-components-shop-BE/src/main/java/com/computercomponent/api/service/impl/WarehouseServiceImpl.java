@@ -1,13 +1,12 @@
 package com.computercomponent.api.service.impl;
 
 import com.computercomponent.api.common.*;
-import com.computercomponent.api.dto.WarehouseDTO;
-import com.computercomponent.api.dto.WarehouseManagementDTO;
-import com.computercomponent.api.dto.WarehouseManagementStatusDTO;
-import com.computercomponent.api.dto.WarehouseUpdateRequestDTO;
+import com.computercomponent.api.dto.*;
 import com.computercomponent.api.entity.Products;
 import com.computercomponent.api.entity.Warehouse;
+import com.computercomponent.api.entity.WarehouseProduct;
 import com.computercomponent.api.repository.ProductsRepository;
+import com.computercomponent.api.repository.WarehouseProductRepository;
 import com.computercomponent.api.repository.WarehouseRepository;
 import com.computercomponent.api.request.WarehouseRequest;
 import com.computercomponent.api.response.WarehouseDetail;
@@ -30,49 +29,58 @@ public class WarehouseServiceImpl implements WarehouseService {
     private WarehouseRepository warehouseRepository;
     @Autowired
     private ProductsRepository productsRepository;
+    @Autowired
+    private WarehouseProductRepository warehouseProductRepository;
 
     @Override
     @Transactional
     public String create(WarehouseDTO warehouseDTO) {
+        // Kiểm tra các đầu vào quan trọng
+        Assert.notNull(warehouseDTO.getWarehouseProductDTOS(), "Danh sách sản phẩm không được để trống");
+        Assert.notNull(warehouseDTO.getType(), "Loại giao dịch không được để trống");
+        Assert.notNull(warehouseDTO.getPaymentStatus(), "Trạng thái thanh toán không được để trống");
+
         // Khởi tạo entity Warehouse
         Warehouse warehouse = new Warehouse();
-
-        // Copy các trường từ WarehouseDTO sang Warehouse entity
         BeanUtils.copyProperties(warehouseDTO, warehouse);
-
-        // Đặt ngày giao dịch hiện tại
         warehouse.setTransactionDate(LocalDateTime.now());
 
-        // Kiểm tra sản phẩm có tồn tại hay không
-        Long productId = warehouseDTO.getProductId();
-        Products product = productsRepository.findProductsById(productId);
-        Assert.isTrue(product != null, Const.PRODUCTS.PROD_NOT_FOUND);
+        // Lưu trước warehouse để lấy ID
+        warehouseRepository.save(warehouse);
 
-        // Lấy số lượng hiện có của sản phẩm
-        Integer currentQuantity = product.getQuantityAvailable();
-        Integer totalQuantity = warehouseDTO.getTotalQuantity();
+        // Kiểm tra và xử lý từng sản phẩm trong danh sách
+        for (WarehouseProductDTO warehouseProductDTO : warehouseDTO.getWarehouseProductDTOS()) {
+            Long productId = warehouseProductDTO.getProductId();
+            Products product = productsRepository.findProductsById(productId);
+            Assert.isTrue(product != null, Const.PRODUCTS.PROD_NOT_FOUND);
 
-        // Kiểm tra trạng thái thanh toán
-        if (warehouseDTO.getPaymentStatus() == PaymentStatus.COMPLETED) {
-            // Xử lý tùy theo loại giao dịch (nhập kho hay xuất kho)
-            if (warehouseDTO.getType() == TransactionType.IMPORT) {
-                // Nếu là nhập kho, cộng số lượng
-                product.setQuantityAvailable(currentQuantity + totalQuantity);
-            } else if (warehouseDTO.getType() == TransactionType.EXPORT) {
-                // Nếu là xuất kho, trừ số lượng và kiểm tra số lượng tồn kho
-                Assert.isTrue(currentQuantity >= totalQuantity, Const.PRODUCTS.INSUFFICIENT_QUANTITY);
-                product.setQuantityAvailable(currentQuantity - totalQuantity);
+            Integer currentQuantity = product.getQuantityAvailable();
+            Integer transactionQuantity = warehouseProductDTO.getQuantity();
+            Assert.isTrue(transactionQuantity > 0, "Số lượng sản phẩm phải lớn hơn 0");
+
+            // Xử lý trạng thái thanh toán
+            if (warehouseDTO.getPaymentStatus() == PaymentStatus.COMPLETED) {
+                if (warehouseDTO.getType() == TransactionType.IMPORT) {
+                    product.setQuantityAvailable(currentQuantity + transactionQuantity);
+                } else if (warehouseDTO.getType() == TransactionType.EXPORT) {
+                    Assert.isTrue(currentQuantity >= transactionQuantity, Const.PRODUCTS.INSUFFICIENT_QUANTITY);
+                    product.setQuantityAvailable(currentQuantity - transactionQuantity);
+                }
+                productsRepository.save(product);
+            } else {
+                warehouse.setStatus(WarehouseStatus.PENDING);
             }
 
-            // Lưu sản phẩm sau khi cập nhật số lượng
-            productsRepository.save(product);
-        } else {
-            // Xử lý nếu trạng thái thanh toán không phải là COMPLETED
-            warehouse.setStatus(WarehouseStatus.PENDING);
-            warehouseRepository.save(warehouse);
+            // Lưu thông tin WarehouseProduct
+            WarehouseProduct warehouseProduct = new WarehouseProduct();
+            BeanUtils.copyProperties(warehouseProductDTO, warehouseProduct);
+            warehouseProduct.setWarehouseId(warehouse.getId());
+            warehouseProduct.setProductId(productId);
+            warehouseProduct.setQuantity(transactionQuantity);
+            warehouseProductRepository.save(warehouseProduct);
         }
 
-        // Lưu thông tin giao dịch kho
+        // Lưu lại thông tin giao dịch kho sau khi đã cập nhật trạng thái
         warehouseRepository.save(warehouse);
 
         return Const.MESSAGE_CODE.SUCCESS;
