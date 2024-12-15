@@ -19,7 +19,7 @@ public class ProductsDTO {
     private BigDecimal finalTotalPrice;
     private String power;
     private Integer status;
-    private Long imageUrl;
+    private String imageUrl;
     private Long categoryId;
     private Long promotionId;
     private List<ProductFeaturesDTO> productFeatures;

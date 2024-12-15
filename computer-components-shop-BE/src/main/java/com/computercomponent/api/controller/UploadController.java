@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -27,7 +28,7 @@ public class UploadController {
     @PostMapping(value = "/upload", produces = MediaType.APPLICATION_JSON_VALUE, consumes = "multipart/form-data")
     public ResponseEntity<ResponseWrapper> upload(@RequestParam("file") MultipartFile file) {
         try {
-            String result = uploadService.storeFile(file);
+            Map<String, String> result = uploadService.storeFile(file);
             return ResponseEntity.ok(new ResponseWrapper(result));
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

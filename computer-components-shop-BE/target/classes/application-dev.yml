@@ -61,4 +61,4 @@ jwt:
   validity: 86400
 
 upload:
-  folder: C:\DoAn\image\
+  folder: C:\\DoAn\\image\\
