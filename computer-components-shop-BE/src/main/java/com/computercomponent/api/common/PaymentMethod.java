@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Stream;
 
 public enum PaymentMethod {
-    CASH (1),
-    BANK_TRANSFER (2),
-    MOBILE_PAYMENT  (3);
+    CASH(1),
+    BANK_TRANSFER(2),
+    MOBILE_PAYMENT(3);
 
     private final Integer value;
 

@@ -85,7 +85,7 @@ public class ProductsServiceImpl implements ProductsService {
 
         // Validate sản phẩm trước khi cập nhật
         validateUpdateProduct(productUpdateRequestDTO);
-
+        BeanUtils.copyProperties(productUpdateRequestDTO, products);
         // Lưu sản phẩm vào bảng 'Products'
         productsRepository.save(products);
 
@@ -140,6 +140,15 @@ public class ProductsServiceImpl implements ProductsService {
             Assert.notNull(status, Const.MESSAGE_CODE.STATUS_NOT_FOUND);
         }
         return productsRepository.getProductQuantityList(productsRequest.getSearchField().trim(), productsRequest.getStatus(), pageRequest);
+    }
+
+    @Override
+    public ProductManagementStatusDTO updateStatus(ProductManagementStatusDTO productManagementStatusDTO) {
+        Products products = productsRepository.findProductsById(productManagementStatusDTO.getId());
+        org.springframework.util.Assert.isTrue(products != null, Const.PRODUCTS.PROD_NOT_FOUND);
+        BeanUtils.copyProperties(productManagementStatusDTO, products);
+        productsRepository.save(products);
+        return null;
     }
 
 

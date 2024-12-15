@@ -54,7 +54,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             Products product = productsRepository.findProductsById(productId);
             Assert.isTrue(product != null, Const.PRODUCTS.PROD_NOT_FOUND);
 
-            Integer currentQuantity = product.getQuantityAvailable();
+            Integer currentQuantity = product.getQuantityAvailable() != null ? product.getQuantityAvailable() : 0;
             Integer transactionQuantity = warehouseProductDTO.getQuantity();
             Assert.isTrue(transactionQuantity > 0, "Số lượng sản phẩm phải lớn hơn 0");
 

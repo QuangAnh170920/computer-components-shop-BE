@@ -61,4 +61,10 @@ public class ProductsController {
     public ResponseEntity<ResponseWrapper> findAllAndSearchQuantityProduct(@RequestBody ProductsRequest productsRequest) {
         return ResponseEntity.ok(new ResponseWrapper(productsService.getProductsQuantityList(productsRequest)));
     }
+
+    @Operation(summary = "Cập nhật status", description = "Cập nhật status")
+    @PutMapping(value = "/update-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> updateStatus(@RequestBody @Valid ProductManagementStatusDTO productManagementStatusDTO) {
+        return ResponseEntity.ok(new ResponseWrapper(productsService.updateStatus(productManagementStatusDTO)));
+    }
 }

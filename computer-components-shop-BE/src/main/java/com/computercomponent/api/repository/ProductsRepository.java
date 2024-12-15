@@ -23,17 +23,20 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
             "from Products as p " +
             "left join Categories as c on p.categoryId = c.id " +
             "left join Promotion as prm on p.promotionId = prm.id " +
-            "where p.name like concat('%', :searchField, '%') " +
-            "or  p.code like concat('%', :searchField, '%') " +
-            "or  c.name like concat('%', :searchField, '%') " +
-            "and (:status is null or p.status = :status)",
+            "where (p.name like concat('%', :searchField, '%') " +
+            "or p.code like concat('%', :searchField, '%') " +
+            "or c.name like concat('%', :searchField, '%')) " +
+            "and (:status is null or p.status = :status) " +
+            "and p.deleted = false ",
             countQuery = "select count(p) from Products as p " +
                     "left join Categories as c on p.categoryId = c.id " +
-                    "where p.name like concat('%', :searchField, '%') " +
-                    "or  p.code like concat('%', :searchField, '%') " +
-                    "or  c.name like concat('%', :searchField, '%') " +
-                    "and (:status is null or p.status = :status)")
+                    "where (p.name like concat('%', :searchField, '%') " +
+                    "or p.code like concat('%', :searchField, '%') " +
+                    "or c.name like concat('%', :searchField, '%')) " +
+                    "and (:status is null or p.status = :status) " +
+                    "and p.deleted = false ")
     Page<ProductsManagementDTO> findAllAndSearch(String searchField, Integer status, Pageable pageable);
+
 
     @Query(value = "select prod from Products prod  where prod.id = :id and prod.deleted = false")
     Products findProductsById(Long id);

@@ -21,18 +21,22 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
     @Query(value = "select new com.computercomponent.api.dto.WarehouseManagementDTO(wh.id, wh.code, wh.name, wh.supplier, wh.description, wh.status, wh.type, wh.transactionDate, wh.totalQuantity, wh.totalPrice, wh.employeeId, wh.paymentMethod, wh.paymentStatus) " +
             "from Warehouse as wh " +
-            "where wh.code like concat('%', :searchField, '%') " +
+            "where (wh.code like concat('%', :searchField, '%') " +
             "or wh.name like concat('%', :searchField, '%') " +
-            "or wh.supplier like concat('%', :searchField, '%') " +
+            "or wh.supplier like concat('%', :searchField, '%')) " +
             "and (:status is null or wh.status = :status) " +
-            "and (:type is null or wh.type = :type)",
+            "and (:type is null or wh.type = :type) " +
+            "and wh.deleted = false ",
             countQuery = "select count(wh) from Warehouse as wh " +
-                    "where wh.code like concat('%', :searchField, '%') " +
+                    "where (wh.code like concat('%', :searchField, '%') " +
                     "or wh.name like concat('%', :searchField, '%') " +
-                    "or wh.supplier like concat('%', :searchField, '%') " +
+                    "or wh.supplier like concat('%', :searchField, '%')) " +
                     "and (:status is null or wh.status = :status) " +
-                    "and (:type is null or wh.type = :type)")
+                    "and (:type is null or wh.type = :type) " +
+                    "and wh.deleted = false ")
     Page<WarehouseManagementDTO> findAllAndSearch(String searchField, Integer status, Integer type, Pageable pageable);
+
+
 
     @Query(value = "select new com.computercomponent.api.response.WarehouseDetail(wh.id, wh.code, wh.name, wh.supplier, wh.description, wh.status, wh.type, wh.transactionDate, wh.totalQuantity, wh.totalPrice, wh.employeeId, wh.paymentMethod, wh.paymentStatus) " +
             "from Warehouse as wh " +

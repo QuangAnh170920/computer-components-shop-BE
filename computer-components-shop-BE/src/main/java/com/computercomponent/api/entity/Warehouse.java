@@ -32,6 +32,12 @@ public class Warehouse extends BaseEntity{
     private Integer totalQuantity; //tổng số lượng trong giao dịch
     private BigDecimal totalPrice; //tổng số tiền trong giao dịch
     private Long employeeId; //id của nhân viên thực hiện
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method")
     private PaymentMethod paymentMethod; // phương thức thanh toán
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
 }

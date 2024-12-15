@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -27,4 +28,5 @@ public class WarehouseDTO {
     private PaymentMethod paymentMethod; // Phương thức thanh toán
     private PaymentStatus paymentStatus; // Trạng thái thanh toán
     private List<WarehouseProductDTO> warehouseProductDTOS;
+    private Date transactionDate;
 }

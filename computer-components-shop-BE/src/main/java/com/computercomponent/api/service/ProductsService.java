@@ -21,4 +21,6 @@ public interface ProductsService {
     List<ProductDropListDTO> dropList();
 
     Page<ProductWarehouseDTO> getProductsQuantityList(ProductsRequest productsRequest);
+
+    ProductManagementStatusDTO updateStatus(ProductManagementStatusDTO productManagementStatusDTO);
 }
