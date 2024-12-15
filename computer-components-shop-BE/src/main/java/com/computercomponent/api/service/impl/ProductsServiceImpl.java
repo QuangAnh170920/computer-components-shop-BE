@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -44,11 +45,6 @@ public class ProductsServiceImpl implements ProductsService {
         Products products = new Products();
         products.setStatus(ProductsStatus.DEACTIVATE);
         BeanUtils.copyProperties(productsDTO, products);
-
-        // Thêm chữ "W" vào sau giá trị power nếu có
-        if (productsDTO.getPower() != null) {
-            products.setPower(productsDTO.getPower() + "W");
-        }
 
         // Lưu sản phẩm vào bảng 'Products'
         Products savedProduct = productsRepository.save(products);
@@ -80,6 +76,7 @@ public class ProductsServiceImpl implements ProductsService {
         return productsRepository.findAllAndSearch(productsRequest.getSearchField().trim(), productsRequest.getStatus(), pageRequest);
     }
 
+    @Transactional
     @Override
     public ProductUpdateRequestDTO updateProduct(ProductUpdateRequestDTO productUpdateRequestDTO) {
         // Kiểm tra xem sản phẩm có tồn tại không
@@ -88,11 +85,6 @@ public class ProductsServiceImpl implements ProductsService {
 
         // Validate sản phẩm trước khi cập nhật
         validateUpdateProduct(productUpdateRequestDTO);
-
-        // Thêm chữ "W" vào sau giá trị power nếu có
-        if (productUpdateRequestDTO.getPower() != null) {
-            products.setPower(productUpdateRequestDTO.getPower() + "W");
-        }
 
         // Lưu sản phẩm vào bảng 'Products'
         productsRepository.save(products);
@@ -171,17 +163,31 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     private void validateUpdateProduct(ProductUpdateRequestDTO productUpdateRequestDTO) {
-        productUpdateRequestDTO.setName(validateProductName(productUpdateRequestDTO.getName()));
-        productUpdateRequestDTO.setCode(validateProductCode(productUpdateRequestDTO.getCode()));
+        // Truy vấn sản phẩm hiện tại từ cơ sở dữ liệu
+        Products currentProduct = productsRepository.findById(productUpdateRequestDTO.getId())
+                .orElseThrow(() -> new RuntimeException(Const.PRODUCTS.PROD_NOT_FOUND));
+
+        // Validate tên sản phẩm nếu tên thay đổi
+        if (!productUpdateRequestDTO.getName().equals(currentProduct.getName())) {
+            productUpdateRequestDTO.setName(validateProductName(productUpdateRequestDTO.getName()));
+        }
+
+        // Validate mã sản phẩm nếu mã thay đổi
+        if (!productUpdateRequestDTO.getCode().equals(currentProduct.getCode())) {
+            productUpdateRequestDTO.setCode(validateProductCode(productUpdateRequestDTO.getCode()));
+        }
+
+        // Kiểm tra giá sản phẩm
         Assert.notNull(productUpdateRequestDTO.getPrice(), Const.PRODUCTS.PROD_PRICE_IS_NOT_EMPTY);
         Assert.isTrue(productUpdateRequestDTO.getPrice().compareTo(BigDecimal.ZERO) >= 0, Const.PRODUCTS.PROD_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
-        // Kiểm tra power
+
+        // Kiểm tra công suất (power)
         if (productUpdateRequestDTO.getPower() != null) {
             try {
-                int powerValue = Integer.parseInt(productUpdateRequestDTO.getPower()); // Chuyển chuỗi thành số nguyên
+                int powerValue = Integer.parseInt(productUpdateRequestDTO.getPower());
                 Assert.isTrue(powerValue >= 0, Const.PRODUCTS.PROD_POWER_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
             } catch (NumberFormatException e) {
-                throw new RuntimeException(Const.PRODUCTS.PROD_POWER_MUST_BE_A_NUMBER); // Nếu power không phải là số hợp lệ
+                throw new RuntimeException(Const.PRODUCTS.PROD_POWER_MUST_BE_A_NUMBER);
             }
         }
     }

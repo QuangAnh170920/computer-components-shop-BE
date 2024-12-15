@@ -19,7 +19,7 @@ public class ProductUpdateRequestDTO {
     private BigDecimal price;
     private BigDecimal finalTotalPrice;
     private String power;
-    private Long imageUrl;
+    private String imageUrl;
     private Long categoryId;
     private Long promotionId;
     private List<ProductFeaturesDTO> productFeatures;

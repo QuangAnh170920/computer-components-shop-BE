@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductDetail {
     private Long id;
+    private String code;
     private String name;
     private String description;
     private BigDecimal price;
@@ -25,10 +26,11 @@ public class ProductDetail {
     private Long categoryId;
     private List<ProductFeaturesDTO> productFeatures;
 
-    public ProductDetail(Long id, String name, String description, BigDecimal price, BigDecimal finalTotalPrice,
+    public ProductDetail(Long id, String code, String name, String description, BigDecimal price, BigDecimal finalTotalPrice,
                          String power, ProductsStatus status,
                          String imageUrl, Long promotionId, Long categoryId) {
         this.id = id;
+        this.code = code;
         this.name = name;
         this.description = description;
         this.price = price;
