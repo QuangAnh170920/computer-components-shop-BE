@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -20,7 +21,6 @@ public class WarehouseUpdateRequestDTO {
     private String name;
     private String supplier;
     private String description;
-    private Long productId;
     private TransactionType type;
     private Integer totalQuantity;
     private BigDecimal totalPrice;
@@ -28,4 +28,5 @@ public class WarehouseUpdateRequestDTO {
     private PaymentMethod paymentMethod; // Phương thức thanh toán
     private PaymentStatus paymentStatus; // Trạng thái thanh toán
     private List<WarehouseProductDTO> warehouseProductDTOS;
+    private LocalDateTime transactionDate;
 }

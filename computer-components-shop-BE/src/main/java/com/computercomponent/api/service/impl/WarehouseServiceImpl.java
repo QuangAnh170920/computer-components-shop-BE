@@ -109,7 +109,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         Assert.isTrue(warehouse != null, Const.WAREHOUSE.WAREHOUSE_NOT_FOUND);
 
         // Lấy số lượng cũ để tính toán số lượng sau khi cập nhật
-        Integer oldTotalQuantity = warehouse.getTotalQuantity();
+        Integer oldTotalQuantity = warehouse.getTotalQuantity() != null ? warehouse.getTotalQuantity() : 0;
 
         // Cập nhật các trường mới từ DTO vào entity Warehouse
         warehouse.setTransactionDate(LocalDateTime.now()); // Lấy ngày hiện tại cho giao dịch
@@ -119,29 +119,39 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouseRepository.save(warehouse);
 
         // Xử lý sản phẩm
-        Long productId = warehouseUpdateRequestDTO.getProductId();
-        Integer newTotalQuantity = warehouseUpdateRequestDTO.getTotalQuantity();
+        List<WarehouseProductDTO> warehouseProductDTO = warehouseUpdateRequestDTO.getWarehouseProductDTOS();
+        Long productId = warehouseProductDTO.get(0).getProductId();
+        Integer newTotalQuantity = warehouseUpdateRequestDTO.getTotalQuantity() != null ? warehouseUpdateRequestDTO.getTotalQuantity() : 0;
 
         Products product = productsRepository.findProductsById(productId);
         Assert.isTrue(product != null, Const.PRODUCTS.PROD_NOT_FOUND);
 
-        Integer currentQuantity = product.getQuantityAvailable();
+        Integer currentQuantity = product.getQuantityAvailable() != null ? product.getQuantityAvailable() : 0;
 
         // Kiểm tra trạng thái thanh toán
+        // Kiểm tra trạng thái thanh toán
         if (warehouseUpdateRequestDTO.getPaymentStatus() == PaymentStatus.COMPLETED) {
+
             Integer newQuantity;
+
+            // Xử lý loại giao dịch
             if (warehouseUpdateRequestDTO.getType() == TransactionType.IMPORT) {
-                newQuantity = currentQuantity - oldTotalQuantity + newTotalQuantity;
+                newQuantity = currentQuantity + (newTotalQuantity - oldTotalQuantity);
             } else if (warehouseUpdateRequestDTO.getType() == TransactionType.EXPORT) {
-                Assert.isTrue(currentQuantity >= newTotalQuantity, Const.PRODUCTS.INSUFFICIENT_QUANTITY);
-                newQuantity = currentQuantity + oldTotalQuantity - newTotalQuantity;
+                Assert.isTrue(currentQuantity >= (newTotalQuantity - oldTotalQuantity), Const.PRODUCTS.INSUFFICIENT_QUANTITY);
+                newQuantity = currentQuantity - (newTotalQuantity - oldTotalQuantity);
             } else {
                 throw new RuntimeException(Const.WAREHOUSE.INVALID_TRANSACTION_TYPE);
             }
 
+            // Đảm bảo số lượng hợp lệ
+            Assert.isTrue(newQuantity >= 0, Const.PRODUCTS.INVALID_QUANTITY);
+
+            // Cập nhật số lượng sản phẩm
             product.setQuantityAvailable(newQuantity);
             productsRepository.save(product);
         } else {
+            // Đặt trạng thái thanh toán thành PENDING
             warehouse.setPaymentStatus(PaymentStatus.PENDING);
             warehouseRepository.save(warehouse);
         }

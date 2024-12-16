@@ -127,6 +127,7 @@ public class Const {
         public static final String PROD_CODE_EXISTED = "Mã sản phẩm đã tồn tại";
         public static final String PROD_POWER_MUST_BE_A_NUMBER = "Công suất sản phẩm không hợp lệ";
         public static final String INSUFFICIENT_QUANTITY = "Số lượng hàng tồn kho không đủ để thực hiện một giao dịch xuất kho";
+        public static final String INVALID_QUANTITY = "Số lượng sản phẩm không hợp lệ!";
     }
 
     public static class PRODUCT_SPEC {
