@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 public enum WarehouseStatus {
     PENDING(1),
-    COMPLETED(2),
+    APPROVED(2),
     CANCELLED(3);
 
     private final Integer value;

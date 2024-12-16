@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
@@ -68,7 +69,8 @@ public class WarehouseServiceImpl implements WarehouseService {
                 }
                 productsRepository.save(product);
             } else {
-                warehouse.setStatus(WarehouseStatus.PENDING);
+                warehouse.setPaymentStatus(PaymentStatus.PENDING);
+                warehouseRepository.save(warehouse);
             }
 
             // Lưu thông tin WarehouseProduct
@@ -127,25 +129,20 @@ public class WarehouseServiceImpl implements WarehouseService {
 
         // Kiểm tra trạng thái thanh toán
         if (warehouseUpdateRequestDTO.getPaymentStatus() == PaymentStatus.COMPLETED) {
-            // Điều chỉnh số lượng tồn kho theo loại giao dịch (nhập hoặc xuất)
             Integer newQuantity;
             if (warehouseUpdateRequestDTO.getType() == TransactionType.IMPORT) {
-                // Nhập kho: tăng số lượng
                 newQuantity = currentQuantity - oldTotalQuantity + newTotalQuantity;
             } else if (warehouseUpdateRequestDTO.getType() == TransactionType.EXPORT) {
-                // Xuất kho: giảm số lượng, kiểm tra đủ hàng
                 Assert.isTrue(currentQuantity >= newTotalQuantity, Const.PRODUCTS.INSUFFICIENT_QUANTITY);
                 newQuantity = currentQuantity + oldTotalQuantity - newTotalQuantity;
             } else {
                 throw new RuntimeException(Const.WAREHOUSE.INVALID_TRANSACTION_TYPE);
             }
 
-            // Cập nhật lại số lượng sản phẩm
             product.setQuantityAvailable(newQuantity);
             productsRepository.save(product);
         } else {
-            // Xử lý nếu trạng thái thanh toán không phải là COMPLETED
-            warehouse.setStatus(WarehouseStatus.PENDING);
+            warehouse.setPaymentStatus(PaymentStatus.PENDING);
             warehouseRepository.save(warehouse);
         }
 
@@ -172,6 +169,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public WarehouseDetail getDetail(Long id) {
         WarehouseDetail warehouseDetail = warehouseRepository.getDetail(id);
+        List<WarehouseProductDTO> warehouseProductDTOS = warehouseRepository.getWarehouseProduct(id);
+        warehouseDetail.setWarehouseProductDTOS(warehouseProductDTOS);
         return warehouseDetail;
     }
 

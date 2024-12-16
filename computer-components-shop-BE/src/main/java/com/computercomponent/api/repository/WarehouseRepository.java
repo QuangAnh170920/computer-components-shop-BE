@@ -1,7 +1,10 @@
 package com.computercomponent.api.repository;
 
+import com.computercomponent.api.common.TransactionType;
+import com.computercomponent.api.dto.ProductFeaturesDTO;
 import com.computercomponent.api.dto.ProductsManagementDTO;
 import com.computercomponent.api.dto.WarehouseManagementDTO;
+import com.computercomponent.api.dto.WarehouseProductDTO;
 import com.computercomponent.api.entity.Warehouse;
 import com.computercomponent.api.response.ProductDetail;
 import com.computercomponent.api.response.WarehouseDetail;
@@ -10,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
@@ -34,7 +39,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
                     "and (:status is null or wh.status = :status) " +
                     "and (:type is null or wh.type = :type) " +
                     "and wh.deleted = false ")
-    Page<WarehouseManagementDTO> findAllAndSearch(String searchField, Integer status, Integer type, Pageable pageable);
+    Page<WarehouseManagementDTO> findAllAndSearch(String searchField, Integer status, TransactionType type, Pageable pageable);
 
 
 
@@ -44,4 +49,8 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
             countQuery = "select count(wh) from Warehouse as wh " +
                     "where wh.id = :id ")
     WarehouseDetail getDetail(Long id);
+
+    @Query("select new com.computercomponent.api.dto.WarehouseProductDTO(wp.id, wp.warehouseId, wp.productId, wp.quantity, wp.price) " +
+            "from WarehouseProduct as wp where wp.warehouseId = :warehouseId")
+    List<WarehouseProductDTO> getWarehouseProduct(Long warehouseId);
 }

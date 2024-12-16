@@ -1,12 +1,15 @@
 package com.computercomponent.api.response;
 
 import com.computercomponent.api.common.*;
+import com.computercomponent.api.dto.WarehouseProductDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +27,7 @@ public class WarehouseDetail {
     private Long employeeId;
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
+    private List<WarehouseProductDTO> warehouseProductDTOS;
 
     public WarehouseDetail(Long id, String code, String name, String supplier, String description, WarehouseStatus status,
                            TransactionType type, LocalDateTime transactionDate,
@@ -41,5 +45,6 @@ public class WarehouseDetail {
         this.employeeId = employeeId;
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
+        this.warehouseProductDTOS = new ArrayList<>();
     }
 }
