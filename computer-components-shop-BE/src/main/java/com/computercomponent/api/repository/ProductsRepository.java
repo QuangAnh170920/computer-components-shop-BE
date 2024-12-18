@@ -57,12 +57,15 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
 
     @Query(value = "SELECT new com.computercomponent.api.dto.ProductWarehouseDTO(p.id, p.code, p.name, p.quantityAvailable, p.status) " +
             "FROM Products p " +
-            "WHERE (p.name LIKE concat('%', :searchField, '%') OR p.code LIKE concat('%', :searchField, '%')) " +
+            "WHERE p.deleted = false " +
+            "AND (p.name LIKE concat('%', :searchField, '%') OR p.code LIKE concat('%', :searchField, '%')) " +
             "AND (:status IS NULL OR p.status = :status)",
             countQuery = "SELECT count(p) FROM Products p " +
-                    "WHERE (p.name LIKE concat('%', :searchField, '%') OR p.code LIKE concat('%', :searchField, '%')) " +
+                    "WHERE p.deleted = false " +
+                    "AND (p.name LIKE concat('%', :searchField, '%') OR p.code LIKE concat('%', :searchField, '%')) " +
                     "AND (:status IS NULL OR p.status = :status)")
     Page<ProductWarehouseDTO> getProductQuantityList(String searchField, Integer status, Pageable pageable);
+
 
     @Query("select count(p) > 0 from Products p where p.categoryId = :categoryId and p.deleted = false")
     boolean existsByCategoryId(Long categoryId);
