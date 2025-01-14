@@ -69,4 +69,11 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
 
     @Query("select count(p) > 0 from Products p where p.categoryId = :categoryId and p.deleted = false")
     boolean existsByCategoryId(Long categoryId);
+
+    @Query("SELECT new com.computercomponent.api.dto.ProductListConditionDTO( " +
+            "p.id, p.name, p.price, p.finalTotalPrice, p.quantityAvailable, p.imageUrl, pr.rate, p.categoryId) " +
+            "FROM Products p " +
+            "LEFT JOIN ProductReviews pr ON p.id = pr.productId " +
+            "WHERE p.categoryId = :categoryId and p.deleted = false")
+    List<ProductListConditionDTO> getProductSummaryList(Long categoryId);
 }

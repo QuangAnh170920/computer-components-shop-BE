@@ -23,4 +23,6 @@ public interface ProductsService {
     Page<ProductWarehouseDTO> getProductsQuantityList(ProductsRequest productsRequest);
 
     ProductManagementStatusDTO updateStatus(ProductManagementStatusDTO productManagementStatusDTO);
+
+    List<ProductListConditionDTO> dropListCondition(Long categoryId);
 }

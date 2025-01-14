@@ -12,7 +12,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-23T00:15:58+0700",
+    date = "2025-01-14T13:24:18+0700",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.22 (Amazon.com Inc.)"
 )
 public class AdminMapperImpl implements AdminMapper {

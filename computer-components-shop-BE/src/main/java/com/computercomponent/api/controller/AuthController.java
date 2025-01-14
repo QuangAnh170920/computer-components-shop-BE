@@ -8,17 +8,21 @@ import com.computercomponent.api.dto.auth.JwtResponse;
 
 import com.computercomponent.api.dto.auth.UserRegistrationDto;
 import com.computercomponent.api.entity.Admin;
+import com.computercomponent.api.entity.User;
 import com.computercomponent.api.entity.exception.AccountDisableException;
 import com.computercomponent.api.entity.exception.UnauthorizedException;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.repository.AdminRepository;
+import com.computercomponent.api.repository.UserRepository;
 import com.computercomponent.api.service.auth.AuthAdminService;
 import com.computercomponent.api.until.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +30,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -53,31 +58,36 @@ public class AuthController {
         this.adminRepository = adminRepository;
     }
 
-    @Operation(summary = "Đăng nhập", description = "Đăng nhập")
+    @Operation(summary = "Đăng nhập", description = "Đăng nhập Admin")
     @PostMapping("login")
     public ResponseEntity<ResponseWrapper> login(@RequestBody @Valid JwtRequest jwtRequest) {
         Authentication authentication = authenticate(jwtRequest.getMobileOrEmail(), jwtRequest.getPassword());
         final String token = jwtTokenUtil.generateToken((UserPrincipal) authentication.getPrincipal());
         final String rfToken = jwtTokenUtil.generateRfToken((UserPrincipal) authentication.getPrincipal());
         return ResponseEntity.ok(new ResponseWrapper(new JwtResponse(
-                String.format("%s %s", prefixToken, token),rfToken
+                String.format("%s %s", prefixToken, token), rfToken
         )));
     }
 
     @Operation(summary = "Đăng xuất", description = "Đăng xuất")
-    @GetMapping("logout")
+    @GetMapping("logout-admin")
     public void logout(HttpServletRequest request) {
     }
 
+    @Operation(summary = "Đăng xuất", description = "Đăng xuất")
+    @GetMapping("logout-user")
+    public void logoutUser(HttpServletRequest request) {
+    }
+
     @Operation(summary = "Gửi mã otp", description = "Gửi mã otp")
-    @GetMapping(value = "/otp")
+    @GetMapping(value = "/otp-user")
     public ResponseEntity<ResponseWrapper> generateOtp(@RequestParam @NotNull String email) {
         authAdminService.sendNewOtp(email, null);
         return ResponseEntity.ok(new ResponseWrapper(null));
     }
 
     @Operation(summary = "Xác thực tài khoản", description = "Xác thực tài khoản")
-    @GetMapping(value = "/verify")
+    @GetMapping(value = "/verify-user")
     public ResponseEntity<ResponseWrapper> activate(@RequestParam @NotNull String email, @NotNull @RequestParam String otp) {
         authAdminService.activate(email, otp);
         return ResponseEntity.ok(new ResponseWrapper(null));
@@ -89,7 +99,7 @@ public class AuthController {
         return ResponseEntity.ok(new ResponseWrapper(authAdminService.resetPasswordUser(customerId)));
     }
 
-    @PostMapping("refresh-token")
+    @PostMapping("refresh-token-user")
     public ResponseEntity<ResponseWrapper> refreshToken(@RequestParam("tokenRefresh") @Valid String tokenRf) {
 
         return ResponseEntity.ok(new ResponseWrapper(new JwtResponse(
@@ -112,4 +122,6 @@ public class AuthController {
             throw new UnauthorizedException(Const.MESSAGE_CODE.INVALID_CREDENTIALS);
         }
     }
+
+
 }

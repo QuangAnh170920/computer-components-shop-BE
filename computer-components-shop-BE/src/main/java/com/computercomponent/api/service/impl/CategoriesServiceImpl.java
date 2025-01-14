@@ -85,24 +85,20 @@ public class CategoriesServiceImpl implements CategoriesService {
         List<CategoriesManagementDTO> allCategories = categoriesRepository.findAllAndSearch(
                 categoriesRequest.getSearchField().trim(),
                 categoriesRequest.getStatus(),
-                null, // Lấy tất cả danh mục
+                null,
                 pageRequest
-        ).getContent(); // Lấy nội dung Page để làm việc với List
+        ).getContent();
 
-        // Map để lưu trữ danh mục cha
         Map<Long, CategoriesManagementDTO> parentCategoriesMap = new HashMap<>();
 
-        // Danh sách chứa các danh mục con chưa được ánh xạ
         List<CategoriesManagementDTO> orphans = new ArrayList<>();
 
-        // Tạo Map các danh mục cha
         for (CategoriesManagementDTO category : allCategories) {
             if (category.getParentId() == null) {
                 // Danh mục không có parentId là danh mục cha
                 parentCategoriesMap.put(category.getId(), category);
-                category.setChildren(new ArrayList<>()); // Đảm bảo children luôn là mảng trống nếu không có con
+                category.setChildren(new ArrayList<>());
             } else {
-                // Nếu danh mục có parentId thì thêm vào danh sách con chưa được ánh xạ
                 orphans.add(category);
             }
         }

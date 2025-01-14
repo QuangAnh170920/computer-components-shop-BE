@@ -56,4 +56,10 @@ public class DropListController {
     public ResponseEntity<ResponseWrapper> promotionsDropList() {
         return ResponseEntity.ok(new ResponseWrapper(promotionService.dropList()));
     }
+
+    @Operation(summary = "drop list sản phẩm dựa theo điều kiện", description = "drop list sản phẩm")
+    @GetMapping(value = "/products-condition/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper> productsDropListCondition(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(new ResponseWrapper(productsService.dropListCondition(categoryId)));
+    }
 }

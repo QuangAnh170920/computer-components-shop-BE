@@ -151,6 +151,11 @@ public class ProductsServiceImpl implements ProductsService {
         return null;
     }
 
+    @Override
+    public List<ProductListConditionDTO> dropListCondition(Long categoryId) {
+        return productsRepository.getProductSummaryList(categoryId);
+    }
+
 
     private void validateProduct(ProductsDTO productsDTO) {
         productsDTO.setName(validateProductName(productsDTO.getName()));
@@ -161,14 +166,14 @@ public class ProductsServiceImpl implements ProductsService {
         Assert.isTrue(productsDTO.getPrice().compareTo(BigDecimal.ZERO) >= 0, Const.PRODUCTS.PROD_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
 
         // Kiểm tra power
-        if (productsDTO.getPower() != null) {
-            try {
-                int powerValue = Integer.parseInt(productsDTO.getPower()); // Chuyển chuỗi thành số nguyên
-                Assert.isTrue(powerValue >= 0, Const.PRODUCTS.PROD_POWER_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
-            } catch (NumberFormatException e) {
-                throw new RuntimeException(Const.PRODUCTS.PROD_POWER_MUST_BE_A_NUMBER); // Nếu power không phải là số hợp lệ
-            }
-        }
+//        if (productsDTO.getPower() != null) {
+//            try {
+//                int powerValue = Integer.parseInt(productsDTO.getPower()); // Chuyển chuỗi thành số nguyên
+//                Assert.isTrue(powerValue >= 0, Const.PRODUCTS.PROD_POWER_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
+//            } catch (NumberFormatException e) {
+//                throw new RuntimeException(Const.PRODUCTS.PROD_POWER_MUST_BE_A_NUMBER); // Nếu power không phải là số hợp lệ
+//            }
+//        }
     }
 
     private void validateUpdateProduct(ProductUpdateRequestDTO productUpdateRequestDTO) {
@@ -191,14 +196,14 @@ public class ProductsServiceImpl implements ProductsService {
         Assert.isTrue(productUpdateRequestDTO.getPrice().compareTo(BigDecimal.ZERO) >= 0, Const.PRODUCTS.PROD_PRICE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
 
         // Kiểm tra công suất (power)
-        if (productUpdateRequestDTO.getPower() != null) {
-            try {
-                int powerValue = Integer.parseInt(productUpdateRequestDTO.getPower());
-                Assert.isTrue(powerValue >= 0, Const.PRODUCTS.PROD_POWER_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
-            } catch (NumberFormatException e) {
-                throw new RuntimeException(Const.PRODUCTS.PROD_POWER_MUST_BE_A_NUMBER);
-            }
-        }
+//        if (productUpdateRequestDTO.getPower() != null) {
+//            try {
+//                int powerValue = Integer.parseInt(productUpdateRequestDTO.getPower());
+//                Assert.isTrue(powerValue >= 0, Const.PRODUCTS.PROD_POWER_MUST_BE_GREATER_THAN_OR_EQUAL_TO_ZERO);
+//            } catch (NumberFormatException e) {
+//                throw new RuntimeException(Const.PRODUCTS.PROD_POWER_MUST_BE_A_NUMBER);
+//            }
+//        }
     }
 
     private String validateProductName(String str) {
