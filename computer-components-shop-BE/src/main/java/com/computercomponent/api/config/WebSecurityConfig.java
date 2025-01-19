@@ -3,7 +3,6 @@ package com.computercomponent.api.config;
 import com.computercomponent.api.filter.JwtAuthenticationEntryPoint;
 import com.computercomponent.api.filter.JwtTokenFilter;
 import com.computercomponent.api.service.auth.AuthAdminService;
-import com.computercomponent.api.service.auth.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,48 +26,51 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtTokenFilter jwtTokenFilter;
 
-    @Autowired
-    private AuthAdminService adminDetailsService;
-
-    @Autowired
-    private AuthUserService userDetailsService;
-
-    @Bean
-    public BCryptPasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(adminDetailsService)
-                .passwordEncoder(encoder());
-
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(encoder());
-    }
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();  // Sử dụng AuthenticationManager mặc định của Spring Security
+        return super.authenticationManagerBean();
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .cors().and().csrf().disable()
+                // Dont authenticate this particular request
                 .authorizeRequests().antMatchers(
-                        "/v3/api-docs/**", "/webjars/**", "/swagger-resources/**",
-                        "/configuration/**", "/*.html", "/favicon.ico", "/**/*.html",
-                        "/**/*.css", "/**/*.js", "/test", "/user/**",
-                        "/swagger-ui*/**", "/auth/**", "/static-data/**",
-                        "/v1/api/admin/upload/**"
+                        "/v3/api-docs/**",           // swagger
+                        "/webjars/**",            // swagger-ui webjars
+                        "/swagger-resources/**",  // swagger-ui resources
+                        "/configuration/**",      // swagger configuration
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/test",
+                        "/user/register",
+                        "/swagger-ui*/**",
+                        "/auth/**",
+                        "/static-data/**",
+                        "/v1/api/admin/upload/**",
+                        "/v1/api/user/products-no-auth/**"
                 ).permitAll()
+                // All other requests need to be authenticated
                 .and().authorizeRequests()
-                .antMatchers("/**").authenticated()
+                .antMatchers(
+                        "/**"
+                )
+                .authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                // Make sure we use stateless session; session won't be used to store user's state.
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
+    @Bean
+    public BCryptPasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

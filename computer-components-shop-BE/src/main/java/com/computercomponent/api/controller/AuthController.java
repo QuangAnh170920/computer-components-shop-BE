@@ -6,23 +6,18 @@ import com.computercomponent.api.dto.UserPrincipal;
 import com.computercomponent.api.dto.auth.JwtRequest;
 import com.computercomponent.api.dto.auth.JwtResponse;
 
-import com.computercomponent.api.dto.auth.UserRegistrationDto;
 import com.computercomponent.api.entity.Admin;
-import com.computercomponent.api.entity.User;
 import com.computercomponent.api.entity.exception.AccountDisableException;
 import com.computercomponent.api.entity.exception.UnauthorizedException;
 import com.computercomponent.api.model.ResponseWrapper;
 import com.computercomponent.api.repository.AdminRepository;
-import com.computercomponent.api.repository.UserRepository;
 import com.computercomponent.api.service.auth.AuthAdminService;
 import com.computercomponent.api.until.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +25,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

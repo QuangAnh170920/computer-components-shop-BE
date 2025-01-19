@@ -23,24 +23,27 @@ public class UploadServiceImpl implements UploadService {
     @Override
     public Map<String, String> storeFile(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        Path uploadFolder = Paths.get("C:\\DoAn\\computer-components-shop-FE\\computer-components-shop-FE\\src\\assets\\layout\\images"); // Thư mục lưu trữ ảnh
 
-        // Tạo thư mục nếu chưa tồn tại
-        if (!Files.exists(uploadFolder)) {
-            Files.createDirectories(uploadFolder);
-        }
+        Path primaryFolder = Paths.get("C:\\DoAn\\computer-components-shop-FE\\computer-components-shop-FE\\src\\assets\\layout\\images");
 
-        // Lưu file
-        Path filePath = uploadFolder.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath);
+        Path secondaryFolder = Paths.get("C:\\DoAn\\computer-components-shop-FE-member-site\\computer-components-shop-FE-member-site\\src\\assets\\layout\\images");
 
-        // Tạo đường dẫn URL dạng "file://"
-        String fileUrl = filePath.toString().replace("\\", "/");
+        saveFileToFolder(file, primaryFolder, fileName);
+        saveFileToFolder(file, secondaryFolder, fileName);
 
-        // Trả về JSON response
+        String fileUrl = primaryFolder.resolve(fileName).toString().replace("\\", "/");
         Map<String, String> response = new HashMap<>();
         response.put("url", fileUrl);
         response.put("message", "SUCCESS");
         return response;
+    }
+
+    private void saveFileToFolder(MultipartFile file, Path folderPath, String fileName) throws IOException {
+        if (!Files.exists(folderPath)) {
+            Files.createDirectories(folderPath);
+        }
+
+        Path filePath = folderPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath);
     }
 }

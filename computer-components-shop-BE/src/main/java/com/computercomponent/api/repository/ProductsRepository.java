@@ -2,6 +2,7 @@ package com.computercomponent.api.repository;
 
 import com.computercomponent.api.dto.*;
 import com.computercomponent.api.entity.Products;
+import com.computercomponent.api.response.NoAuth.ProductDetailNoAuth;
 import com.computercomponent.api.response.ProductDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -76,4 +77,21 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
             "LEFT JOIN ProductReviews pr ON p.id = pr.productId " +
             "WHERE p.categoryId = :categoryId and p.deleted = false")
     List<ProductListConditionDTO> getProductSummaryList(Long categoryId);
+
+    @Query(value = "select new com.computercomponent.api.response.NoAuth.ProductDetailNoAuth(p.id, p.imageUrl, p.code, p.name, p.price, p.finalTotalPrice, p.quantityAvailable) " +
+            "from Products as p " +
+            "where p.id = :id")
+    ProductDetailNoAuth getDetailNoAuth(Long id);
+
+
+    @Query(value = "select new com.computercomponent.api.dto.ProductNoAuthDTO(p.id, p.imageUrl, p.code, p.name, p.price, p.finalTotalPrice, p.quantityAvailable) " +
+            "from Products as p " +
+            "left join Categories as c on p.categoryId = c.id " +
+            "where p.categoryId = :categoryId " +
+            "and p.deleted = false ",
+            countQuery = "select count(p) from Products as p " +
+                    "left join Categories as c on p.categoryId = c.id " +
+                    "where p.categoryId = :categoryId " +
+                    "and p.deleted = false ")
+    List<ProductNoAuthDTO> findAllAndSearchNoAuth(Long categoryId);
 }

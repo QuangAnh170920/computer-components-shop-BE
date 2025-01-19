@@ -10,6 +10,7 @@ import com.computercomponent.api.repository.ProductFeaturesRepository;
 import com.computercomponent.api.repository.ProductsRepository;
 import com.computercomponent.api.repository.PromotionRepository;
 import com.computercomponent.api.request.ProductsRequest;
+import com.computercomponent.api.response.NoAuth.ProductDetailNoAuth;
 import com.computercomponent.api.response.ProductDetail;
 import com.computercomponent.api.service.ProductsService;
 import com.computercomponent.api.until.DataUtil;
@@ -154,6 +155,25 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public List<ProductListConditionDTO> dropListCondition(Long categoryId) {
         return productsRepository.getProductSummaryList(categoryId);
+    }
+
+    @Override
+    public ProductDetailNoAuth getDetailNoAuth(Long id) {
+        ProductDetailNoAuth detailNoAuth = productsRepository.getDetailNoAuth(id);
+        List<ProductFeaturesDTO> features = productsRepository.getProductFeatures(id);
+        detailNoAuth.setProductFeatures(features);
+        return detailNoAuth;
+    }
+
+    @Override
+    public List<ProductNoAuthDTO> getProductsListNoAuth(Long categoryId) {
+        List<ProductNoAuthDTO> products = productsRepository.findAllAndSearchNoAuth(categoryId);
+
+        for (ProductNoAuthDTO product : products) {
+            List<ProductFeaturesDTO> features = productsRepository.getProductFeatures(product.getId());
+            product.setProductFeatures(features);
+        }
+        return products;
     }
 
 

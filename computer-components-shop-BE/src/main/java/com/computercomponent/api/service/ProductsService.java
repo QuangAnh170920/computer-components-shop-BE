@@ -2,6 +2,8 @@ package com.computercomponent.api.service;
 
 import com.computercomponent.api.dto.*;
 import com.computercomponent.api.request.ProductsRequest;
+import com.computercomponent.api.response.NoAuth.ProductDetailNoAuth;
+import com.computercomponent.api.dto.ProductNoAuthDTO;
 import com.computercomponent.api.response.ProductDetail;
 import org.springframework.data.domain.Page;
 
@@ -25,4 +27,8 @@ public interface ProductsService {
     ProductManagementStatusDTO updateStatus(ProductManagementStatusDTO productManagementStatusDTO);
 
     List<ProductListConditionDTO> dropListCondition(Long categoryId);
+
+    ProductDetailNoAuth getDetailNoAuth(Long id);
+
+    List<ProductNoAuthDTO> getProductsListNoAuth(Long categoryId);
 }
